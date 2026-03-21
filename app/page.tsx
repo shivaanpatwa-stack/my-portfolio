@@ -43,8 +43,7 @@ const PILLARS = [
 const FACTS = [
   "Executed my first investment at 10 years old and have been tracking markets ever since.",
   "28 countries stamped in the passport — the mission is to see them all.",
-  "Specialise in dismantling opposition resolutions in under two minutes during committee sessions.",
-  "Drafted a resolution on digital currency regulation that passed with unanimous consent.",
+  "Started a project selling semi-precious stones, invested the cash into stocks, and bought my PS5 with the profits.",
 ];
 
 export default function Home() {
