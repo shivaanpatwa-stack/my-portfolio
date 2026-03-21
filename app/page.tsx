@@ -1,65 +1,530 @@
-import Image from "next/image";
+"use client";
+import { useState, useEffect, useRef } from "react";
+
+const NAV_LINKS = [
+  { label: "Finance Lab", href: "/finance" },
+  { label: "MUN Arena", href: "/mun" },
+  { label: "Experience", href: "/experience" },
+  { label: "Passport", href: "/passport" },
+  { label: "Lifestyle", href: "/lifestyle" },
+];
+
+const STATS = [
+  { value: "18", label: "MUN Conferences", sub: "15 Delegate · 3 Chair" },
+  { value: "28", label: "Countries Explored", sub: "& counting" },
+  { value: "10+", label: "Sports Played", sub: "always competing" },
+  { value: "1", label: "Vision", sub: "for a Digital Future" },
+];
+
+const PILLARS = [
+  {
+    icon: "📈",
+    title: "The Finance Lab",
+    desc: "Weekly journals on macro-trends, global economic shifts, and a high-stakes market simulator.",
+    link: "Enter the Lab →",
+    href: "/finance",
+  },
+  {
+    icon: "🌐",
+    title: "The MUN Arena",
+    desc: "A complete toolkit for delegates — research guides, resolution templates, and committee archives.",
+    link: "Get the Guide →",
+    href: "/mun",
+  },
+  {
+    icon: "🗺️",
+    title: "The Global Journey",
+    desc: "An interactive timeline of international experiences, from global leadership camps to professional internships.",
+    link: "View the Timeline →",
+    href: "/experience",
+  },
+];
+
+const FACTS = [
+  "Executed my first investment at 10 years old and have been tracking markets ever since.",
+  "28 countries stamped in the passport — the mission is to see them all.",
+  "Specialise in dismantling opposition resolutions in under two minutes during committee sessions.",
+  "Drafted a resolution on digital currency regulation that passed with unanimous consent.",
+];
 
 export default function Home() {
+  const [scrollY, setScrollY] = useState(0);
+  const [visible, setVisible] = useState<Record<string, boolean>>({});
+  const [menuOpen, setMenuOpen] = useState(false);
+  const refs = useRef<Record<string, HTMLElement | null>>({});
+
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setVisible((v) => ({ ...v, [e.target.id]: true }));
+        });
+      },
+      { threshold: 0.15 }
+    );
+    Object.values(refs.current).forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  const reg = (id: string) => (el: HTMLElement | null) => {
+    refs.current[id] = el;
+  };
+
+  const fade = (id: string, delay = 0) =>
+    `transition-all duration-700 ease-out ${delay ? `delay-[${delay}ms]` : ""} ${
+      visible[id] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+    }`;
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main
+      style={{
+        background: "#080a0f",
+        color: "#e8eaf0",
+        fontFamily: "'DM Sans', sans-serif",
+        minHeight: "100vh",
+        overflowX: "hidden",
+      }}
+    >
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Playfair+Display:wght@700;900&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #080a0f; }
+        ::-webkit-scrollbar-thumb { background: #1a6fff; border-radius: 2px; }
+
+        .nav-link {
+          color: #8899aa;
+          text-decoration: none;
+          font-size: 0.85rem;
+          font-weight: 500;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          transition: color 0.2s;
+          position: relative;
+        }
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          bottom: -2px; left: 0;
+          width: 0; height: 1px;
+          background: #1a6fff;
+          transition: width 0.3s;
+        }
+        .nav-link:hover { color: #fff; }
+        .nav-link:hover::after { width: 100%; }
+
+        .stat-card {
+          border: 1px solid #111827;
+          border-radius: 12px;
+          padding: 1.5rem;
+          background: #0d1117;
+          transition: border-color 0.3s, transform 0.3s;
+        }
+        .stat-card:hover {
+          border-color: #1a6fff44;
+          transform: translateY(-4px);
+        }
+
+        .pillar-card {
+          border: 1px solid #111827;
+          border-radius: 16px;
+          padding: 2rem;
+          background: #0d1117;
+          transition: border-color 0.3s, transform 0.3s, background 0.3s;
+          cursor: pointer;
+        }
+        .pillar-card:hover {
+          border-color: #1a6fff66;
+          background: #0f1520;
+          transform: translateY(-6px);
+        }
+
+        .pillar-link {
+          color: #1a6fff;
+          font-size: 0.875rem;
+          font-weight: 600;
+          letter-spacing: 0.04em;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          transition: gap 0.2s;
+        }
+        .pillar-link:hover { gap: 8px; }
+
+        .fact-item {
+          border-left: 2px solid #1a1e2e;
+          padding: 1rem 1.5rem;
+          transition: border-color 0.3s;
+        }
+        .fact-item:hover { border-color: #1a6fff; }
+
+        .cta-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 0.875rem 2rem;
+          border-radius: 8px;
+          font-weight: 600;
+          font-size: 0.9rem;
+          letter-spacing: 0.04em;
+          cursor: pointer;
+          transition: all 0.2s;
+          border: none;
+          text-decoration: none;
+        }
+        .cta-primary {
+          background: #1a6fff;
+          color: #fff;
+        }
+        .cta-primary:hover {
+          background: #2d7dff;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px #1a6fff44;
+        }
+        .cta-secondary {
+          background: transparent;
+          color: #8899aa;
+          border: 1px solid #1a1e2e;
+        }
+        .cta-secondary:hover {
+          border-color: #1a6fff44;
+          color: #fff;
+          transform: translateY(-2px);
+        }
+
+        .now-card {
+          background: #0d1117;
+          border: 1px solid #111827;
+          border-radius: 16px;
+          padding: 2rem;
+        }
+
+        .now-row {
+          display: flex;
+          align-items: flex-start;
+          gap: 1rem;
+          padding: 1rem 0;
+          border-bottom: 1px solid #111827;
+        }
+        .now-row:last-child { border-bottom: none; }
+
+        .now-icon {
+          width: 36px; height: 36px;
+          border-radius: 8px;
+          background: #0f1a2e;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 1rem;
+          flex-shrink: 0;
+        }
+
+        .blue-dot {
+          width: 8px; height: 8px;
+          border-radius: 50%;
+          background: #1a6fff;
+          animation: pulse 2s infinite;
+          display: inline-block;
+        }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        .section-tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 0.7rem;
+          font-weight: 700;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          color: #1a6fff;
+          margin-bottom: 1rem;
+        }
+
+        .hero-number {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(4rem, 12vw, 9rem);
+          font-weight: 900;
+          line-height: 0.9;
+          letter-spacing: -0.03em;
+          background: linear-gradient(135deg, #fff 60%, #1a6fff);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .social-icon {
+          width: 44px; height: 44px;
+          border-radius: 10px;
+          border: 1px solid #1a1e2e;
+          display: flex; align-items: center; justify-content: center;
+          color: #8899aa;
+          text-decoration: none;
+          font-size: 1.1rem;
+          transition: all 0.2s;
+        }
+        .social-icon:hover {
+          border-color: #1a6fff;
+          color: #1a6fff;
+          transform: translateY(-2px);
+        }
+
+        .grid-bg {
+          position: fixed;
+          inset: 0;
+          background-image:
+            linear-gradient(rgba(26,111,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(26,111,255,0.03) 1px, transparent 1px);
+          background-size: 60px 60px;
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        .glow {
+          position: fixed;
+          top: -20vh; left: 50%;
+          transform: translateX(-50%);
+          width: 70vw; height: 60vh;
+          background: radial-gradient(ellipse, rgba(26,111,255,0.08) 0%, transparent 70%);
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        .mobile-menu {
+          position: fixed;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(8,10,15,0.98);
+          z-index: 999;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 2rem;
+        }
+        .mobile-nav-link {
+          font-family: 'Playfair Display', serif;
+          font-size: 2rem;
+          color: #fff;
+          text-decoration: none;
+          transition: color 0.2s;
+        }
+        .mobile-nav-link:hover { color: #1a6fff; }
+      `}</style>
+
+      {/* Background effects */}
+      <div className="grid-bg" />
+      <div className="glow" />
+
+      {/* NAVBAR */}
+      <nav
+        style={{
+          position: "fixed",
+          top: 0, left: 0, right: 0,
+          zIndex: 100,
+          padding: "1rem 2rem",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          borderBottom: scrollY > 40 ? "1px solid #111827" : "1px solid transparent",
+          background: scrollY > 40 ? "rgba(8,10,15,0.92)" : "transparent",
+          backdropFilter: scrollY > 40 ? "blur(12px)" : "none",
+          transition: "all 0.3s",
+        }}
+      >
+        <a href="/" style={{ textDecoration: "none" }}>
+          <span style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: "1.1rem",
+            fontWeight: 700,
+            color: "#fff",
+            letterSpacing: "-0.02em",
+          }}>SP.</span>
+        </a>
+
+        {/* Desktop nav */}
+        <div style={{ display: "flex", gap: "2rem", alignItems: "center" }}>
+          {NAV_LINKS.map((l) => (
+            <a key={l.label} href={l.href} className="nav-link">{l.label}</a>
+          ))}
+        </div>
+
+        <a href="mailto:shivaanpatwa@email.com" className="cta-btn cta-primary" style={{ fontSize: "0.8rem", padding: "0.6rem 1.2rem" }}>
+          Contact
+        </a>
+      </nav>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="mobile-menu">
+          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "2rem", background: "none", border: "none", color: "#fff", fontSize: "1.5rem", cursor: "pointer" }}>✕</button>
+          {NAV_LINKS.map((l) => (
+            <a key={l.label} href={l.href} className="mobile-nav-link" onClick={() => setMenuOpen(false)}>{l.label}</a>
+          ))}
+        </div>
+      )}
+
+      <div style={{ position: "relative", zIndex: 1 }}>
+
+        {/* HERO */}
+        <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "8rem 2rem 4rem", maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ marginBottom: "1.5rem" }}>
+            <span className="section-tag">
+              <span className="blue-dot" /> Available for opportunities
+            </span>
+          </div>
+
+          <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(3rem, 8vw, 6.5rem)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: "1.5rem" }}>
+            Shivaan<br />
+            <span style={{ color: "#1a6fff" }}>Patwa.</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+
+          <p style={{ fontSize: "clamp(1rem, 2.5vw, 1.25rem)", color: "#8899aa", maxWidth: 600, lineHeight: 1.7, marginBottom: "1rem", fontWeight: 300 }}>
+            A future in finance, a history in MUN,<br />
+            <em style={{ color: "#c0cce0", fontStyle: "italic" }}>and an obsession with global change.</em>
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+          <p style={{ fontSize: "0.95rem", color: "#556677", maxWidth: 560, lineHeight: 1.8, marginBottom: "2.5rem" }}>
+            I don't just observe global systems — I analyze them, debate them, and look for the cracks. Whether I'm drafting a UN resolution or dissecting the risks of a cashless economy, I'm driven by a singular goal: understanding the forces that shape our world.
+          </p>
+
+          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+            <a href="/finance" className="cta-btn cta-primary">The Finance Lab →</a>
+            <a href="/mun" className="cta-btn cta-secondary">The MUN Arena →</a>
+            <a href="/passport" className="cta-btn cta-secondary">The Passport →</a>
+          </div>
+        </section>
+
+        {/* STATS */}
+        <section
+          id="stats"
+          ref={reg("stats")}
+          style={{ padding: "4rem 2rem", maxWidth: 1200, margin: "0 auto" }}
+        >
+          <div className={fade("stats")} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}>
+            {STATS.map((s, i) => (
+              <div key={i} className="stat-card" style={{ transitionDelay: `${i * 80}ms` }}>
+                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "3.5rem", fontWeight: 900, color: "#1a6fff", lineHeight: 1 }}>{s.value}</div>
+                <div style={{ fontWeight: 600, fontSize: "0.95rem", marginTop: "0.5rem", color: "#e8eaf0" }}>{s.label}</div>
+                <div style={{ fontSize: "0.75rem", color: "#556677", marginTop: "0.25rem" }}>{s.sub}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* THE NOW */}
+        <section
+          id="now"
+          ref={reg("now")}
+          style={{ padding: "4rem 2rem", maxWidth: 1200, margin: "0 auto" }}
+        >
+          <div className={fade("now")}>
+            <div className="section-tag"><span className="blue-dot" /> Live Update</div>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", fontWeight: 700, marginBottom: "2rem" }}>The Now</h2>
+            <div className="now-card">
+              {[
+                { icon: "📄", label: "Current Deep Dive", value: "Researching for the 2026 John Locke Essay", sub: '"Should we fear a cashless society?"' },
+                { icon: "📖", label: "On the Nightstand", value: "The Inheritance Games", sub: "by Jennifer Lynn Barnes" },
+                { icon: "🎵", label: "On Repeat", value: "Signs", sub: "Drake" },
+                { icon: "📍", label: "Current Location", value: "Mumbai, India", sub: "" },
+              ].map((row, i) => (
+                <div key={i} className="now-row">
+                  <div className="now-icon">{row.icon}</div>
+                  <div>
+                    <div style={{ fontSize: "0.72rem", color: "#556677", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.25rem" }}>{row.label}</div>
+                    <div style={{ fontWeight: 600, color: "#e8eaf0" }}>{row.value}</div>
+                    {row.sub && <div style={{ fontSize: "0.82rem", color: "#1a6fff", marginTop: "0.15rem" }}>{row.sub}</div>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* THREE PILLARS */}
+        <section
+          id="pillars"
+          ref={reg("pillars")}
+          style={{ padding: "4rem 2rem", maxWidth: 1200, margin: "0 auto" }}
+        >
+          <div className={fade("pillars")}>
+            <div className="section-tag">What I Build</div>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", fontWeight: 700, marginBottom: "2rem" }}>The Three Pillars</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.25rem" }}>
+              {PILLARS.map((p, i) => (
+                <div key={i} className="pillar-card" style={{ transitionDelay: `${i * 100}ms` }}>
+                  <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>{p.icon}</div>
+                  <h3 style={{ fontWeight: 700, fontSize: "1.15rem", marginBottom: "0.75rem", color: "#fff" }}>{p.title}</h3>
+                  <p style={{ fontSize: "0.88rem", color: "#667788", lineHeight: 1.7, marginBottom: "1.5rem" }}>{p.desc}</p>
+                  <a href={p.href} className="pillar-link">{p.link}</a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* FACT SHEET */}
+        <section
+          id="facts"
+          ref={reg("facts")}
+          style={{ padding: "4rem 2rem", maxWidth: 1200, margin: "0 auto" }}
+        >
+          <div className={fade("facts")}>
+            <div className="section-tag">⚡ Quick Facts</div>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", fontWeight: 700, marginBottom: "2rem" }}>The Fact Sheet</h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+              {FACTS.map((f, i) => (
+                <div key={i} className="fact-item" style={{ transitionDelay: `${i * 80}ms` }}>
+                  <span style={{ color: "#1a6fff", fontWeight: 700, fontSize: "0.8rem", marginRight: "1rem", fontFamily: "monospace" }}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span style={{ color: "#aabbc0", fontSize: "0.95rem" }}>{f}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CONTACT */}
+        <section
+          id="contact"
+          ref={reg("contact")}
+          style={{ padding: "6rem 2rem 8rem", maxWidth: 1200, margin: "0 auto", textAlign: "center" }}
+        >
+          <div className={fade("contact")}>
+            <div className="section-tag" style={{ justifyContent: "center" }}>Get in Touch</div>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 6vw, 4rem)", fontWeight: 900, marginBottom: "1rem" }}>
+              Let's talk <span style={{ color: "#1a6fff" }}>strategy.</span>
+            </h2>
+            <p style={{ color: "#556677", marginBottom: "2.5rem", fontSize: "0.95rem" }}>Open to collaborations, debates, and interesting conversations.</p>
+
+            <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginBottom: "2.5rem" }}>
+              <a href="https://linkedin.com" className="social-icon" title="LinkedIn">in</a>
+              <a href="https://instagram.com" className="social-icon" title="Instagram">ig</a>
+              <a href="mailto:shivaanpatwa@email.com" className="social-icon" title="Email">✉</a>
+            </div>
+
+            <button className="cta-btn cta-primary" style={{ fontSize: "1rem", padding: "1rem 2.5rem" }}
+              onClick={() => alert("Resume generator coming soon!")}>
+              📄 Generate My Resume
+            </button>
+          </div>
+        </section>
+
+        {/* FOOTER */}
+        <footer style={{ borderTop: "1px solid #111827", padding: "1.5rem 2rem", textAlign: "center", color: "#334455", fontSize: "0.8rem" }}>
+          © 2026 Shivaan Patwa. All rights reserved.
+        </footer>
+      </div>
+    </main>
   );
 }
