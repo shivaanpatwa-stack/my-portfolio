@@ -151,22 +151,6 @@ const ARTICLES = [
   },
 ];
 
-// ─── GAME SCENARIOS ───────────────────────────────────────────────────────────
-const SCENARIOS = [
-  { text: "Breaking: Central bank raises interest rates by 0.75%. Inflation fears spike.", buyMult: 0.85, sellMult: 1.0, holdMult: 0.92 },
-  { text: "Tech giant reports 40% earnings beat. Revenue guidance raised for next year.", buyMult: 1.35, sellMult: 1.05, holdMult: 1.18 },
-  { text: "Oil prices crash 20% on surprise OPEC output increase.", buyMult: 0.78, sellMult: 1.02, holdMult: 0.88 },
-  { text: "Massive insider buying detected in a blue-chip pharmaceutical company.", buyMult: 1.28, sellMult: 1.04, holdMult: 1.12 },
-  { text: "GDP growth misses estimates by 1.5%. Recession fears resurface.", buyMult: 0.82, sellMult: 1.06, holdMult: 0.9 },
-  { text: "Inflation falls to 3-year low. RBI signals rate cuts ahead.", buyMult: 1.22, sellMult: 0.97, holdMult: 1.1 },
-  { text: "Major bank collapses. Government steps in with emergency bailout.", buyMult: 0.7, sellMult: 1.1, holdMult: 0.8 },
-  { text: "New government announces massive infrastructure spending plan.", buyMult: 1.3, sellMult: 0.98, holdMult: 1.14 },
-  { text: "Geopolitical tensions escalate. Supply chains disrupted globally.", buyMult: 0.75, sellMult: 1.08, holdMult: 0.85 },
-  { text: "Blockbuster merger announced: two industry leaders joining forces.", buyMult: 1.4, sellMult: 1.02, holdMult: 1.2 },
-  { text: "Massive data breach at a major tech company. Stock halted.", buyMult: 0.68, sellMult: 1.12, holdMult: 0.78 },
-  { text: "Warren Buffett reveals large new position in energy sector.", buyMult: 1.25, sellMult: 0.99, holdMult: 1.1 },
-];
-
 // ─── SEARCH ENGINE ────────────────────────────────────────────────────────────
 const STOP_WORDS = new Set([
   "what", "is", "the", "a", "an", "how", "does", "do", "why", "when",
@@ -255,7 +239,7 @@ function searchWFJ(query: string): string {
 
 // ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
 export default function FinanceLab() {
-  const [activeSection, setActiveSection] = useState<"wfj" | "ai" | "game">("wfj");
+  const [activeSection, setActiveSection] = useState<"wfj" | "ai">("wfj");
   const [selectedArticle, setSelectedArticle] = useState<typeof ARTICLES[0] | null>(null);
   const [requestTopic, setRequestTopic] = useState("");
   const [requestSubmitted, setRequestSubmitted] = useState(false);
@@ -266,34 +250,9 @@ export default function FinanceLab() {
   ]);
   const [aiInput, setAiInput] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
-  const [gameState, setGameState] = useState<"idle" | "playing" | "over">("idle");
-  const [portfolio, setPortfolio] = useState(10000);
-  const [shares, setShares] = useState(0);
-  const [sharePrice, setSharePrice] = useState(100);
-  const [timeLeft, setTimeLeft] = useState(60);
-  const [scenarioIdx, setScenarioIdx] = useState(0);
-  const [lastAction, setLastAction] = useState("");
   const [tickerData, setTickerData] = useState<{ id: string; label: string; price: number; changePercent: number }[]>([]);
 
   const aiChatRef = useRef<HTMLDivElement>(null);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  // Game timer
-  useEffect(() => {
-    if (gameState === "playing") {
-      timerRef.current = setInterval(() => {
-        setTimeLeft(t => {
-          if (t <= 1) {
-            clearInterval(timerRef.current!);
-            setGameState("over");
-            return 0;
-          }
-          return t - 1;
-        });
-      }, 1000);
-    }
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, [gameState]);
 
   // Scroll AI chat
   useEffect(() => {
@@ -317,45 +276,6 @@ export default function FinanceLab() {
     const num = price.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     return ["^GSPC", "^IXIC", "^NSEI"].includes(id) ? num : `$${num}`;
   };
-
-  const startGame = () => {
-    setPortfolio(10000);
-    setShares(0);
-    setSharePrice(100);
-    setTimeLeft(60);
-    setScenarioIdx(Math.floor(Math.random() * SCENARIOS.length));
-    setLastAction("");
-    setGameState("playing");
-  };
-
-  const gameAction = (action: "buy" | "sell" | "hold") => {
-    const scenario = SCENARIOS[scenarioIdx];
-    let mult = action === "buy" ? scenario.buyMult : action === "sell" ? scenario.sellMult : scenario.holdMult;
-    let newPortfolio = portfolio;
-    let newShares = shares;
-    let newPrice = Math.round(sharePrice * mult * 100) / 100;
-
-    if (action === "buy" && portfolio >= newPrice) {
-      const canBuy = Math.floor(portfolio / newPrice);
-      newShares = shares + canBuy;
-      newPortfolio = portfolio - canBuy * newPrice;
-      setLastAction(`Bought ${canBuy} shares at $${newPrice}`);
-    } else if (action === "sell" && shares > 0) {
-      newPortfolio = portfolio + shares * newPrice;
-      newShares = 0;
-      setLastAction(`Sold ${shares} shares at $${newPrice}`);
-    } else {
-      setLastAction(`Held position. Price moved to $${newPrice}`);
-    }
-
-    setPortfolio(Math.round(newPortfolio * 100) / 100);
-    setShares(newShares);
-    setSharePrice(newPrice);
-    setScenarioIdx(Math.floor(Math.random() * SCENARIOS.length));
-  };
-
-  const totalValue = portfolio + shares * sharePrice;
-  const pnl = totalValue - 10000;
 
   const sendAiMessage = () => {
     if (!aiInput.trim() || aiLoading) return;
@@ -498,22 +418,6 @@ export default function FinanceLab() {
           white-space: pre-wrap;
         }
 
-        .game-btn {
-          flex: 1;
-          padding: 1rem;
-          border-radius: 10px;
-          font-weight: 700;
-          font-size: 1rem;
-          cursor: pointer;
-          border: none;
-          transition: all 0.15s;
-          letter-spacing: 0.04em;
-        }
-        .game-btn:hover { transform: translateY(-3px); }
-        .btn-buy { background: #00c853; color: #000; }
-        .btn-sell { background: #ff3d3d; color: #fff; }
-        .btn-hold { background: #1a6fff; color: #fff; }
-
         @keyframes ticker-scroll {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
@@ -588,9 +492,9 @@ export default function FinanceLab() {
           </h1>
         </div>
         <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-          {(["wfj", "ai", "game"] as const).map(s => (
+          {(["wfj", "ai"] as const).map(s => (
             <button key={s} className={`nav-tab ${activeSection === s ? "active" : ""}`} onClick={() => setActiveSection(s)}>
-              {s === "wfj" ? "📰 WFJ" : s === "ai" ? "🤖 Sensei" : "📈 Game"}
+              {s === "wfj" ? "📰 WFJ" : "🤖 Sensei"}
             </button>
           ))}
         </div>
@@ -715,85 +619,6 @@ export default function FinanceLab() {
           </div>
         )}
 
-        {/* ── SECTION: GAME ── */}
-        {activeSection === "game" && (
-          <div>
-            <span className="section-tag">Portfolio Panic</span>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.8rem", fontWeight: 700, marginBottom: "0.25rem" }}>Portfolio Panic 📈</h2>
-            <p style={{ color: "#556677", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
-              Start with $10,000. React to market events. Buy, sell, or hold. 60 seconds. Grow your wealth.
-            </p>
-
-            {gameState === "idle" && (
-              <div style={{ textAlign: "center", padding: "4rem 2rem", background: "#0d1117", border: "1px solid #111827", borderRadius: "16px" }}>
-                <div style={{ fontSize: "4rem", marginBottom: "1rem" }}>📊</div>
-                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", fontWeight: 700, marginBottom: "1rem" }}>Ready to trade?</h3>
-                <p style={{ color: "#556677", marginBottom: "2rem", fontSize: "0.9rem" }}>Market events will flash. You decide: Buy, Sell, or Hold.</p>
-                <button className="cta-btn cta-primary" style={{ fontSize: "1.1rem", padding: "1rem 3rem" }} onClick={startGame}>Start Trading →</button>
-              </div>
-            )}
-
-            {gameState === "playing" && (
-              <div>
-                {/* HUD */}
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0.75rem", marginBottom: "1.5rem" }}>
-                  {[
-                    { label: "Cash", value: `$${portfolio.toFixed(0)}` },
-                    { label: "Shares", value: `${shares} @ $${sharePrice.toFixed(0)}` },
-                    { label: "Total Value", value: `$${totalValue.toFixed(0)}` },
-                    { label: "P&L", value: `${pnl >= 0 ? "+" : ""}$${pnl.toFixed(0)}`, color: pnl >= 0 ? "#00c853" : "#ff3d3d" },
-                  ].map((item, i) => (
-                    <div key={i} style={{ background: "#0d1117", border: "1px solid #111827", borderRadius: "10px", padding: "0.875rem", textAlign: "center" }}>
-                      <div style={{ fontSize: "0.7rem", color: "#556677", marginBottom: "0.25rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>{item.label}</div>
-                      <div style={{ fontFamily: "'DM Mono', monospace", fontWeight: 600, color: item.color || "#dde4ee" }}>{item.value}</div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Timer */}
-                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.5rem" }}>
-                  <div style={{ flex: 1, height: 6, background: "#0d1117", borderRadius: 3, overflow: "hidden" }}>
-                    <div style={{ height: "100%", background: timeLeft > 20 ? "#1a6fff" : "#ff3d3d", width: `${(timeLeft / 60) * 100}%`, transition: "width 1s linear, background 0.3s" }} />
-                  </div>
-                  <div style={{ fontFamily: "'DM Mono', monospace", color: timeLeft <= 20 ? "#ff3d3d" : "#dde4ee", fontSize: "1.1rem", fontWeight: 700, minWidth: 36 }}>{timeLeft}s</div>
-                </div>
-
-                {/* Scenario */}
-                <div style={{ background: "#0d1117", border: "1px solid #1a6fff33", borderRadius: "12px", padding: "1.5rem", marginBottom: "1.5rem" }}>
-                  <div style={{ fontSize: "0.7rem", color: "#1a6fff", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.5rem" }}>BREAKING NEWS</div>
-                  <p style={{ fontSize: "1.05rem", fontWeight: 500, lineHeight: 1.5 }}>{SCENARIOS[scenarioIdx].text}</p>
-                  {lastAction && <p style={{ fontSize: "0.78rem", color: "#556677", marginTop: "0.75rem" }}>Last: {lastAction}</p>}
-                </div>
-
-                {/* Buttons */}
-                <div style={{ display: "flex", gap: "0.75rem" }}>
-                  <button className="game-btn btn-buy" onClick={() => gameAction("buy")} disabled={portfolio < sharePrice}>BUY</button>
-                  <button className="game-btn btn-hold" onClick={() => gameAction("hold")}>HOLD</button>
-                  <button className="game-btn btn-sell" onClick={() => gameAction("sell")} disabled={shares === 0}>SELL</button>
-                </div>
-              </div>
-            )}
-
-            {gameState === "over" && (
-              <div style={{ textAlign: "center", padding: "3rem 2rem", background: "#0d1117", border: "1px solid #111827", borderRadius: "16px" }}>
-                <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>{pnl >= 0 ? "🚀" : "📉"}</div>
-                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", fontWeight: 900, marginBottom: "0.5rem" }}>Time's Up!</h3>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "2.5rem", fontWeight: 700, color: pnl >= 0 ? "#00c853" : "#ff3d3d", marginBottom: "0.5rem" }}>
-                  ${totalValue.toFixed(0)}
-                </div>
-                <div style={{ color: pnl >= 0 ? "#00c853" : "#ff3d3d", fontSize: "1.1rem", marginBottom: "2rem" }}>
-                  {pnl >= 0 ? "+" : ""}${pnl.toFixed(0)} ({((pnl / 10000) * 100).toFixed(1)}%)
-                </div>
-                <p style={{ color: "#556677", marginBottom: "2rem", fontSize: "0.9rem" }}>
-                  {pnl > 2000 ? "🔥 Elite trader! You crushed the market." : pnl > 0 ? "📊 Solid performance. You beat cash!" : "💡 Tough session. The market humbled you."}
-                </p>
-                <button className="cta-btn cta-primary" style={{ fontSize: "1rem", padding: "0.875rem 2.5rem" }} onClick={startGame}>Play Again</button>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* ── SECTION: MARKET ── */}
       </div>
 
       {/* ARTICLE MODAL */}
