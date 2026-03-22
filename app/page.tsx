@@ -50,7 +50,6 @@ export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [visible, setVisible] = useState<Record<string, boolean>>({});
   const [menuOpen, setMenuOpen] = useState(false);
-  const [tickerData, setTickerData] = useState<{ id: string; label: string; price: number; changePercent: number }[]>([]);
   const refs = useRef<Record<string, HTMLElement | null>>({});
 
   useEffect(() => {
@@ -72,19 +71,6 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const fetchTicker = async () => {
-      try {
-        const res = await fetch("/api/market");
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) setTickerData(data);
-      } catch {}
-    };
-    fetchTicker();
-    const interval = setInterval(fetchTicker, 60000);
-    return () => clearInterval(interval);
-  }, []);
-
   const reg = (id: string) => (el: HTMLElement | null) => {
     refs.current[id] = el;
   };
@@ -93,11 +79,6 @@ export default function Home() {
     `transition-all duration-700 ease-out ${delay ? `delay-[${delay}ms]` : ""} ${
       visible[id] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
     }`;
-
-  const formatTickerPrice = (price: number, id: string) => {
-    const num = price.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    return ["^GSPC", "^IXIC", "^NSEI"].includes(id) ? num : `$${num}`;
-  };
 
   return (
     <main
@@ -110,7 +91,7 @@ export default function Home() {
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Playfair+Display:wght@700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Playfair+Display:wght@700;900&display=swap');
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -337,69 +318,7 @@ export default function Home() {
           transition: color 0.2s;
         }
         .mobile-nav-link:hover { color: #1a6fff; }
-
-        @keyframes ticker-scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .ticker-track {
-          display: flex;
-          width: max-content;
-          animation: ticker-scroll 45s linear infinite;
-          align-items: center;
-        }
-        .ticker-track:hover { animation-play-state: paused; }
-        .ticker-item {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0 1.75rem;
-          border-right: 1px solid #0d1117;
-          white-space: nowrap;
-          font-family: 'DM Mono', monospace;
-          font-size: 0.72rem;
-          letter-spacing: 0.02em;
-        }
-        .ticker-label { color: #445566; font-weight: 500; letter-spacing: 0.08em; }
-        .ticker-price { color: #c8d4e0; font-weight: 400; }
-        .ticker-up { color: #00c853; }
-        .ticker-dn { color: #ff3d3d; }
-        .ticker-sep {
-          color: #1a6fff;
-          font-size: 0.6rem;
-          opacity: 0.5;
-          padding: 0 0.25rem;
-        }
       `}</style>
-
-      {/* MARKET TICKER */}
-      <div style={{
-        position: "fixed", top: 0, left: 0, right: 0, zIndex: 101,
-        height: 34,
-        background: "#050709",
-        borderBottom: "1px solid #0d1117",
-        overflow: "hidden",
-        display: "flex",
-        alignItems: "center",
-      }}>
-        {tickerData.length > 0 ? (
-          <div className="ticker-track">
-            {[...tickerData, ...tickerData].map((item, i) => (
-              <span key={i} className="ticker-item">
-                <span className="ticker-label">{item.label}</span>
-                <span className="ticker-price">{formatTickerPrice(item.price, item.id)}</span>
-                <span className={item.changePercent >= 0 ? "ticker-up" : "ticker-dn"}>
-                  {item.changePercent >= 0 ? "▲" : "▼"} {Math.abs(item.changePercent).toFixed(2)}%
-                </span>
-              </span>
-            ))}
-          </div>
-        ) : (
-          <span style={{ color: "#2a3a4a", fontSize: "0.7rem", fontFamily: "'DM Mono', monospace", padding: "0 1.5rem", letterSpacing: "0.08em" }}>
-            FETCHING MARKET DATA...
-          </span>
-        )}
-      </div>
 
       {/* Background effects */}
       <div className="grid-bg" />
@@ -409,7 +328,7 @@ export default function Home() {
       <nav
         style={{
           position: "fixed",
-          top: 34, left: 0, right: 0,
+          top: 0, left: 0, right: 0,
           zIndex: 100,
           padding: "1rem 2rem",
           display: "flex",
@@ -465,7 +384,7 @@ export default function Home() {
       <div style={{ position: "relative", zIndex: 1 }}>
 
         {/* HERO */}
-        <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "10rem 2rem 4rem", maxWidth: 1200, margin: "0 auto" }}>
+        <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "8rem 2rem 4rem", maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ marginBottom: "1.5rem" }}>
             <span className="section-tag">
               <span className="blue-dot" /> Available for opportunities

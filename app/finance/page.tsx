@@ -253,7 +253,7 @@ function searchWFJ(query: string): string {
 
 // ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
 export default function FinanceLab() {
-  const [activeSection, setActiveSection] = useState<"wfj" | "ai" | "game" | "market">("wfj");
+  const [activeSection, setActiveSection] = useState<"wfj" | "ai" | "game">("wfj");
   const [selectedArticle, setSelectedArticle] = useState<typeof ARTICLES[0] | null>(null);
   const [requestTopic, setRequestTopic] = useState("");
   const [requestSubmitted, setRequestSubmitted] = useState(false);
@@ -269,29 +269,10 @@ export default function FinanceLab() {
   const [timeLeft, setTimeLeft] = useState(60);
   const [scenarioIdx, setScenarioIdx] = useState(0);
   const [lastAction, setLastAction] = useState("");
-  const [marketData, setMarketData] = useState([
-    { name: "NASDAQ", value: "19,218.17", change: "+0.42%", up: true },
-    { name: "NSE NIFTY 50", value: "22,147.00", change: "-0.18%", up: false },
-    { name: "Shanghai", value: "3,312.45", change: "+0.67%", up: true },
-    { name: "S&P 500", value: "5,011.12", change: "+0.31%", up: true },
-    { name: "Gold", value: "$3,021/oz", change: "+0.55%", up: true },
-    { name: "Silver", value: "$33.48/oz", change: "-0.22%", up: false },
-  ]);
+  const [tickerData, setTickerData] = useState<{ id: string; label: string; price: number; changePercent: number }[]>([]);
 
   const aiChatRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  // Simulate market data flickering
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setMarketData(prev => prev.map(item => {
-        const delta = (Math.random() - 0.49) * 0.3;
-        const sign = delta >= 0;
-        return { ...item, change: `${sign ? "+" : ""}${delta.toFixed(2)}%`, up: sign };
-      }));
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
 
   // Game timer
   useEffect(() => {
@@ -314,6 +295,24 @@ export default function FinanceLab() {
   useEffect(() => {
     if (aiChatRef.current) aiChatRef.current.scrollTop = aiChatRef.current.scrollHeight;
   }, [aiMessages]);
+
+  useEffect(() => {
+    const fetchTicker = async () => {
+      try {
+        const res = await fetch("/api/market");
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) setTickerData(data);
+      } catch {}
+    };
+    fetchTicker();
+    const interval = setInterval(fetchTicker, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const formatTickerPrice = (price: number, id: string) => {
+    const num = price.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return ["^GSPC", "^IXIC", "^NSEI"].includes(id) ? num : `$${num}`;
+  };
 
   const startGame = () => {
     setPortfolio(10000);
@@ -483,14 +482,32 @@ export default function FinanceLab() {
         .btn-sell { background: #ff3d3d; color: #fff; }
         .btn-hold { background: #1a6fff; color: #fff; }
 
-        .market-card {
-          background: #0d1117;
-          border: 1px solid #111827;
-          border-radius: 10px;
-          padding: 1rem 1.25rem;
-          transition: border-color 0.3s;
+        @keyframes ticker-scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
         }
-        .market-card:hover { border-color: #1a6fff33; }
+        .ticker-track {
+          display: flex;
+          width: max-content;
+          animation: ticker-scroll 45s linear infinite;
+          align-items: center;
+        }
+        .ticker-track:hover { animation-play-state: paused; }
+        .ticker-item {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0 1.75rem;
+          border-right: 1px solid #0d1117;
+          white-space: nowrap;
+          font-family: 'DM Mono', monospace;
+          font-size: 0.72rem;
+          letter-spacing: 0.02em;
+        }
+        .ticker-label { color: #445566; font-weight: 500; letter-spacing: 0.08em; }
+        .ticker-price { color: #c8d4e0; font-weight: 400; }
+        .ticker-up { color: #00c853; }
+        .ticker-dn { color: #ff3d3d; }
 
         .input-field {
           background: #0d1117;
@@ -539,12 +556,33 @@ export default function FinanceLab() {
           </h1>
         </div>
         <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-          {(["wfj", "ai", "game", "market"] as const).map(s => (
+          {(["wfj", "ai", "game"] as const).map(s => (
             <button key={s} className={`nav-tab ${activeSection === s ? "active" : ""}`} onClick={() => setActiveSection(s)}>
-              {s === "wfj" ? "📰 WFJ" : s === "ai" ? "🤖 Sensei" : s === "game" ? "📈 Game" : "🌍 Markets"}
+              {s === "wfj" ? "📰 WFJ" : s === "ai" ? "🤖 Sensei" : "📈 Game"}
             </button>
           ))}
         </div>
+      </div>
+
+      {/* MARKET TICKER */}
+      <div style={{ borderBottom: "1px solid #0d1117", background: "#050709", overflow: "hidden", height: 36, display: "flex", alignItems: "center" }}>
+        {tickerData.length > 0 ? (
+          <div className="ticker-track">
+            {[...tickerData, ...tickerData].map((item, i) => (
+              <span key={i} className="ticker-item">
+                <span className="ticker-label">{item.label}</span>
+                <span className="ticker-price">{formatTickerPrice(item.price, item.id)}</span>
+                <span className={item.changePercent >= 0 ? "ticker-up" : "ticker-dn"}>
+                  {item.changePercent >= 0 ? "▲" : "▼"} {Math.abs(item.changePercent).toFixed(2)}%
+                </span>
+              </span>
+            ))}
+          </div>
+        ) : (
+          <span style={{ color: "#2a3a4a", fontSize: "0.7rem", fontFamily: "'DM Mono', monospace", padding: "0 1.5rem", letterSpacing: "0.08em" }}>
+            FETCHING MARKET DATA...
+          </span>
+        )}
       </div>
 
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "2rem" }}>
@@ -715,34 +753,6 @@ export default function FinanceLab() {
         )}
 
         {/* ── SECTION: MARKET ── */}
-        {activeSection === "market" && (
-          <div>
-            <span className="section-tag">Live Markets</span>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.8rem", fontWeight: 700, marginBottom: "0.25rem" }}>Market Pulse</h2>
-            <p style={{ color: "#556677", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
-              Simulated live prices. Updates every 3 seconds. <span style={{ color: "#1a6fff" }}>●</span> Live
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1rem" }}>
-              {marketData.map((m, i) => (
-                <div key={i} className="market-card">
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "0.75rem", color: "#556677", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>{m.name}</span>
-                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#00c853", display: "inline-block" }} />
-                  </div>
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "1.4rem", fontWeight: 700, color: "#dde4ee", marginBottom: "0.25rem" }}>{m.value}</div>
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.85rem", color: m.up ? "#00c853" : "#ff3d3d", fontWeight: 600 }}>{m.change}</div>
-                </div>
-              ))}
-            </div>
-
-            <div style={{ marginTop: "2rem", background: "#0d1117", border: "1px solid #111827", borderRadius: "16px", padding: "1.5rem" }}>
-              <h3 style={{ fontWeight: 700, marginBottom: "1rem", fontSize: "1rem" }}>📌 Market Context</h3>
-              <p style={{ color: "#667788", fontSize: "0.85rem", lineHeight: 1.8 }}>
-                Note: Market data shown is simulated for educational purposes. For real-time data, visit NSE India, BSE India, NASDAQ.com, or financial platforms like Zerodha Kite or Bloomberg.
-              </p>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* ARTICLE MODAL */}
