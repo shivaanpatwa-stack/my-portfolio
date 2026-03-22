@@ -508,8 +508,8 @@ export default function Home() {
 
             <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginBottom: "2.5rem" }}>
               <a href="https://linkedin.com" className="social-icon" title="LinkedIn">in</a>
-              <a href="https://instagram.com" className="social-icon" title="Instagram">ig</a>
-              <a href="mailto:shivaanpatwa@email.com" className="social-icon" title="Email">✉</a>
+              <a href="https://www.instagram.com/sh1vaan_" className="social-icon" title="Instagram">ig</a>
+              <a href="mailto:shivaanpatwa@gmail.com" className="social-icon" title="Email">✉</a>
             </div>
 
             <button className="cta-btn cta-primary" style={{ fontSize: "1rem", padding: "1rem 2.5rem" }}
