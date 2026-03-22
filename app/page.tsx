@@ -20,7 +20,7 @@ const PILLARS = [
   {
     icon: "📈",
     title: "The Finance Lab",
-    desc: "Weekly journals on macro-trends, global economic shifts, and a high-stakes market simulator.",
+    desc: "Weekly journals on macro-trends, global economic shifts, and a live market ticker powered by real data.",
     link: "Enter the Lab →",
     href: "/finance",
   },
