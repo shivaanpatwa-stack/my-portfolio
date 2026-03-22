@@ -165,6 +165,92 @@ const SCENARIOS = [
   { text: "Warren Buffett reveals large new position in energy sector.", buyMult: 1.25, sellMult: 0.99, holdMult: 1.1 },
 ];
 
+// ─── SEARCH ENGINE ────────────────────────────────────────────────────────────
+const STOP_WORDS = new Set([
+  "what", "is", "the", "a", "an", "how", "does", "do", "why", "when",
+  "where", "which", "who", "can", "could", "should", "would", "will",
+  "are", "was", "were", "be", "been", "being", "have", "has", "had",
+  "i", "me", "my", "we", "our", "you", "your", "it", "its", "they",
+  "them", "their", "this", "that", "these", "those", "and", "or", "but",
+  "in", "on", "at", "to", "for", "of", "with", "by", "from", "about",
+  "as", "into", "tell", "explain", "describe", "give", "please",
+  "define", "mean", "means", "like", "some", "any", "all", "also",
+  "between", "more", "most", "than", "then", "just", "very", "really",
+  "get", "got", "let", "put", "use", "used", "make", "made", "work",
+]);
+
+function extractKeywords(query: string): string[] {
+  return query
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]/g, " ")
+    .split(/\s+/)
+    .filter((w) => w.length > 2 && !STOP_WORDS.has(w));
+}
+
+function searchWFJ(query: string): string {
+  const keywords = extractKeywords(query);
+
+  if (keywords.length === 0) {
+    return "Could you be more specific? Try asking about topics like inflation, compound interest, mutual funds, or the Rule of 72.";
+  }
+
+  type Result = { article: typeof ARTICLES[0]; score: number; sections: string[] };
+  const results: Result[] = [];
+
+  for (const article of ARTICLES) {
+    let score = 0;
+    const matchedSections: string[] = [];
+
+    score += keywords.filter((k) => article.title.toLowerCase().includes(k)).length * 5;
+    score += keywords.filter((k) => article.tags.join(" ").toLowerCase().includes(k)).length * 4;
+    score += keywords.filter((k) => article.tldr.toLowerCase().includes(k)).length * 3;
+
+    const sections = article.content.split("\n\n").filter((s) => s.trim().length > 20);
+    for (const section of sections) {
+      const matches = keywords.filter((k) => section.toLowerCase().includes(k)).length;
+      if (matches > 0) {
+        score += matches * 2;
+        matchedSections.push(section.trim());
+      }
+    }
+
+    if (score > 0) {
+      const sortedSections = matchedSections
+        .map((s) => ({ s, count: keywords.filter((k) => s.toLowerCase().includes(k)).length }))
+        .sort((a, b) => b.count - a.count)
+        .map((x) => x.s)
+        .slice(0, 2);
+      results.push({ article, score, sections: sortedSections });
+    }
+  }
+
+  if (results.length === 0) {
+    return "That topic hasn't been covered yet in the WFJ. Check back when Shivaan writes about it!";
+  }
+
+  results.sort((a, b) => b.score - a.score);
+  const top = results.slice(0, 2);
+
+  if (top.length === 1) {
+    const { article, sections } = top[0];
+    const parts: string[] = [`From ${article.week} · "${article.title}"\n`];
+    if (sections.length > 0) {
+      parts.push(...sections);
+    }
+    parts.push(`\nTL;DR: ${article.tldr}`);
+    return parts.join("\n\n");
+  }
+
+  const lines: string[] = [`Found relevant content across ${top.length} WFJ articles:\n`];
+  for (const { article, sections } of top) {
+    lines.push(`── ${article.week} · "${article.title}"`);
+    const best = sections[0] ?? article.tldr;
+    lines.push(best.length > 220 ? best.slice(0, 220).trimEnd() + "..." : best);
+    lines.push("");
+  }
+  return lines.join("\n").trim();
+}
+
 // ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
 export default function FinanceLab() {
   const [activeSection, setActiveSection] = useState<"wfj" | "ai" | "game" | "market">("wfj");
@@ -172,7 +258,7 @@ export default function FinanceLab() {
   const [requestTopic, setRequestTopic] = useState("");
   const [requestSubmitted, setRequestSubmitted] = useState(false);
   const [aiMessages, setAiMessages] = useState<{ role: "user" | "ai"; text: string }[]>([
-    { role: "ai", text: "Welcome to Finance Sensei. I only know what Shivaan has written in the WFJ. Ask me anything about those topics." }
+    { role: "ai", text: "Welcome to Finance Sensei. I search through all of Shivaan's WFJ articles to find answers. Ask me about any finance topic — inflation, compounding, mutual funds, taxes, and more." }
   ]);
   const [aiInput, setAiInput] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
@@ -268,33 +354,17 @@ export default function FinanceLab() {
   const totalValue = portfolio + shares * sharePrice;
   const pnl = totalValue - 10000;
 
-  const sendAiMessage = async () => {
+  const sendAiMessage = () => {
     if (!aiInput.trim() || aiLoading) return;
     const userMsg = aiInput.trim();
     setAiInput("");
     setAiMessages(prev => [...prev, { role: "user", text: userMsg }]);
     setAiLoading(true);
-
-    const articleContext = ARTICLES.map(a => `# ${a.title}\n${a.content}`).join("\n\n---\n\n");
-
-    try {
-      const res = await fetch("/api/sensei", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-5",
-          max_tokens: 1000,
-          system: `You are Finance Sensei, an AI assistant that ONLY answers questions based on the Weekly Finance Journal (WFJ) articles written by Shivaan Patwa. You have access to the following articles:\n\n${articleContext}\n\nRules:\n1. Only answer questions that are directly covered in the articles above.\n2. If the topic is not covered in the articles, respond with exactly: "That topic hasn't been covered yet in the WFJ. Check back when Shivaan writes about it!"\n3. Keep answers concise, clear, and reference the specific article when possible.\n4. Do not use outside knowledge — only information from the articles above.`,
-          messages: [{ role: "user", content: userMsg }],
-        }),
-      });
-      const data = await res.json();
-      const reply = data.content?.[0]?.text || "Something went wrong. Try again.";
+    setTimeout(() => {
+      const reply = searchWFJ(userMsg);
       setAiMessages(prev => [...prev, { role: "ai", text: reply }]);
-    } catch {
-      setAiMessages(prev => [...prev, { role: "ai", text: "Connection error. Please try again." }]);
-    }
-    setAiLoading(false);
+      setAiLoading(false);
+    }, 500);
   };
 
   const submitRequest = () => {
