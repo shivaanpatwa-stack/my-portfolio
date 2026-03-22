@@ -278,11 +278,11 @@ export default function FinanceLab() {
     const articleContext = ARTICLES.map(a => `# ${a.title}\n${a.content}`).join("\n\n---\n\n");
 
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch("/api/sensei", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
+          model: "claude-sonnet-4-5",
           max_tokens: 1000,
           system: `You are Finance Sensei, an AI assistant that ONLY answers questions based on the Weekly Finance Journal (WFJ) articles written by Shivaan Patwa. You have access to the following articles:\n\n${articleContext}\n\nRules:\n1. Only answer questions that are directly covered in the articles above.\n2. If the topic is not covered in the articles, respond with exactly: "That topic hasn't been covered yet in the WFJ. Check back when Shivaan writes about it!"\n3. Keep answers concise, clear, and reference the specific article when possible.\n4. Do not use outside knowledge — only information from the articles above.`,
           messages: [{ role: "user", content: userMsg }],
