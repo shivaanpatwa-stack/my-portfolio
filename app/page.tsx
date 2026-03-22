@@ -267,6 +267,29 @@ export default function Home() {
           transition: color 0.2s;
         }
         .mobile-nav-link:hover { color: #1a6fff; }
+
+        @media (max-width: 768px) {
+          .desktop-nav { display: none !important; }
+
+          .hero-cta-group {
+            flex-direction: column;
+          }
+          .hero-cta-group .cta-btn {
+            width: 100%;
+            justify-content: center;
+          }
+
+          .stat-card { padding: 1.25rem; }
+
+          .now-card { padding: 1.25rem; }
+          .now-row { gap: 0.75rem; }
+
+          .fact-item { padding: 0.75rem 1rem; }
+        }
+
+        @media (max-width: 480px) {
+          nav { padding: 0.875rem 1rem !important; }
+        }
       `}</style>
 
       {/* Background effects */}
@@ -300,7 +323,7 @@ export default function Home() {
         </a>
 
         {/* Desktop nav */}
-        <div style={{ display: "flex", gap: "2rem", alignItems: "center" }}>
+        <div className="desktop-nav" style={{ display: "flex", gap: "2rem", alignItems: "center" }}>
           {NAV_LINKS.map((l) => (
             <a key={l.label} href={l.href} className="nav-link">{l.label}</a>
           ))}
@@ -347,7 +370,7 @@ export default function Home() {
             I don't just observe global systems — I analyze them, debate them, and look for the cracks. Whether I'm drafting a UN resolution or dissecting the risks of a cashless economy, I'm driven by a singular goal: understanding the forces that shape our world.
           </p>
 
-          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+          <div className="hero-cta-group" style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
             <a href="/finance" className="cta-btn cta-primary">The Finance Lab →</a>
             <a href="/mun" className="cta-btn cta-secondary">The MUN Arena →</a>
             <a href="/passport" className="cta-btn cta-secondary">The Passport →</a>

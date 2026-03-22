@@ -481,10 +481,49 @@ export default function FinanceLab() {
           display: block;
           margin-bottom: 0.5rem;
         }
+
+        @media (max-width: 768px) {
+          .finance-header {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 1rem;
+            padding: 1.25rem 1rem !important;
+          }
+
+          .modal {
+            padding: 1.25rem !important;
+            max-height: 90vh;
+          }
+
+          .ai-chat-box {
+            height: 280px !important;
+          }
+
+          .form-row {
+            flex-direction: column;
+          }
+          .form-row .cta-btn {
+            width: 100%;
+          }
+          .form-row .input-field {
+            width: 100%;
+          }
+
+          .article-row {
+            gap: 0.75rem;
+            padding: 0.875rem 0.75rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .content-wrap {
+            padding: 1.25rem 0.875rem !important;
+          }
+        }
       `}</style>
 
       {/* HEADER */}
-      <div style={{ borderBottom: "1px solid #0f1520", padding: "1.5rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div className="finance-header" style={{ borderBottom: "1px solid #0f1520", padding: "1.5rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div>
           <a href="/" style={{ color: "#556677", fontSize: "0.8rem", textDecoration: "none", letterSpacing: "0.08em" }}>← SP.</a>
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.5rem, 4vw, 2.2rem)", fontWeight: 900, marginTop: "0.25rem" }}>
@@ -521,7 +560,7 @@ export default function FinanceLab() {
         )}
       </div>
 
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "2rem" }}>
+      <div className="content-wrap" style={{ maxWidth: 900, margin: "0 auto", padding: "2rem" }}>
 
         {/* ── SECTION: WFJ ── */}
         {activeSection === "wfj" && (
@@ -553,7 +592,7 @@ export default function FinanceLab() {
               <span className="section-tag">Community</span>
               <h3 style={{ fontWeight: 700, fontSize: "1.1rem", marginBottom: "0.5rem" }}>Request a Topic</h3>
               <p style={{ color: "#556677", fontSize: "0.85rem", marginBottom: "1.25rem" }}>What finance topic do you want Shivaan to cover next?</p>
-              <div style={{ display: "flex", gap: "0.75rem" }}>
+              <div className="form-row" style={{ display: "flex", gap: "0.75rem" }}>
                 <input
                   className="input-field"
                   style={{ flex: 1 }}
@@ -589,14 +628,14 @@ export default function FinanceLab() {
               Trained exclusively on Shivaan's WFJ articles. Ask about anything covered in the journal.
             </p>
 
-            <div ref={aiChatRef} style={{ background: "#0d1117", border: "1px solid #111827", borderRadius: "16px", padding: "1.5rem", height: 420, overflowY: "auto", display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "1rem" }}>
+            <div ref={aiChatRef} className="ai-chat-box" style={{ background: "#0d1117", border: "1px solid #111827", borderRadius: "16px", padding: "1.5rem", height: 420, overflowY: "auto", display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "1rem" }}>
               {aiMessages.map((m, i) => (
                 <div key={i} className={m.role === "user" ? "ai-bubble-user" : "ai-bubble-ai"}>{m.text}</div>
               ))}
               {aiLoading && <div className="ai-bubble-ai" style={{ color: "#1a6fff" }}>Thinking...</div>}
             </div>
 
-            <div style={{ display: "flex", gap: "0.75rem" }}>
+            <div className="form-row" style={{ display: "flex", gap: "0.75rem" }}>
               <input
                 className="input-field"
                 style={{ flex: 1 }}
