@@ -16,30 +16,6 @@ const STATS = [
   { value: "1", label: "Vision", sub: "for a Digital Future" },
 ];
 
-const PILLARS = [
-  {
-    icon: "📈",
-    title: "The Finance Lab",
-    desc: "Weekly journals on macro-trends, global economic shifts, and a live market ticker powered by real data.",
-    link: "Enter the Lab →",
-    href: "/finance",
-  },
-  {
-    icon: "🌐",
-    title: "The MUN Arena",
-    desc: "A complete toolkit for delegates — research guides, resolution templates, and committee archives.",
-    link: "Get the Guide →",
-    href: "/mun",
-  },
-  {
-    icon: "🗺️",
-    title: "The Global Journey",
-    desc: "An interactive timeline of international experiences, from global leadership camps to professional internships.",
-    link: "View the Timeline →",
-    href: "/experience",
-  },
-];
-
 const FACTS = [
   "Executed my first investment at 10 years old and have been tracking markets ever since.",
   "28 countries stamped in the passport — the mission is to see them all.",
@@ -131,33 +107,6 @@ export default function Home() {
           border-color: #1a6fff44;
           transform: translateY(-4px);
         }
-
-        .pillar-card {
-          border: 1px solid #111827;
-          border-radius: 16px;
-          padding: 2rem;
-          background: #0d1117;
-          transition: border-color 0.3s, transform 0.3s, background 0.3s;
-          cursor: pointer;
-        }
-        .pillar-card:hover {
-          border-color: #1a6fff66;
-          background: #0f1520;
-          transform: translateY(-6px);
-        }
-
-        .pillar-link {
-          color: #1a6fff;
-          font-size: 0.875rem;
-          font-weight: 600;
-          letter-spacing: 0.04em;
-          text-decoration: none;
-          display: inline-flex;
-          align-items: center;
-          gap: 4px;
-          transition: gap 0.2s;
-        }
-        .pillar-link:hover { gap: 8px; }
 
         .fact-item {
           border-left: 2px solid #1a1e2e;
@@ -385,20 +334,13 @@ export default function Home() {
 
         {/* HERO */}
         <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "8rem 2rem 4rem", maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ marginBottom: "1.5rem" }}>
-            <span className="section-tag">
-              <span className="blue-dot" /> Available for opportunities
-            </span>
-          </div>
-
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(3rem, 8vw, 6.5rem)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: "1.5rem" }}>
             Shivaan<br />
             <span style={{ color: "#1a6fff" }}>Patwa.</span>
           </h1>
 
           <p style={{ fontSize: "clamp(1rem, 2.5vw, 1.25rem)", color: "#8899aa", maxWidth: 600, lineHeight: 1.7, marginBottom: "1rem", fontWeight: 300 }}>
-            A future in finance, a history in MUN,<br />
-            <em style={{ color: "#c0cce0", fontStyle: "italic" }}>and an obsession with global change.</em>
+            A future in finance, a history in MUN, and an obsession with global change.
           </p>
 
           <p style={{ fontSize: "0.95rem", color: "#556677", maxWidth: 560, lineHeight: 1.8, marginBottom: "2.5rem" }}>
@@ -452,28 +394,6 @@ export default function Home() {
                     <div style={{ fontWeight: 600, color: "#e8eaf0" }}>{row.value}</div>
                     {row.sub && <div style={{ fontSize: "0.82rem", color: "#1a6fff", marginTop: "0.15rem" }}>{row.sub}</div>}
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* THREE PILLARS */}
-        <section
-          id="pillars"
-          ref={reg("pillars")}
-          style={{ padding: "4rem 2rem", maxWidth: 1200, margin: "0 auto" }}
-        >
-          <div className={fade("pillars")}>
-            <div className="section-tag">What I Build</div>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", fontWeight: 700, marginBottom: "2rem" }}>The Three Pillars</h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.25rem" }}>
-              {PILLARS.map((p, i) => (
-                <div key={i} className="pillar-card" style={{ transitionDelay: `${i * 100}ms` }}>
-                  <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>{p.icon}</div>
-                  <h3 style={{ fontWeight: 700, fontSize: "1.15rem", marginBottom: "0.75rem", color: "#fff" }}>{p.title}</h3>
-                  <p style={{ fontSize: "0.88rem", color: "#667788", lineHeight: 1.7, marginBottom: "1.5rem" }}>{p.desc}</p>
-                  <a href={p.href} className="pillar-link">{p.link}</a>
                 </div>
               ))}
             </div>
