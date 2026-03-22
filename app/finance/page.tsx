@@ -1,6 +1,8 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 
+const FORMSPREE_TOPIC_URL = "https://formspree.io/f/maqpzgba";
+
 // ─── WFJ ARTICLES DATA ───────────────────────────────────────────────────────
 const ARTICLES = [
   {
@@ -257,6 +259,8 @@ export default function FinanceLab() {
   const [selectedArticle, setSelectedArticle] = useState<typeof ARTICLES[0] | null>(null);
   const [requestTopic, setRequestTopic] = useState("");
   const [requestSubmitted, setRequestSubmitted] = useState(false);
+  const [requestSubmitting, setRequestSubmitting] = useState(false);
+  const [requestError, setRequestError] = useState<string | null>(null);
   const [aiMessages, setAiMessages] = useState<{ role: "user" | "ai"; text: string }[]>([
     { role: "ai", text: "Welcome to Finance Sensei. I search through all of Shivaan's WFJ articles to find answers. Ask me about any finance topic — inflation, compounding, mutual funds, taxes, and more." }
   ]);
@@ -366,11 +370,39 @@ export default function FinanceLab() {
     }, 500);
   };
 
-  const submitRequest = () => {
-    if (!requestTopic.trim()) return;
-    setRequestSubmitted(true);
-    setRequestTopic("");
-    setTimeout(() => setRequestSubmitted(false), 3000);
+  const submitRequest = async () => {
+    const topic = requestTopic.trim();
+    if (!topic || requestSubmitting) return;
+    setRequestSubmitting(true);
+    setRequestError(null);
+    try {
+      const res = await fetch(FORMSPREE_TOPIC_URL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          topic,
+          _subject: "WFJ topic request (Finance Lab)",
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(
+          typeof data === "object" && data && "error" in data
+            ? String((data as { error?: string }).error)
+            : "Submit failed"
+        );
+      }
+      setRequestSubmitted(true);
+      setRequestTopic("");
+      setTimeout(() => setRequestSubmitted(false), 5000);
+    } catch {
+      setRequestError("Could not submit. Please try again.");
+    } finally {
+      setRequestSubmitting(false);
+    }
   };
 
   return (
@@ -624,10 +656,19 @@ export default function FinanceLab() {
                   placeholder="e.g. Cryptocurrency, Real Estate investing..."
                   value={requestTopic}
                   onChange={e => setRequestTopic(e.target.value)}
-                  onKeyDown={e => e.key === "Enter" && submitRequest()}
+                  onKeyDown={e => e.key === "Enter" && void submitRequest()}
                 />
-                <button className="cta-btn cta-primary" onClick={submitRequest}>Submit</button>
+                <button
+                  className="cta-btn cta-primary"
+                  onClick={() => void submitRequest()}
+                  disabled={requestSubmitting}
+                >
+                  {requestSubmitting ? "Sending…" : "Submit"}
+                </button>
               </div>
+              {requestError && (
+                <p style={{ color: "#ff3d3d", fontSize: "0.82rem", marginTop: "0.75rem" }}>{requestError}</p>
+              )}
               {requestSubmitted && (
                 <p style={{ color: "#00c853", fontSize: "0.82rem", marginTop: "0.75rem" }}>✓ Request submitted! Shivaan will consider it for a future WFJ.</p>
               )}
