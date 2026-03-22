@@ -357,9 +357,18 @@ export default function Home() {
           ))}
         </div>
 
-        <a href="mailto:shivaanpatwa@email.com" className="cta-btn cta-primary" style={{ fontSize: "0.8rem", padding: "0.6rem 1.2rem" }}>
-          Contact
-        </a>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <a href="mailto:shivaanpatwa@email.com" className="cta-btn cta-primary" style={{ fontSize: "0.8rem", padding: "0.6rem 1.2rem" }}>
+            Contact
+          </a>
+          <button
+            onClick={() => setMenuOpen(true)}
+            style={{ background: "none", border: "1px solid #1a1e2e", borderRadius: 8, color: "#8899aa", fontSize: "1.2rem", cursor: "pointer", padding: "0.4rem 0.6rem", lineHeight: 1 }}
+            aria-label="Open menu"
+          >
+            ☰
+          </button>
+        </div>
       </nav>
 
       {/* Mobile menu */}

@@ -1,0 +1,705 @@
+"use client";
+import { useState, useEffect, useRef } from "react";
+
+// ─── WFJ ARTICLES DATA ───────────────────────────────────────────────────────
+const ARTICLES = [
+  {
+    id: 1,
+    title: "What is Money — History and Purpose",
+    date: "27 Oct – 02 Nov 2025",
+    week: "Week 01",
+    tags: ["Fundamentals", "History"],
+    tldr: "Money evolved from barter and commodity systems to modern fiat and digital currency. Its power lies entirely in collective trust.",
+    content: `1. Meaning of Money\nMoney is anything commonly accepted as a medium of exchange, a measure of value, a store of wealth, and a standard for future payments. It allows people to buy and sell goods easily instead of trading items directly.\n\n2. Barter System (Before Money)\nBefore money existed, people used the barter system — exchanging goods and services directly. Example: A farmer could trade wheat for cloth. However, this system had major problems: Double coincidence of wants — both people needed to want what the other offered. It was hard to decide how much one thing was worth compared to another. Saving wealth was difficult because goods could spoil or lose value.\n\n3. Origin of Money\nTo make trade easier, early civilisations started using commodity money — items that had value themselves. Examples: Cowrie shells in ancient China and India. Salt and cattle in Africa. Gold and silver coins in Rome and India. These were replaced by metal coins, which lasted longer and had clear value markings. Later, paper money appeared — first in China during the Tang Dynasty (around 7th century CE).\n\n4. Modern Money\nToday, most countries use fiat money, which has value because the government declares it as legal tender. Money today exists in many forms: Coins and notes, Bank deposits, Digital payments like UPI and credit cards, and Cryptocurrencies.\n\n5. Main Functions of Money\n• Medium of Exchange: Helps buy and sell easily without barter.\n• Unit of Account: Allows goods to be priced and compared.\n• Store of Value: Can be saved and used later without losing worth.\n• Standard of Deferred Payment: Used to borrow or lend money.\n\n6. Conclusion\nMoney has evolved from simple trade tools to complex digital systems. Its real strength lies in trust — it only works because people believe in its value.`,
+  },
+  {
+    id: 2,
+    title: "Income vs Expense — Saving vs Spending",
+    date: "03 Nov – 09 Nov 2025",
+    week: "Week 02",
+    tags: ["Personal Finance", "Budgeting"],
+    tldr: "Real wealth is invisible. The 50-30-20 rule and 'pay yourself first' mindset are the building blocks of financial stability.",
+    content: `Quote: "Wealth is what you don't see. It's the cars not bought, the diamonds not purchased, the watches not worn..." — Morgan Housel\n\n1. Meaning of Income\nIncome is the money a person receives. Sources include: Salary or wages, Profit from a business, Pocket money/allowance, Interest from savings, Bonuses or commissions.\n\n2. Meaning of Expense\nAn expense is money spent to buy goods or services. Examples: Food, electricity, transport, School supplies, Subscriptions, Personal spending.\n\n3. Saving vs Spending\nSaving is setting aside money for future use. Spending is using money now for needs or wants. The balance between the two decides long-term financial health.\n\n4. How to Balance Saving and Spending\n• Follow the 50-30-20 rule (Needs–Wants–Savings)\n• Plan a monthly budget\n• Track expenses to avoid overspending\n• Save first, spend later ("Pay yourself first")\n• Delay purchases and ask if it's actually needed\n\n5. Conclusion\nMorgan Housel's quote shows that real wealth is often invisible. The richest people are not the ones who spend the most, but the ones who control their spending and save consistently.`,
+  },
+  {
+    id: 3,
+    title: "Interest vs Compounding",
+    date: "10 Nov – 16 Nov 2025",
+    week: "Week 03",
+    tags: ["Investing", "Compounding"],
+    tldr: "Compound interest is the 8th wonder of the world. The Rule of 72 tells you exactly how fast your money doubles — and it applies to skills too.",
+    content: `1. What is Interest?\nInterest is the extra amount earned on money you invest, or the extra amount paid on money you borrow. It is always calculated as a percentage of your principal.\n\n2. Simple Interest (SI)\nSimple interest is calculated only on the original principal every year. The interest stays the same each year.\nExample: Principal = ₹10,000, Rate = 8%, Time = 3 years → Interest = ₹2,400, Total = ₹12,400\n\n3. Compound Interest (CI)\nCompound interest is interest on interest. Each year, the amount grows because the new principal becomes previous amount + previous interest.\nExample: ₹10,000 at 8% compounded yearly:\nYear 1 → ₹10,800\nYear 2 → ₹11,664\nYear 3 → ₹12,597\n\n4. Rule of 72 (Quick Trick)\nTo estimate how long it takes for money to double: 72 ÷ interest rate (%)\nExample: At 6% compound interest → 72 ÷ 6 = 12 years to double.\n\n5. Compounding Beyond Money\nThe article compares reading to compound interest: Reading one page today doesn't change much. But reading every day for months or years compounds into massive knowledge, better thinking, and better decisions. Tiny improvements repeated daily create long-term transformation.\n\n6. Conclusion\nCompounding rewards time, patience, and consistency. The same idea applies to personal growth: small daily gains compound into big results.`,
+  },
+  {
+    id: 4,
+    title: "Inflation — Why Prices Rise",
+    date: "17 Nov – 23 Nov 2025",
+    week: "Week 04",
+    tags: ["Macroeconomics", "Inflation"],
+    tldr: "Inflation silently erodes your purchasing power. The RBI fights it by raising interest rates — understanding this is key to protecting your savings.",
+    content: `1. What is Inflation?\nInflation is the general increase in prices of goods and services over time. When inflation rises, the same amount of money buys less than before.\nExample: If a chocolate costs ₹10 today and ₹12 next year, that price rise is inflation.\n\n2. Why Does Inflation Happen?\nA. Demand–Pull Inflation: When demand for goods is higher than the supply.\nB. Cost–Push Inflation: When the cost of producing goods increases, companies raise prices.\nC. Built-In Inflation (Wage–Price Spiral): When workers demand higher salaries → companies raise prices → cycle repeats.\n\n3. Good vs Bad Inflation\nMild inflation (2–4%): Shows an economy is growing, encourages spending.\nHigh inflation (6%+): Reduces purchasing power, hurts savings.\nHyperinflation: Example: In Zimbabwe, prices doubled every few days.\n\n4. Role of the Central Bank (RBI in India)\nThe RBI controls inflation by raising/lowering interest rates. Raising rates → borrowing becomes expensive → people spend less → prices cool down.\n\n5. Ways to Protect Yourself From Inflation\n• Save in financial instruments that grow (FDs, mutual funds)\n• Avoid leaving too much money idle as cash\n• Invest early so compounding beats inflation over time`,
+  },
+  {
+    id: 5,
+    title: "Banking — Accounts, FDs & How Banks Work",
+    date: "24 Nov – 30 Nov 2025",
+    week: "Week 05",
+    tags: ["Banking", "Fundamentals"],
+    tldr: "Banks make money on the spread between deposit rates and loan rates. Knowing your account types and FD options is the first step to making your money work harder.",
+    content: `1. What Does a Bank Do?\nBanks are financial institutions that help people manage money safely. Their main functions: Accepting Deposits, Giving Loans, Payments & Transfers, Wealth & Investment Services.\n\n2. Types of Bank Accounts\n• Savings Account: For regular saving and daily use. ATM/UPI access.\n• Current Account: Used by businesses. No limit on transactions.\n• Fixed Deposit (FD): Money locked for a fixed period. Higher interest.\n• Recurring Deposit (RD): Deposit a fixed amount every month.\n\n3. Types of Fixed Deposits\n• Standard FD: Fixed interest rate for a fixed period.\n• Tax-Saving FD: 5-year lock-in. Tax benefits under Section 80C.\n• Senior Citizen FD: Higher interest rate (0.25%–0.75% extra).\n• Flexi FD: Linked to savings account.\n• Cumulative FD: Interest added to principal, paid at maturity.\n• Non-Cumulative FD: Interest paid monthly/quarterly/yearly.\n\n4. Conclusion\nBanks are the backbone of any economy. Understanding accounts and FDs helps choose the best way to grow and protect your money.`,
+  },
+  {
+    id: 6,
+    title: "Banking (Continued) — Cards, Loans & EMIs",
+    date: "01 Dec – 07 Dec 2025",
+    week: "Week 06",
+    tags: ["Banking", "Credit", "Loans"],
+    tldr: "Debit = your money. Credit = borrowed money. EMI tenure determines total interest paid — shorter is almost always better.",
+    content: `1. Debit Card vs Credit Card\nDebit Card: Linked directly to your bank account. No borrowing → no interest.\nCredit Card: Borrow now, pay later. If you delay payment → high interest (24%–40% yearly).\n\n2. Types of Loans\n• Personal Loan: Unsecured. Higher interest.\n• Home Loan: Long repayment (10–30 years). Lower interest.\n• Auto/Vehicle Loan: Vehicle is collateral.\n• Education Loan: EMI starts after studies.\n• Business Loan: For starting or expanding a business.\n• Gold Loan: Quick processing, gold as collateral.\n\n3. EMI\nEMI (Equated Monthly Instalment): Fixed monthly repayment including principal + interest.\nLonger tenure = smaller EMI but more total interest.\nShorter tenure = larger EMI but less interest.\n\n4. Borrowing Responsibly\n✔ Borrow only what you can repay.\n✔ Keep EMIs below 30–40% of monthly income.\n✔ Always pay credit card bill on time.\n✔ Read loan terms carefully.`,
+  },
+  {
+    id: 7,
+    title: "Insurance — Protection Before Profit",
+    date: "08 Dec – 14 Dec 2025",
+    week: "Week 07",
+    tags: ["Insurance", "Risk Management"],
+    tldr: "Insurance is not an investment — it's a shield. Term insurance is the cheapest and most powerful form of protection for most people.",
+    content: `1. What is Insurance?\nInsurance is a financial safety tool where you pay a small premium so the insurance company protects you from big financial losses.\n\n2. Kinds of Insurance\n• Life Insurance: Term Insurance (cheapest, only protection), Whole Life/ULIPs (insurance + savings).\n• Health Insurance: Covers hospital bills, surgeries, and medicines.\n• Motor Insurance: Third-Party (mandatory) + Comprehensive coverage.\n• Home Insurance: Covers fire, theft, natural disasters.\n• Travel Insurance: Trip cancellation, lost luggage, medical emergencies.\n\n3. Big Insurance Companies in India\n• LIC: Government-owned, most trusted, strong in traditional plans.\n• SBI Life, HDFC Life, ICICI Prudential: Fast claim settlement, digital services.\n• Private General Insurers (Bajaj Allianz, Tata AIG): Competitive premiums, flexible products.\n\n4. IRDAI\nInsurance Regulatory and Development Authority of India — regulates all insurance companies, ensures fair pricing and consumer protection.`,
+  },
+  {
+    id: 8,
+    title: "Taxes — Direct, Indirect & Why They Matter",
+    date: "15 Dec – 21 Dec 2025",
+    week: "Week 08",
+    tags: ["Taxes", "Government", "Finance"],
+    tldr: "Direct taxes hit your income. Indirect taxes hit your spending. GST is embedded in almost everything you buy — knowing the slabs helps you understand real costs.",
+    content: `1. What are Taxes?\nTaxes are compulsory payments made by individuals and businesses to the government to fund public services.\n\n2. Direct Taxes\nPaid directly by individuals or organizations.\n• Income Tax: Tax on income earned.\n• Corporate Tax: Tax paid by companies on profits.\n• Capital Gains Tax: Tax on profit from selling assets.\nIncome Tax Slabs: Rates usually range from 5% to 30% depending on income.\n\n3. Indirect Taxes (GST)\nCollected through sellers but paid by consumers.\nGST Slabs: 0% (essential goods), 5% (daily items), 12% & 18% (most goods), 28% (luxury).\n\n4. Income Tax Return (ITR)\nA form submitted showing income earned, tax paid, and tax due.\nWhy it matters: Legal proof of income, helps in loans and visas, allows refund if extra tax was paid.\nDeadline: Usually 31st July for individuals.\n\n5. Conclusion\nUnderstanding taxes helps people become financially responsible citizens and plan income and spending better.`,
+  },
+  {
+    id: 9,
+    title: "Emergency Fund — Your Financial Safety Net",
+    date: "22 Dec – 28 Dec 2025",
+    week: "Week 09",
+    tags: ["Personal Finance", "Safety Net"],
+    tldr: "3-6 months of expenses in a liquid account. Not for shopping. Not for travel. Only for emergencies. Build it before you invest.",
+    content: `1. What is an Emergency Fund?\nAn emergency fund is money set aside specifically for unexpected situations — medical emergencies, job loss, urgent repairs. It is your financial safety net.\n\n2. Why It Matters\n• Prevents taking loans during emergencies\n• Reduces stress\n• Protects long-term savings and investments\n• Gives financial independence\n\n3. How Much Should It Be?\nGeneral Rule: 3 to 6 months of essential expenses.\nExample: Monthly expenses = ₹20,000 → Emergency fund = ₹60,000 to ₹1,20,000.\n\n4. By Age Group\n• Teenagers: ₹5,000–₹20,000 in savings account. Build the habit.\n• Young Adults: 3–6 months expenses. Automate monthly savings.\n• Middle Age: 6–9 months due to family responsibilities.\n• Senior Citizens: Focus on safety, liquidity, and peace of mind.\n\n5. Where to Keep It\n• Savings account\n• Liquid mutual funds\n• Short-term fixed deposits\nAvoid stocks or risky investments for this fund.`,
+  },
+  {
+    id: 10,
+    title: "Mutual Funds — SIP, SWP & Smart Investing",
+    date: "29 Dec 2025 – 03 Jan 2026",
+    week: "Week 10",
+    tags: ["Investing", "Mutual Funds", "SIP"],
+    tldr: "SIP is the most powerful tool for retail investors. Index funds beat most active funds over time — and they charge you 10x less in fees.",
+    content: `1. What are Mutual Funds?\nA mutual fund pools money from many investors and invests it in stocks, bonds, or other assets, managed by professional fund managers.\n\n2. Types of Mutual Funds\n• Equity MFs: Higher risk, higher return. Long-term goals.\n• Debt MFs: Lower risk, stable returns. Short to medium-term.\n• Hybrid MFs: Mix of equity and debt.\n• Index Funds: Track NIFTY 50. Low cost.\n• ELSS: Tax-saving funds with 3-year lock-in.\n• Sector Funds: Invest in specific sectors (IT, Pharma).\n\n3. SIP (Systematic Investment Plan)\nInvest a fixed amount regularly (monthly). Benefits: builds discipline, reduces risk through rupee-cost averaging, makes investing affordable.\n\n4. Average 10-Year Returns\n• Equity MFs: ~10–14% per year\n• Index Funds: ~10–12% per year\n• Hybrid Funds: ~8–10% per year\n• Debt MFs: ~5–7% per year\n\n5. Expense Ratio\nAnnual fee charged by the fund. Even a 1% higher fee can reduce final wealth significantly over long periods.\n\n6. Mutual Funds vs PMS\nMutual funds are for most people — low minimum investment, highly regulated, diversified. PMS is for wealthy investors with high minimums and more concentrated portfolios.`,
+  },
+  {
+    id: 11,
+    title: "Risk vs Reward — Understanding Volatility",
+    date: "05 Jan – 11 Jan 2026",
+    week: "Week 11",
+    tags: ["Investing", "Risk", "Volatility"],
+    tldr: "Volatility ≠ risk. Volatility is short-term noise. Risk is permanent loss. Patient investors profit from the panic of impatient ones.",
+    content: `1. Meaning of Risk in Finance\nRisk is the possibility that the actual return on an investment may be lower than expected. Every investment carries some level of risk.\n\n2. Risk–Reward Relationship\nLow risk → low but stable returns. High risk → high potential returns but higher chance of loss.\n\n3. What is Volatility?\nVolatility is the degree of price fluctuation of an investment over time. Stock prices changing daily = high volatility. Fixed deposits staying constant = low volatility.\n\n4. Volatility vs Actual Risk (Key Difference)\nVolatility: Short-term ups and downs in price.\nRisk: Permanent loss of capital.\nAn investment can be volatile in the short term but still safe in the long term if fundamentals are strong.\n\n5. Managing Risk Smartly\n• Diversification: Spread money across different assets\n• Long-term investing: Time reduces the impact of volatility\n• Goal-based investing: Match risk level to financial goals\n• Emotional control: Avoid decisions based on fear or greed\n\n6. Conclusion\nVolatility hurts impatient investors but benefits patient ones. Good investors manage risk instead of avoiding it completely.`,
+  },
+  {
+    id: 12,
+    title: "How the Indian Stock Market Works",
+    date: "12 Jan – 18 Jan 2026",
+    week: "Week 12",
+    tags: ["Stock Market", "India", "Investing"],
+    tldr: "NSE & BSE are just the venues. SEBI is the referee. CDSL/NSDL are the vaults. Brokers are your gateway. Know all the players before you play.",
+    content: `1. What is the Stock Market?\nThe stock market is a platform where shares of companies are bought and sold. It helps companies raise money and allows investors to grow wealth.\n\n2. NSE & BSE\nNSE (National Stock Exchange): India's largest by volume. NIFTY 50 index.\nBSE (Bombay Stock Exchange): Asia's oldest. SENSEX index.\n\n3. SEBI (Market Regulator)\nSEBI – Securities and Exchange Board of India. Regulates the market, protects investors, prevents fraud and insider trading.\n\n4. CDSL & NSDL (Depositories)\nShares are held in demat (digital) form. NSDL and CDSL store shares electronically and transfer ownership when trades happen. Think of them as banks for shares.\n\n5. Brokers\nBrokers act as middlemen between investors and stock exchanges. Examples: Zerodha, Groww, Angel One, ICICI Direct.\n\n6. Simple Flow\nInvestor → Broker → Stock Exchange (NSE/BSE)\nShares stored in → CDSL / NSDL\nMarket regulated by → SEBI\nCompanies raise money → Investors earn returns`,
+  },
+  {
+    id: 13,
+    title: "Basics of Macroeconomics",
+    date: "19 Jan – 25 Jan 2026",
+    week: "Week 13",
+    tags: ["Macroeconomics", "GDP", "Policy"],
+    tldr: "GDP measures an economy's size. Inflation measures its heat. Interest rates are the thermostat. Oil is India's Achilles heel.",
+    content: `1. What is Macroeconomics?\nMacroeconomics studies the overall economy of a country — growth, prices, income, employment, and government policies.\n\n2. Inflation & Deflation\nInflation: General rise in prices. Reduces purchasing power. Moderate inflation is normal.\nDeflation: General fall in prices. Harmful if prolonged.\n\n3. Interest Rates\nSet mainly by RBI (Repo Rate). High rates → loans expensive → spending reduces. Low rates → borrowing increases → spending rises.\n\n4. GDP & Nominal GDP\nGDP: Total value of all goods and services produced in a country. Nominal GDP: GDP at current market prices. Real GDP: Adjusted for inflation.\n\n5. Fiscal Deficit vs Fiscal Surplus\nFiscal Deficit: Government spending > Government income. Government borrows to fill the gap.\nFiscal Surplus: Government income > Government spending. Rare in developing countries.\n\n6. Oil Prices & India\nIndia imports most of its crude oil. When oil prices rise: import bill increases, inflation rises, rupee weakens.`,
+  },
+  {
+    id: 14,
+    title: "Behavioural Finance — Why We Make Bad Decisions",
+    date: "02 Feb – 08 Feb 2026",
+    week: "Week 14",
+    tags: ["Behavioural Finance", "Psychology", "Investing"],
+    tldr: "Fear makes you sell at the bottom. Greed makes you buy at the top. Herd mentality makes you do both. Know your biases before the market exploits them.",
+    content: `1. What is Behavioural Finance?\nBehavioural finance studies how human emotions and psychological biases affect financial decisions.\n\n2. Emotions & Investing\nFear: Causes panic selling during market falls.\nGreed: Leads to chasing high returns, buying overpriced assets.\nRegret: Fear of making wrong decisions, leads to hesitation.\n\n3. Common Behavioral Biases\n• Herd Mentality: Following what others do. Leads to bubbles and crashes.\n• Confirmation Bias: Seeking information that supports existing beliefs.\n• Loss Aversion: Losses hurt more than gains feel good.\n• Anchoring: Relying too much on first information (like buy price).\n• Overconfidence Bias: Belief that one can predict markets accurately.\n• Sunk Cost Fallacy: Continuing an investment just because money is already spent.\n\n4. How to Control Biases\n• Follow a long-term investment plan\n• Avoid reacting to short-term movements\n• Use diversification to reduce emotional risk\n• Make decisions based on data, not emotions`,
+  },
+  {
+    id: 15,
+    title: "Investing Fundamentals — Shares, Prices & Allocation",
+    date: "09 Feb – 15 Feb 2026",
+    week: "Week 15",
+    tags: ["Investing", "Stocks", "Fundamentals"],
+    tldr: "A share is part-ownership in a business. Prices move on demand and supply. Asset allocation is the fruit salad principle — variety reduces risk.",
+    content: `1. What is a Share?\nA share represents ownership in a company. When you buy a share, you become a part-owner and may benefit through price appreciation and dividends.\n\n2. How Stock Prices Move\nStock prices are decided by demand and supply. If more people want to buy → price goes up. If more people want to sell → price goes down.\nInfluenced by: Company earnings, news, investor emotions.\n\n3. Time Value of Money\nMoney today is worth more than money in the future because it can grow. The earlier you invest, the stronger compounding works.\n\n4. Asset Allocation — The Fruit Salad Principle\nSpread investments across different asset classes:\n• Equity for growth\n• Debt for stability\n• Gold or cash for safety\n\n5. Importance of Long-Term Investing\nMarkets fluctuate short-term, but long-term investing: reduces impact of volatility, allows compounding to work fully, builds disciplined wealth over time.`,
+  },
+  {
+    id: 16,
+    title: "Understanding Companies — P&L, Balance Sheet & Cash Flow",
+    date: "16 Feb – 01 Mar 2026",
+    week: "Week 16",
+    tags: ["Companies", "Financial Statements", "Analysis"],
+    tldr: "Revenue minus costs = profit. Assets minus liabilities = equity. But cash flow is the real truth — a company can look profitable while running out of cash.",
+    content: `1. What is a Company?\nA company is a legal business entity formed to provide goods or services. When you invest in shares, you are investing in the business performance.\n\n2. Profit & Loss Statement (P&L)\nRevenue: Total income from selling products or services.\nCosts/Expenses: Money spent to run the business.\nProfit = Revenue – Costs.\n\n3. Balance Sheet\nAssets: What the company owns (cash, machinery, buildings).\nLiabilities: What the company owes (loans, borrowings).\nOwner's Equity = Assets – Liabilities.\n\n4. Cash Flow\nCash flow refers to the actual movement of cash in and out of a business. A company may show profits but still face cash shortages if money is not actually received.\nOperating, Investing, and Financing activities.\n\n5. Moat & Competitive Advantage\nA moat is the long-term competitive advantage that protects a company from competitors. Types: Strong brand, cost advantages, patents, network effects.\n\n6. Conclusion\nCash flow reveals real financial strength. Moats explain how a company protects its market position. Together, they help identify sustainable businesses.`,
+  },
+];
+
+// ─── GAME SCENARIOS ───────────────────────────────────────────────────────────
+const SCENARIOS = [
+  { text: "Breaking: Central bank raises interest rates by 0.75%. Inflation fears spike.", buyMult: 0.85, sellMult: 1.0, holdMult: 0.92 },
+  { text: "Tech giant reports 40% earnings beat. Revenue guidance raised for next year.", buyMult: 1.35, sellMult: 1.05, holdMult: 1.18 },
+  { text: "Oil prices crash 20% on surprise OPEC output increase.", buyMult: 0.78, sellMult: 1.02, holdMult: 0.88 },
+  { text: "Massive insider buying detected in a blue-chip pharmaceutical company.", buyMult: 1.28, sellMult: 1.04, holdMult: 1.12 },
+  { text: "GDP growth misses estimates by 1.5%. Recession fears resurface.", buyMult: 0.82, sellMult: 1.06, holdMult: 0.9 },
+  { text: "Inflation falls to 3-year low. RBI signals rate cuts ahead.", buyMult: 1.22, sellMult: 0.97, holdMult: 1.1 },
+  { text: "Major bank collapses. Government steps in with emergency bailout.", buyMult: 0.7, sellMult: 1.1, holdMult: 0.8 },
+  { text: "New government announces massive infrastructure spending plan.", buyMult: 1.3, sellMult: 0.98, holdMult: 1.14 },
+  { text: "Geopolitical tensions escalate. Supply chains disrupted globally.", buyMult: 0.75, sellMult: 1.08, holdMult: 0.85 },
+  { text: "Blockbuster merger announced: two industry leaders joining forces.", buyMult: 1.4, sellMult: 1.02, holdMult: 1.2 },
+  { text: "Massive data breach at a major tech company. Stock halted.", buyMult: 0.68, sellMult: 1.12, holdMult: 0.78 },
+  { text: "Warren Buffett reveals large new position in energy sector.", buyMult: 1.25, sellMult: 0.99, holdMult: 1.1 },
+];
+
+// ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
+export default function FinanceLab() {
+  const [activeSection, setActiveSection] = useState<"wfj" | "ai" | "game" | "market">("wfj");
+  const [selectedArticle, setSelectedArticle] = useState<typeof ARTICLES[0] | null>(null);
+  const [requestTopic, setRequestTopic] = useState("");
+  const [requestSubmitted, setRequestSubmitted] = useState(false);
+  const [aiMessages, setAiMessages] = useState<{ role: "user" | "ai"; text: string }[]>([
+    { role: "ai", text: "Welcome to Finance Sensei. I only know what Shivaan has written in the WFJ. Ask me anything about those topics." }
+  ]);
+  const [aiInput, setAiInput] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+  const [gameState, setGameState] = useState<"idle" | "playing" | "over">("idle");
+  const [portfolio, setPortfolio] = useState(10000);
+  const [shares, setShares] = useState(0);
+  const [sharePrice, setSharePrice] = useState(100);
+  const [timeLeft, setTimeLeft] = useState(60);
+  const [scenarioIdx, setScenarioIdx] = useState(0);
+  const [lastAction, setLastAction] = useState("");
+  const [marketData, setMarketData] = useState([
+    { name: "NASDAQ", value: "19,218.17", change: "+0.42%", up: true },
+    { name: "NSE NIFTY 50", value: "22,147.00", change: "-0.18%", up: false },
+    { name: "Shanghai", value: "3,312.45", change: "+0.67%", up: true },
+    { name: "S&P 500", value: "5,011.12", change: "+0.31%", up: true },
+    { name: "Gold", value: "$3,021/oz", change: "+0.55%", up: true },
+    { name: "Silver", value: "$33.48/oz", change: "-0.22%", up: false },
+  ]);
+
+  const aiChatRef = useRef<HTMLDivElement>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Simulate market data flickering
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMarketData(prev => prev.map(item => {
+        const delta = (Math.random() - 0.49) * 0.3;
+        const sign = delta >= 0;
+        return { ...item, change: `${sign ? "+" : ""}${delta.toFixed(2)}%`, up: sign };
+      }));
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Game timer
+  useEffect(() => {
+    if (gameState === "playing") {
+      timerRef.current = setInterval(() => {
+        setTimeLeft(t => {
+          if (t <= 1) {
+            clearInterval(timerRef.current!);
+            setGameState("over");
+            return 0;
+          }
+          return t - 1;
+        });
+      }, 1000);
+    }
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [gameState]);
+
+  // Scroll AI chat
+  useEffect(() => {
+    if (aiChatRef.current) aiChatRef.current.scrollTop = aiChatRef.current.scrollHeight;
+  }, [aiMessages]);
+
+  const startGame = () => {
+    setPortfolio(10000);
+    setShares(0);
+    setSharePrice(100);
+    setTimeLeft(60);
+    setScenarioIdx(Math.floor(Math.random() * SCENARIOS.length));
+    setLastAction("");
+    setGameState("playing");
+  };
+
+  const gameAction = (action: "buy" | "sell" | "hold") => {
+    const scenario = SCENARIOS[scenarioIdx];
+    let mult = action === "buy" ? scenario.buyMult : action === "sell" ? scenario.sellMult : scenario.holdMult;
+    let newPortfolio = portfolio;
+    let newShares = shares;
+    let newPrice = Math.round(sharePrice * mult * 100) / 100;
+
+    if (action === "buy" && portfolio >= newPrice) {
+      const canBuy = Math.floor(portfolio / newPrice);
+      newShares = shares + canBuy;
+      newPortfolio = portfolio - canBuy * newPrice;
+      setLastAction(`Bought ${canBuy} shares at $${newPrice}`);
+    } else if (action === "sell" && shares > 0) {
+      newPortfolio = portfolio + shares * newPrice;
+      newShares = 0;
+      setLastAction(`Sold ${shares} shares at $${newPrice}`);
+    } else {
+      setLastAction(`Held position. Price moved to $${newPrice}`);
+    }
+
+    setPortfolio(Math.round(newPortfolio * 100) / 100);
+    setShares(newShares);
+    setSharePrice(newPrice);
+    setScenarioIdx(Math.floor(Math.random() * SCENARIOS.length));
+  };
+
+  const totalValue = portfolio + shares * sharePrice;
+  const pnl = totalValue - 10000;
+
+  const sendAiMessage = async () => {
+    if (!aiInput.trim() || aiLoading) return;
+    const userMsg = aiInput.trim();
+    setAiInput("");
+    setAiMessages(prev => [...prev, { role: "user", text: userMsg }]);
+    setAiLoading(true);
+
+    const articleContext = ARTICLES.map(a => `# ${a.title}\n${a.content}`).join("\n\n---\n\n");
+
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1000,
+          system: `You are Finance Sensei, an AI assistant that ONLY answers questions based on the Weekly Finance Journal (WFJ) articles written by Shivaan Patwa. You have access to the following articles:\n\n${articleContext}\n\nRules:\n1. Only answer questions that are directly covered in the articles above.\n2. If the topic is not covered in the articles, respond with exactly: "That topic hasn't been covered yet in the WFJ. Check back when Shivaan writes about it!"\n3. Keep answers concise, clear, and reference the specific article when possible.\n4. Do not use outside knowledge — only information from the articles above.`,
+          messages: [{ role: "user", content: userMsg }],
+        }),
+      });
+      const data = await res.json();
+      const reply = data.content?.[0]?.text || "Something went wrong. Try again.";
+      setAiMessages(prev => [...prev, { role: "ai", text: reply }]);
+    } catch {
+      setAiMessages(prev => [...prev, { role: "ai", text: "Connection error. Please try again." }]);
+    }
+    setAiLoading(false);
+  };
+
+  const submitRequest = () => {
+    if (!requestTopic.trim()) return;
+    setRequestSubmitted(true);
+    setRequestTopic("");
+    setTimeout(() => setRequestSubmitted(false), 3000);
+  };
+
+  return (
+    <main style={{ background: "#07090e", color: "#dde4ee", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&family=DM+Mono:wght@400;500&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-thumb { background: #1a6fff; border-radius: 2px; }
+
+        .nav-tab {
+          padding: 0.6rem 1.25rem;
+          border-radius: 8px;
+          font-size: 0.82rem;
+          font-weight: 600;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          cursor: pointer;
+          border: 1px solid transparent;
+          transition: all 0.2s;
+          background: transparent;
+          color: #556677;
+        }
+        .nav-tab:hover { color: #dde4ee; border-color: #1a1e2e; }
+        .nav-tab.active { background: #0f1520; color: #1a6fff; border-color: #1a6fff44; }
+
+        .article-row {
+          display: flex;
+          align-items: center;
+          gap: 1.25rem;
+          padding: 1rem 1.25rem;
+          border-bottom: 1px solid #0f1520;
+          cursor: pointer;
+          transition: background 0.2s;
+          border-radius: 8px;
+        }
+        .article-row:hover { background: #0d1117; }
+
+        .tag {
+          display: inline-block;
+          padding: 0.2rem 0.6rem;
+          border-radius: 4px;
+          font-size: 0.7rem;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          background: #0f1a2e;
+          color: #1a6fff;
+          border: 1px solid #1a6fff22;
+        }
+
+        .modal-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(7,9,14,0.92);
+          z-index: 1000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1rem;
+          backdrop-filter: blur(8px);
+        }
+        .modal {
+          background: #0d1117;
+          border: 1px solid #1a1e2e;
+          border-radius: 16px;
+          max-width: 720px;
+          width: 100%;
+          max-height: 85vh;
+          overflow-y: auto;
+          padding: 2.5rem;
+        }
+
+        .ai-bubble-user {
+          background: #1a6fff;
+          color: #fff;
+          border-radius: 12px 12px 2px 12px;
+          padding: 0.75rem 1rem;
+          font-size: 0.88rem;
+          max-width: 80%;
+          align-self: flex-end;
+          line-height: 1.6;
+        }
+        .ai-bubble-ai {
+          background: #0d1117;
+          border: 1px solid #1a1e2e;
+          color: #aabbc8;
+          border-radius: 12px 12px 12px 2px;
+          padding: 0.75rem 1rem;
+          font-size: 0.88rem;
+          max-width: 85%;
+          align-self: flex-start;
+          line-height: 1.6;
+          white-space: pre-wrap;
+        }
+
+        .game-btn {
+          flex: 1;
+          padding: 1rem;
+          border-radius: 10px;
+          font-weight: 700;
+          font-size: 1rem;
+          cursor: pointer;
+          border: none;
+          transition: all 0.15s;
+          letter-spacing: 0.04em;
+        }
+        .game-btn:hover { transform: translateY(-3px); }
+        .btn-buy { background: #00c853; color: #000; }
+        .btn-sell { background: #ff3d3d; color: #fff; }
+        .btn-hold { background: #1a6fff; color: #fff; }
+
+        .market-card {
+          background: #0d1117;
+          border: 1px solid #111827;
+          border-radius: 10px;
+          padding: 1rem 1.25rem;
+          transition: border-color 0.3s;
+        }
+        .market-card:hover { border-color: #1a6fff33; }
+
+        .input-field {
+          background: #0d1117;
+          border: 1px solid #1a1e2e;
+          border-radius: 8px;
+          color: #dde4ee;
+          padding: 0.75rem 1rem;
+          font-size: 0.9rem;
+          font-family: 'DM Sans', sans-serif;
+          outline: none;
+          transition: border-color 0.2s;
+        }
+        .input-field:focus { border-color: #1a6fff; }
+
+        .cta-btn {
+          padding: 0.75rem 1.5rem;
+          border-radius: 8px;
+          font-weight: 600;
+          font-size: 0.88rem;
+          cursor: pointer;
+          border: none;
+          transition: all 0.2s;
+        }
+        .cta-primary { background: #1a6fff; color: #fff; }
+        .cta-primary:hover { background: #2d7dff; transform: translateY(-1px); }
+        .cta-secondary { background: #0d1117; color: #8899aa; border: 1px solid #1a1e2e; }
+        .cta-secondary:hover { border-color: #1a6fff44; color: #dde4ee; }
+
+        .section-tag {
+          font-size: 0.7rem;
+          font-weight: 700;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          color: #1a6fff;
+          display: block;
+          margin-bottom: 0.5rem;
+        }
+      `}</style>
+
+      {/* HEADER */}
+      <div style={{ borderBottom: "1px solid #0f1520", padding: "1.5rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div>
+          <a href="/" style={{ color: "#556677", fontSize: "0.8rem", textDecoration: "none", letterSpacing: "0.08em" }}>← SP.</a>
+          <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.5rem, 4vw, 2.2rem)", fontWeight: 900, marginTop: "0.25rem" }}>
+            The Finance <span style={{ color: "#1a6fff" }}>Lab</span>
+          </h1>
+        </div>
+        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+          {(["wfj", "ai", "game", "market"] as const).map(s => (
+            <button key={s} className={`nav-tab ${activeSection === s ? "active" : ""}`} onClick={() => setActiveSection(s)}>
+              {s === "wfj" ? "📰 WFJ" : s === "ai" ? "🤖 Sensei" : s === "game" ? "📈 Game" : "🌍 Markets"}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 900, margin: "0 auto", padding: "2rem" }}>
+
+        {/* ── SECTION: WFJ ── */}
+        {activeSection === "wfj" && (
+          <div>
+            <span className="section-tag">Weekly Finance Journal</span>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.8rem", fontWeight: 700, marginBottom: "0.5rem" }}>
+              {ARTICLES.length} Articles Published
+            </h2>
+            <p style={{ color: "#556677", fontSize: "0.88rem", marginBottom: "2rem" }}>Click any article to read in full.</p>
+
+            <div style={{ marginBottom: "3rem" }}>
+              {ARTICLES.map((a) => (
+                <div key={a.id} className="article-row" onClick={() => setSelectedArticle(a)}>
+                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.75rem", color: "#1a6fff", minWidth: 60 }}>{a.week}</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 600, fontSize: "0.95rem", marginBottom: "0.25rem" }}>{a.title}</div>
+                    <div style={{ fontSize: "0.78rem", color: "#556677", marginBottom: "0.4rem" }}>{a.date}</div>
+                    <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+                      {a.tags.map(t => <span key={t} className="tag">{t}</span>)}
+                    </div>
+                  </div>
+                  <div style={{ color: "#1a6fff", fontSize: "1.2rem" }}>→</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Topic Request */}
+            <div style={{ background: "#0d1117", border: "1px solid #111827", borderRadius: "16px", padding: "2rem" }}>
+              <span className="section-tag">Community</span>
+              <h3 style={{ fontWeight: 700, fontSize: "1.1rem", marginBottom: "0.5rem" }}>Request a Topic</h3>
+              <p style={{ color: "#556677", fontSize: "0.85rem", marginBottom: "1.25rem" }}>What finance topic do you want Shivaan to cover next?</p>
+              <div style={{ display: "flex", gap: "0.75rem" }}>
+                <input
+                  className="input-field"
+                  style={{ flex: 1 }}
+                  placeholder="e.g. Cryptocurrency, Real Estate investing..."
+                  value={requestTopic}
+                  onChange={e => setRequestTopic(e.target.value)}
+                  onKeyDown={e => e.key === "Enter" && submitRequest()}
+                />
+                <button className="cta-btn cta-primary" onClick={submitRequest}>Submit</button>
+              </div>
+              {requestSubmitted && (
+                <p style={{ color: "#00c853", fontSize: "0.82rem", marginTop: "0.75rem" }}>✓ Request submitted! Shivaan will consider it for a future WFJ.</p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* ── SECTION: AI ── */}
+        {activeSection === "ai" && (
+          <div>
+            <span className="section-tag">AI Assistant</span>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.8rem", fontWeight: 700, marginBottom: "0.25rem" }}>Finance Sensei</h2>
+            <p style={{ color: "#556677", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
+              Trained exclusively on Shivaan's WFJ articles. Ask about anything covered in the journal.
+            </p>
+
+            <div ref={aiChatRef} style={{ background: "#0d1117", border: "1px solid #111827", borderRadius: "16px", padding: "1.5rem", height: 420, overflowY: "auto", display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "1rem" }}>
+              {aiMessages.map((m, i) => (
+                <div key={i} className={m.role === "user" ? "ai-bubble-user" : "ai-bubble-ai"}>{m.text}</div>
+              ))}
+              {aiLoading && <div className="ai-bubble-ai" style={{ color: "#1a6fff" }}>Thinking...</div>}
+            </div>
+
+            <div style={{ display: "flex", gap: "0.75rem" }}>
+              <input
+                className="input-field"
+                style={{ flex: 1 }}
+                placeholder="Ask about inflation, compounding, mutual funds..."
+                value={aiInput}
+                onChange={e => setAiInput(e.target.value)}
+                onKeyDown={e => e.key === "Enter" && sendAiMessage()}
+              />
+              <button className="cta-btn cta-primary" onClick={sendAiMessage} disabled={aiLoading}>Send</button>
+            </div>
+
+            <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginTop: "1rem" }}>
+              {["What is compound interest?", "Explain the Rule of 72", "What is a moat?", "How does inflation affect savings?"].map(q => (
+                <button key={q} className="cta-btn cta-secondary" style={{ fontSize: "0.75rem", padding: "0.4rem 0.8rem" }}
+                  onClick={() => { setAiInput(q); }}>
+                  {q}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── SECTION: GAME ── */}
+        {activeSection === "game" && (
+          <div>
+            <span className="section-tag">Portfolio Panic</span>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.8rem", fontWeight: 700, marginBottom: "0.25rem" }}>Portfolio Panic 📈</h2>
+            <p style={{ color: "#556677", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
+              Start with $10,000. React to market events. Buy, sell, or hold. 60 seconds. Grow your wealth.
+            </p>
+
+            {gameState === "idle" && (
+              <div style={{ textAlign: "center", padding: "4rem 2rem", background: "#0d1117", border: "1px solid #111827", borderRadius: "16px" }}>
+                <div style={{ fontSize: "4rem", marginBottom: "1rem" }}>📊</div>
+                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", fontWeight: 700, marginBottom: "1rem" }}>Ready to trade?</h3>
+                <p style={{ color: "#556677", marginBottom: "2rem", fontSize: "0.9rem" }}>Market events will flash. You decide: Buy, Sell, or Hold.</p>
+                <button className="cta-btn cta-primary" style={{ fontSize: "1.1rem", padding: "1rem 3rem" }} onClick={startGame}>Start Trading →</button>
+              </div>
+            )}
+
+            {gameState === "playing" && (
+              <div>
+                {/* HUD */}
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0.75rem", marginBottom: "1.5rem" }}>
+                  {[
+                    { label: "Cash", value: `$${portfolio.toFixed(0)}` },
+                    { label: "Shares", value: `${shares} @ $${sharePrice.toFixed(0)}` },
+                    { label: "Total Value", value: `$${totalValue.toFixed(0)}` },
+                    { label: "P&L", value: `${pnl >= 0 ? "+" : ""}$${pnl.toFixed(0)}`, color: pnl >= 0 ? "#00c853" : "#ff3d3d" },
+                  ].map((item, i) => (
+                    <div key={i} style={{ background: "#0d1117", border: "1px solid #111827", borderRadius: "10px", padding: "0.875rem", textAlign: "center" }}>
+                      <div style={{ fontSize: "0.7rem", color: "#556677", marginBottom: "0.25rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>{item.label}</div>
+                      <div style={{ fontFamily: "'DM Mono', monospace", fontWeight: 600, color: item.color || "#dde4ee" }}>{item.value}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Timer */}
+                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.5rem" }}>
+                  <div style={{ flex: 1, height: 6, background: "#0d1117", borderRadius: 3, overflow: "hidden" }}>
+                    <div style={{ height: "100%", background: timeLeft > 20 ? "#1a6fff" : "#ff3d3d", width: `${(timeLeft / 60) * 100}%`, transition: "width 1s linear, background 0.3s" }} />
+                  </div>
+                  <div style={{ fontFamily: "'DM Mono', monospace", color: timeLeft <= 20 ? "#ff3d3d" : "#dde4ee", fontSize: "1.1rem", fontWeight: 700, minWidth: 36 }}>{timeLeft}s</div>
+                </div>
+
+                {/* Scenario */}
+                <div style={{ background: "#0d1117", border: "1px solid #1a6fff33", borderRadius: "12px", padding: "1.5rem", marginBottom: "1.5rem" }}>
+                  <div style={{ fontSize: "0.7rem", color: "#1a6fff", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.5rem" }}>BREAKING NEWS</div>
+                  <p style={{ fontSize: "1.05rem", fontWeight: 500, lineHeight: 1.5 }}>{SCENARIOS[scenarioIdx].text}</p>
+                  {lastAction && <p style={{ fontSize: "0.78rem", color: "#556677", marginTop: "0.75rem" }}>Last: {lastAction}</p>}
+                </div>
+
+                {/* Buttons */}
+                <div style={{ display: "flex", gap: "0.75rem" }}>
+                  <button className="game-btn btn-buy" onClick={() => gameAction("buy")} disabled={portfolio < sharePrice}>BUY</button>
+                  <button className="game-btn btn-hold" onClick={() => gameAction("hold")}>HOLD</button>
+                  <button className="game-btn btn-sell" onClick={() => gameAction("sell")} disabled={shares === 0}>SELL</button>
+                </div>
+              </div>
+            )}
+
+            {gameState === "over" && (
+              <div style={{ textAlign: "center", padding: "3rem 2rem", background: "#0d1117", border: "1px solid #111827", borderRadius: "16px" }}>
+                <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>{pnl >= 0 ? "🚀" : "📉"}</div>
+                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", fontWeight: 900, marginBottom: "0.5rem" }}>Time's Up!</h3>
+                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "2.5rem", fontWeight: 700, color: pnl >= 0 ? "#00c853" : "#ff3d3d", marginBottom: "0.5rem" }}>
+                  ${totalValue.toFixed(0)}
+                </div>
+                <div style={{ color: pnl >= 0 ? "#00c853" : "#ff3d3d", fontSize: "1.1rem", marginBottom: "2rem" }}>
+                  {pnl >= 0 ? "+" : ""}${pnl.toFixed(0)} ({((pnl / 10000) * 100).toFixed(1)}%)
+                </div>
+                <p style={{ color: "#556677", marginBottom: "2rem", fontSize: "0.9rem" }}>
+                  {pnl > 2000 ? "🔥 Elite trader! You crushed the market." : pnl > 0 ? "📊 Solid performance. You beat cash!" : "💡 Tough session. The market humbled you."}
+                </p>
+                <button className="cta-btn cta-primary" style={{ fontSize: "1rem", padding: "0.875rem 2.5rem" }} onClick={startGame}>Play Again</button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ── SECTION: MARKET ── */}
+        {activeSection === "market" && (
+          <div>
+            <span className="section-tag">Live Markets</span>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.8rem", fontWeight: 700, marginBottom: "0.25rem" }}>Market Pulse</h2>
+            <p style={{ color: "#556677", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
+              Simulated live prices. Updates every 3 seconds. <span style={{ color: "#1a6fff" }}>●</span> Live
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1rem" }}>
+              {marketData.map((m, i) => (
+                <div key={i} className="market-card">
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
+                    <span style={{ fontSize: "0.75rem", color: "#556677", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>{m.name}</span>
+                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#00c853", display: "inline-block" }} />
+                  </div>
+                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "1.4rem", fontWeight: 700, color: "#dde4ee", marginBottom: "0.25rem" }}>{m.value}</div>
+                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.85rem", color: m.up ? "#00c853" : "#ff3d3d", fontWeight: 600 }}>{m.change}</div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ marginTop: "2rem", background: "#0d1117", border: "1px solid #111827", borderRadius: "16px", padding: "1.5rem" }}>
+              <h3 style={{ fontWeight: 700, marginBottom: "1rem", fontSize: "1rem" }}>📌 Market Context</h3>
+              <p style={{ color: "#667788", fontSize: "0.85rem", lineHeight: 1.8 }}>
+                Note: Market data shown is simulated for educational purposes. For real-time data, visit NSE India, BSE India, NASDAQ.com, or financial platforms like Zerodha Kite or Bloomberg.
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ARTICLE MODAL */}
+      {selectedArticle && (
+        <div className="modal-overlay" onClick={() => setSelectedArticle(null)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.5rem" }}>
+              <div>
+                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.75rem", color: "#1a6fff", marginBottom: "0.5rem" }}>{selectedArticle.week} · {selectedArticle.date}</div>
+                <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", fontWeight: 700, lineHeight: 1.3 }}>{selectedArticle.title}</h2>
+              </div>
+              <button onClick={() => setSelectedArticle(null)} style={{ background: "none", border: "1px solid #1a1e2e", color: "#8899aa", cursor: "pointer", borderRadius: "8px", padding: "0.4rem 0.75rem", fontSize: "0.9rem" }}>✕</button>
+            </div>
+
+            <div style={{ background: "#070a10", border: "1px solid #1a6fff22", borderRadius: "10px", padding: "1rem 1.25rem", marginBottom: "1.5rem" }}>
+              <div style={{ fontSize: "0.7rem", color: "#1a6fff", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.4rem" }}>TL;DR</div>
+              <p style={{ color: "#aabbc8", fontSize: "0.9rem", lineHeight: 1.6, fontStyle: "italic" }}>{selectedArticle.tldr}</p>
+            </div>
+
+            <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap", marginBottom: "1.5rem" }}>
+              {selectedArticle.tags.map(t => <span key={t} className="tag">{t}</span>)}
+            </div>
+
+            <div style={{ color: "#8899aa", fontSize: "0.9rem", lineHeight: 1.9, whiteSpace: "pre-wrap" }}>{selectedArticle.content}</div>
+          </div>
+        </div>
+      )}
+    </main>
+  );
+}
