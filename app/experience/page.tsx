@@ -80,6 +80,13 @@ const SKILLS = [
 
 const FILTERS = ["All", "Professional", "Leadership"];
 
+const ODYSSEY_MENTOR_PHOTOS = [
+  "/odyssey-mentor-photo-1.webp",
+  "/odyssey-mentor-photo-2.webp",
+  "/odyssey-mentor-photo-3.webp",
+];
+const ODYSSEY_ALBUM_URL = "https://drive.google.com/drive/u/0/folders/1dewYNAFuHRvArsHWRPgMNx6FP3ALL5lf";
+
 const CATEGORY_COLOR: Record<string, string> = {
   Professional: "#1a6fff",
   Leadership: "#00c853",
@@ -90,6 +97,7 @@ export default function ExperienceVault() {
   const [activeSkill, setActiveSkill] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [visible, setVisible] = useState<Record<number, boolean>>({});
+  const [carouselIndex, setCarouselIndex] = useState(0);
   const itemRefs = useRef<Record<number, HTMLDivElement | null>>({});
 
   useEffect(() => {
@@ -268,6 +276,73 @@ export default function ExperienceVault() {
           from { opacity: 0; transform: translateY(-6px); }
           to { opacity: 1; transform: translateY(0); }
         }
+
+        .carousel-wrap { margin-top: 1rem; }
+        .carousel-inner {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 16/9;
+          background: #0a0d14;
+          border-radius: 10px;
+          overflow: hidden;
+        }
+        .carousel-img {
+          width: 100%; height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+        .carousel-arrow {
+          position: absolute;
+          top: 50%; transform: translateY(-50%);
+          background: rgba(0,0,0,0.55);
+          border: 1px solid rgba(255,255,255,0.12);
+          color: #fff;
+          width: 36px; height: 36px;
+          border-radius: 50%;
+          cursor: pointer;
+          font-size: 1.3rem;
+          line-height: 1;
+          display: flex; align-items: center; justify-content: center;
+          transition: background 0.2s;
+          z-index: 2;
+        }
+        .carousel-arrow:hover { background: rgba(26,111,255,0.65); border-color: #1a6fff; }
+        .carousel-left { left: 0.625rem; }
+        .carousel-right { right: 0.625rem; }
+        .carousel-dots {
+          display: flex;
+          justify-content: center;
+          gap: 0.5rem;
+          margin-top: 0.625rem;
+        }
+        .carousel-dot {
+          width: 6px; height: 6px;
+          border-radius: 50%;
+          background: #1a1e2e;
+          cursor: pointer;
+          border: none;
+          padding: 0;
+          transition: background 0.2s;
+        }
+        .carousel-dot.active { background: #1a6fff; }
+        .album-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-top: 0.875rem;
+          padding: 0.5rem 1.1rem;
+          border-radius: 8px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: #8899aa;
+          border: 1px solid #1a1e2e;
+          background: transparent;
+          text-decoration: none;
+          transition: all 0.2s;
+          font-family: 'DM Sans', sans-serif;
+          cursor: pointer;
+        }
+        .album-btn:hover { border-color: #1a6fff44; color: #dde4ee; }
       `}</style>
 
       {/* HEADER */}
@@ -354,11 +429,51 @@ export default function ExperienceVault() {
                         Key Insight
                       </div>
                       <p style={{ fontSize: "0.875rem", color: "#aabbc8", lineHeight: 1.8, marginBottom: "1rem" }}>{exp.insight}</p>
-                      <div className="photo-placeholder">
-                        <span style={{ fontSize: "1.5rem" }}>📷</span>
-                        <span>Photo placeholder — AirDrop to Mac, drop in /public folder</span>
-                        <span style={{ fontSize: "0.68rem", color: "#223344" }}>Recommended: 1200×675px</span>
-                      </div>
+                      {exp.id === 1 ? (
+                        <div className="carousel-wrap" onClick={(e) => e.stopPropagation()}>
+                          <div className="carousel-inner">
+                            <img
+                              src={ODYSSEY_MENTOR_PHOTOS[carouselIndex]}
+                              alt={`Odyssey Mentor photo ${carouselIndex + 1}`}
+                              className="carousel-img"
+                            />
+                            <button
+                              className="carousel-arrow carousel-left"
+                              onClick={() => setCarouselIndex((carouselIndex - 1 + ODYSSEY_MENTOR_PHOTOS.length) % ODYSSEY_MENTOR_PHOTOS.length)}
+                              aria-label="Previous photo"
+                            >‹</button>
+                            <button
+                              className="carousel-arrow carousel-right"
+                              onClick={() => setCarouselIndex((carouselIndex + 1) % ODYSSEY_MENTOR_PHOTOS.length)}
+                              aria-label="Next photo"
+                            >›</button>
+                          </div>
+                          <div className="carousel-dots">
+                            {ODYSSEY_MENTOR_PHOTOS.map((_, i) => (
+                              <button
+                                key={i}
+                                className={`carousel-dot ${i === carouselIndex ? "active" : ""}`}
+                                onClick={() => setCarouselIndex(i)}
+                                aria-label={`Photo ${i + 1}`}
+                              />
+                            ))}
+                          </div>
+                          <a
+                            href={ODYSSEY_ALBUM_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="album-btn"
+                          >
+                            📁 View Full Album →
+                          </a>
+                        </div>
+                      ) : (
+                        <div className="photo-placeholder">
+                          <span style={{ fontSize: "1.5rem" }}>📷</span>
+                          <span>Photo placeholder — AirDrop to Mac, drop in /public folder</span>
+                          <span style={{ fontSize: "0.68rem", color: "#223344" }}>Recommended: 1200×675px</span>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
