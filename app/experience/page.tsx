@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
 const EXPERIENCES = [
   {
@@ -286,11 +287,6 @@ export default function ExperienceVault() {
           border-radius: 10px;
           overflow: hidden;
         }
-        .carousel-img {
-          width: 100%; height: 100%;
-          object-fit: cover;
-          display: block;
-        }
         .carousel-arrow {
           position: absolute;
           top: 50%; transform: translateY(-50%);
@@ -432,10 +428,12 @@ export default function ExperienceVault() {
                       {exp.id === 1 ? (
                         <div className="carousel-wrap" onClick={(e) => e.stopPropagation()}>
                           <div className="carousel-inner">
-                            <img
+                            <Image
                               src={ODYSSEY_MENTOR_PHOTOS[carouselIndex]}
                               alt={`Odyssey Mentor photo ${carouselIndex + 1}`}
-                              className="carousel-img"
+                              fill
+                              style={{ objectFit: "cover" }}
+                              sizes="(max-width: 768px) 100vw, 700px"
                             />
                             <button
                               className="carousel-arrow carousel-left"
