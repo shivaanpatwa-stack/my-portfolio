@@ -19,11 +19,11 @@ const EXPERIENCES = [
     id: 2,
     year: "Jun–Jul 2025",
     title: "CISV Step Up: Panheli",
-    role: "Project Milaap — Global Leadership Camp",
+    role: "Participant",
     category: "Leadership",
-    summary: "Selected for an intensive global leadership camp focused on peace-building and cross-cultural collaboration with international delegations.",
-    insight: "Working with delegates from across the world on Project Milaap taught me that negotiation isn't about winning arguments — it's about finding the shared story underneath conflicting positions. A skill that directly sharpened my MUN game.",
-    skills: ["#ConflictResolution", "#GlobalCitizenship", "#ProjectManagement"],
+    summary: "A 23-day international peace education camp where delegations from 10 countries — Italy, Spain, Mongolia, Vietnam, Sweden, Latvia, Mexico and more — came together to plan and run activities around a shared theme. Our camp's theme was Project Milaap. CISV Step Up is designed for teenagers to take a leading role in organising activities rooted in peace education, cross-cultural exchange, and global issues.",
+    insight: "Being in a room with teenagers from Mongolia, Italy, Sweden, and Mexico — none of you sharing a first language — and still managing to build something together taught me that communication is mostly not words. You read body language, you find humour, you create shared context from scratch. The camp theme was peace, but the real lesson was that collaboration at its core is about choosing to understand someone before you need to.",
+    skills: ["#PeaceEducation", "#CrossCultural", "#Leadership"],
     photo: null,
     highlight: false,
   },
@@ -88,6 +88,18 @@ const ODYSSEY_MENTOR_PHOTOS = [
 ];
 const ODYSSEY_ALBUM_URL = "https://drive.google.com/drive/u/0/folders/1dewYNAFuHRvArsHWRPgMNx6FP3ALL5lf";
 
+const CISV_PHOTOS = [
+  "/CISV-photo-1.jpg",
+  "/CISV-photo-2.JPG",
+  "/CISV-photo-3.JPG",
+  "/CISV-photo-4.JPG",
+];
+
+const CAROUSEL_DATA: Record<number, { photos: string[]; albumUrl?: string }> = {
+  1: { photos: ODYSSEY_MENTOR_PHOTOS, albumUrl: ODYSSEY_ALBUM_URL },
+  2: { photos: CISV_PHOTOS },
+};
+
 const CATEGORY_COLOR: Record<string, string> = {
   Professional: "#1a6fff",
   Leadership: "#00c853",
@@ -98,7 +110,7 @@ export default function ExperienceVault() {
   const [activeSkill, setActiveSkill] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [visible, setVisible] = useState<Record<number, boolean>>({});
-  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [carouselIndexes, setCarouselIndexes] = useState<Record<number, number>>({});
   const itemRefs = useRef<Record<number, HTMLDivElement | null>>({});
 
   useEffect(() => {
@@ -425,53 +437,66 @@ export default function ExperienceVault() {
                         Key Insight
                       </div>
                       <p style={{ fontSize: "0.875rem", color: "#aabbc8", lineHeight: 1.8, marginBottom: "1rem" }}>{exp.insight}</p>
-                      {exp.id === 1 ? (
-                        <div className="carousel-wrap" onClick={(e) => e.stopPropagation()}>
-                          <div className="carousel-inner">
-                            <Image
-                              src={ODYSSEY_MENTOR_PHOTOS[carouselIndex]}
-                              alt={`Odyssey Mentor photo ${carouselIndex + 1}`}
-                              fill
-                              style={{ objectFit: carouselIndex === 2 ? "contain" : "cover", objectPosition: carouselIndex === 2 ? "center" : "center", background: carouselIndex === 2 ? "#0a0d14" : "transparent" }}
-                              sizes="(max-width: 768px) 100vw, 700px"
-                            />
-                            <button
-                              className="carousel-arrow carousel-left"
-                              onClick={() => setCarouselIndex((carouselIndex - 1 + ODYSSEY_MENTOR_PHOTOS.length) % ODYSSEY_MENTOR_PHOTOS.length)}
-                              aria-label="Previous photo"
-                            >‹</button>
-                            <button
-                              className="carousel-arrow carousel-right"
-                              onClick={() => setCarouselIndex((carouselIndex + 1) % ODYSSEY_MENTOR_PHOTOS.length)}
-                              aria-label="Next photo"
-                            >›</button>
-                          </div>
-                          <div className="carousel-dots">
-                            {ODYSSEY_MENTOR_PHOTOS.map((_, i) => (
-                              <button
-                                key={i}
-                                className={`carousel-dot ${i === carouselIndex ? "active" : ""}`}
-                                onClick={() => setCarouselIndex(i)}
-                                aria-label={`Photo ${i + 1}`}
+                      {(() => {
+                        const carousel = CAROUSEL_DATA[exp.id];
+                        if (!carousel) {
+                          return (
+                            <div className="photo-placeholder">
+                              <span style={{ fontSize: "1.5rem" }}>📷</span>
+                              <span>Photo placeholder — AirDrop to Mac, drop in /public folder</span>
+                              <span style={{ fontSize: "0.68rem", color: "#223344" }}>Recommended: 1200×675px</span>
+                            </div>
+                          );
+                        }
+                        const idx = carouselIndexes[exp.id] ?? 0;
+                        const setIdx = (i: number) => setCarouselIndexes(prev => ({ ...prev, [exp.id]: i }));
+                        return (
+                          <div className="carousel-wrap" onClick={(e) => e.stopPropagation()}>
+                            <div className="carousel-inner">
+                              <Image
+                                src={carousel.photos[idx]}
+                                alt={`${exp.title} photo ${idx + 1}`}
+                                fill
+                                style={{
+                                  objectFit: exp.id === 1 && idx === 2 ? "contain" : "cover",
+                                  background: exp.id === 1 && idx === 2 ? "#0a0d14" : "transparent",
+                                }}
+                                sizes="(max-width: 768px) 100vw, 700px"
                               />
-                            ))}
+                              <button
+                                className="carousel-arrow carousel-left"
+                                onClick={() => setIdx((idx - 1 + carousel.photos.length) % carousel.photos.length)}
+                                aria-label="Previous photo"
+                              >‹</button>
+                              <button
+                                className="carousel-arrow carousel-right"
+                                onClick={() => setIdx((idx + 1) % carousel.photos.length)}
+                                aria-label="Next photo"
+                              >›</button>
+                            </div>
+                            <div className="carousel-dots">
+                              {carousel.photos.map((_, i) => (
+                                <button
+                                  key={i}
+                                  className={`carousel-dot ${i === idx ? "active" : ""}`}
+                                  onClick={() => setIdx(i)}
+                                  aria-label={`Photo ${i + 1}`}
+                                />
+                              ))}
+                            </div>
+                            {carousel.albumUrl && (
+                              <a
+                                href={carousel.albumUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="album-btn"
+                              >
+                                📁 View Full Album →
+                              </a>
+                            )}
                           </div>
-                          <a
-                            href={ODYSSEY_ALBUM_URL}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="album-btn"
-                          >
-                            📁 View Full Album →
-                          </a>
-                        </div>
-                      ) : (
-                        <div className="photo-placeholder">
-                          <span style={{ fontSize: "1.5rem" }}>📷</span>
-                          <span>Photo placeholder — AirDrop to Mac, drop in /public folder</span>
-                          <span style={{ fontSize: "0.68rem", color: "#223344" }}>Recommended: 1200×675px</span>
-                        </div>
-                      )}
+                        );
+                      })()}
                     </div>
                   )}
                 </div>
