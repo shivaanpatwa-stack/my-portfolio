@@ -5,8 +5,6 @@ const NAV_LINKS = [
   { label: "Finance Lab", href: "/finance" },
   { label: "MUN Arena", href: "/mun" },
   { label: "Experience", href: "/experience" },
-  { label: "Passport", href: "/passport" },
-  { label: "Lifestyle", href: "/lifestyle" },
 ];
 
 const STATS = [
@@ -199,18 +197,6 @@ export default function Home() {
           margin-bottom: 0.5rem;
         }
 
-        .hero-number {
-          font-family: 'Playfair Display', serif;
-          font-size: clamp(4rem, 12vw, 9rem);
-          font-weight: 900;
-          line-height: 0.9;
-          letter-spacing: -0.03em;
-          background: linear-gradient(135deg, #fff 60%, #1a6fff);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
         .social-icon {
           width: 44px; height: 44px;
           border-radius: 10px;
@@ -325,7 +311,7 @@ export default function Home() {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <a href="mailto:shivaanpatwa@email.com" className="cta-btn cta-primary" style={{ fontSize: "0.8rem", padding: "0.6rem 1.2rem" }}>
+          <a href="mailto:shivaanpatwa@gmail.com" className="cta-btn cta-primary" style={{ fontSize: "0.8rem", padding: "0.6rem 1.2rem" }}>
             Contact
           </a>
           <button
@@ -368,7 +354,7 @@ export default function Home() {
           <div className="hero-cta-group" style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
             <a href="/finance" className="cta-btn cta-primary">The Finance Lab →</a>
             <a href="/mun" className="cta-btn cta-secondary">The MUN Arena →</a>
-            <a href="/passport" className="cta-btn cta-secondary">The Passport →</a>
+            <a href="/experience" className="cta-btn cta-secondary">Experience →</a>
           </div>
         </section>
 

@@ -77,7 +77,6 @@ export default function MUNArena() {
   const [requestError, setRequestError] = useState<string | null>(null);
   const [gavelActive, setGavelActive] = useState(false);
   const gavelTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const keyBuffer = useRef("");
   const gPressTimes = useRef<number[]>([]);
 
   // Gavel easter egg
@@ -87,10 +86,7 @@ export default function MUNArena() {
       const tagName = target?.tagName?.toLowerCase();
       const isTextInput =
         tagName === "input" || tagName === "textarea" || tagName === "select" || !!(target as any)?.isContentEditable;
-      if (isTextInput) {
-        keyBuffer.current = "";
-        return;
-      }
+      if (isTextInput) return;
 
       if (e.key.toLowerCase() !== "g") return;
 
@@ -306,11 +302,11 @@ export default function MUNArena() {
           margin-top: 1rem;
           text-align: center;
           color: #ffffff;
-          fontFamily: "'DM Mono', monospace";
-          fontSize: 0.95rem;
-          fontWeight: 700;
-          letterSpacing: 0.14em;
-          textTransform: uppercase;
+          font-family: 'DM Mono', monospace;
+          font-size: 0.95rem;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
           text-shadow: 0 8px 22px rgba(0, 0, 0, 0.55);
         }
 
