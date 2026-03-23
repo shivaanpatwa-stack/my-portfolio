@@ -78,6 +78,7 @@ export default function MUNArena() {
   const [gavelActive, setGavelActive] = useState(false);
   const gavelTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const keyBuffer = useRef("");
+  const gPressTimes = useRef<number[]>([]);
 
   // Gavel easter egg
   useEffect(() => {
@@ -91,14 +92,18 @@ export default function MUNArena() {
         return;
       }
 
-      keyBuffer.current += e.key.toUpperCase();
-      if (keyBuffer.current.includes("MUN")) {
-        keyBuffer.current = "";
+      if (e.key.toLowerCase() !== "g") return;
+
+      const now = Date.now();
+      gPressTimes.current = gPressTimes.current.filter((t) => now - t <= 1000);
+      gPressTimes.current.push(now);
+
+      if (gPressTimes.current.length >= 3) {
+        gPressTimes.current = [];
         setGavelActive(true);
         if (gavelTimer.current) clearTimeout(gavelTimer.current);
         gavelTimer.current = setTimeout(() => setGavelActive(false), 3000);
       }
-      if (keyBuffer.current.length > 10) keyBuffer.current = keyBuffer.current.slice(-10);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -289,17 +294,37 @@ export default function MUNArena() {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: rgba(0, 0, 0, 0.72);
+          background: rgba(0, 0, 0, 0.55);
+          backdrop-filter: blur(10px);
+          animation: overlayFadeIn 220ms ease-out both;
         }
         .gavel-emoji {
           font-size: 12rem;
-          animation: gavelDrop 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+          animation: gavelDrop 650ms cubic-bezier(0.2, 0.9, 0.2, 1.0) both;
+        }
+        .gavel-caption {
+          margin-top: 1rem;
+          text-align: center;
+          color: #ffffff;
+          fontFamily: "'DM Mono', monospace";
+          fontSize: 0.95rem;
+          fontWeight: 700;
+          letterSpacing: 0.14em;
+          textTransform: uppercase;
+          text-shadow: 0 8px 22px rgba(0, 0, 0, 0.55);
+        }
+
+        @keyframes overlayFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
         @keyframes gavelDrop {
-          0% { transform: translateY(-200px) rotate(-45deg); opacity: 0; }
-          60% { transform: translateY(20px) rotate(5deg); opacity: 1; }
-          80% { transform: translateY(-10px) rotate(-2deg); }
-          100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+          0% { transform: translateY(-240px) scale(0.92) rotate(-12deg); opacity: 0; }
+          55% { opacity: 1; }
+          65% { transform: translateY(28px) scale(1.02) rotate(4deg); }
+          80% { transform: translateY(-10px) scale(0.995) rotate(-2deg); }
+          92% { transform: translateY(4px) scale(1.01) rotate(1deg); }
+          100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
         }
 
         .briefing-note {
@@ -342,8 +367,8 @@ export default function MUNArena() {
       {gavelActive && (
         <div className="gavel-overlay">
           <div>
-            <div className="gavel-emoji">🔨</div>
-            <div style={{ textAlign: "center", color: "#fff", fontFamily: "'DM Mono', monospace", fontSize: "0.9rem", marginTop: "1rem" }}>ORDER IN THE COMMITTEE</div>
+            <div className="gavel-emoji">⚖️</div>
+            <div className="gavel-caption">ORDER IN THE COMMITTEE</div>
           </div>
         </div>
       )}
@@ -353,9 +378,9 @@ export default function MUNArena() {
         <span style={{ color: "#1a6fff", fontWeight: 700, whiteSpace: "nowrap", fontSize: "0.7rem", letterSpacing: "0.12em" }}>⚡ LIVE STATUS</span>
         <span style={{ color: "#556677", whiteSpace: "nowrap" }}>Last Gavel: <span style={{ color: "#1a6fff" }}>SpringMUN — Outstanding Delegate, UNHRC</span></span>
         <span style={{ color: "#334455" }}>|</span>
-        <span style={{ color: "#556677", whiteSpace: "nowrap" }}>Current Focus: <span style={{ color: "#1a6fff" }}>Chairing DISEC @ École MUN</span></span>
+        <span style={{ color: "#556677", whiteSpace: "nowrap" }}>Current Focus: <span style={{ color: "#ffffff" }}>Chairing DISEC @ École MUN</span></span>
         <span style={{ color: "#334455" }}>|</span>
-        <span style={{ color: "#445566", whiteSpace: "nowrap", fontSize: "0.68rem" }}>Scroll down to explore ↓</span>
+        <span style={{ color: "#445566", whiteSpace: "nowrap", fontSize: "0.68rem" }}>Press G × 3 for a surprise</span>
       </div>
 
       {/* HEADER */}
