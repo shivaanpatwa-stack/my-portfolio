@@ -432,7 +432,7 @@ export default function ExperienceVault() {
                               src={ODYSSEY_MENTOR_PHOTOS[carouselIndex]}
                               alt={`Odyssey Mentor photo ${carouselIndex + 1}`}
                               fill
-                              style={{ objectFit: "cover", objectPosition: carouselIndex === 2 ? "left center" : "center" }}
+                              style={{ objectFit: "cover", objectPosition: carouselIndex === 2 ? "20% center" : "center" }}
                               sizes="(max-width: 768px) 100vw, 700px"
                             />
                             <button
