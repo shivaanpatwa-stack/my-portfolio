@@ -54,6 +54,8 @@ const DOCUMENT_DRIVE_FOLDERS = [
   { label: "DYPMUN G8", href: "https://drive.google.com/drive/folders/14R-ZmxtjePkU1_6MWMqU_xGpuyBSYMWs" },
 ];
 
+const FORMSPREE_RESOURCE_URL = "https://formspree.io/f/maqpzgba";
+
 const AWARD_COLOR: Record<string, string> = {
   "Best Delegate": "#ffd700",
   "Outstanding Delegate": "#1a6fff",
@@ -71,6 +73,8 @@ export default function MUNArena() {
   const [checklist, setChecklist] = useState<{ label: string; pass: boolean }[]>([]);
   const [resourceRequest, setResourceRequest] = useState("");
   const [requestSent, setRequestSent] = useState(false);
+  const [requestSubmitting, setRequestSubmitting] = useState(false);
+  const [requestError, setRequestError] = useState<string | null>(null);
   const [gavelActive, setGavelActive] = useState(false);
   const gavelTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const keyBuffer = useRef("");
@@ -78,6 +82,15 @@ export default function MUNArena() {
   // Gavel easter egg
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      const tagName = target?.tagName?.toLowerCase();
+      const isTextInput =
+        tagName === "input" || tagName === "textarea" || tagName === "select" || !!(target as any)?.isContentEditable;
+      if (isTextInput) {
+        keyBuffer.current = "";
+        return;
+      }
+
       keyBuffer.current += e.key.toUpperCase();
       if (keyBuffer.current.includes("MUN")) {
         keyBuffer.current = "";
@@ -110,10 +123,35 @@ export default function MUNArena() {
   };
 
   const submitRequest = async () => {
-    if (!resourceRequest.trim()) return;
-    setRequestSent(true);
-    setResourceRequest("");
-    setTimeout(() => setRequestSent(false), 3000);
+    const message = resourceRequest.trim();
+    if (!message || requestSubmitting) return;
+
+    setRequestSubmitting(true);
+    setRequestError(null);
+    try {
+      const res = await fetch(FORMSPREE_RESOURCE_URL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message,
+          resourceRequest: message,
+          _subject: "MUN Arena: template/advice request",
+        }),
+      });
+
+      if (!res.ok) throw new Error(`Form submission failed (${res.status})`);
+
+      setRequestSent(true);
+      setResourceRequest("");
+      setTimeout(() => setRequestSent(false), 4000);
+    } catch {
+      setRequestError("Could not send request. Please try again.");
+    } finally {
+      setRequestSubmitting(false);
+    }
   };
 
   const outstanding = DELEGATE_CONFERENCES.filter(c => c.award === "Outstanding Delegate" || c.award === "Best Delegate").length;
@@ -251,9 +289,10 @@ export default function MUNArena() {
           display: flex;
           align-items: center;
           justify-content: center;
+          background: rgba(0, 0, 0, 0.72);
         }
         .gavel-emoji {
-          font-size: 8rem;
+          font-size: 12rem;
           animation: gavelDrop 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
         }
         @keyframes gavelDrop {
@@ -283,6 +322,7 @@ export default function MUNArena() {
           padding: 1.25rem;
           position: relative;
           overflow: hidden;
+          color: #fff;
         }
         .chair-card::before {
           content: '';
@@ -303,7 +343,7 @@ export default function MUNArena() {
         <div className="gavel-overlay">
           <div>
             <div className="gavel-emoji">🔨</div>
-            <div style={{ textAlign: "center", color: "#1a6fff", fontFamily: "'DM Mono', monospace", fontSize: "0.9rem", marginTop: "1rem" }}>ORDER IN THE COMMITTEE</div>
+            <div style={{ textAlign: "center", color: "#fff", fontFamily: "'DM Mono', monospace", fontSize: "0.9rem", marginTop: "1rem" }}>ORDER IN THE COMMITTEE</div>
           </div>
         </div>
       )}
@@ -311,11 +351,11 @@ export default function MUNArena() {
       {/* LIVE TICKER */}
       <div className="ticker-bar">
         <span style={{ color: "#1a6fff", fontWeight: 700, whiteSpace: "nowrap", fontSize: "0.7rem", letterSpacing: "0.12em" }}>⚡ LIVE STATUS</span>
-        <span style={{ color: "#556677", whiteSpace: "nowrap" }}>Last Gavel: <span style={{ color: "#ffd700" }}>SpringMUN — Outstanding Delegate, UNHRC</span></span>
+        <span style={{ color: "#556677", whiteSpace: "nowrap" }}>Last Gavel: <span style={{ color: "#1a6fff" }}>SpringMUN — Outstanding Delegate, UNHRC</span></span>
         <span style={{ color: "#334455" }}>|</span>
         <span style={{ color: "#556677", whiteSpace: "nowrap" }}>Current Focus: <span style={{ color: "#1a6fff" }}>Chairing DISEC @ École MUN</span></span>
         <span style={{ color: "#334455" }}>|</span>
-        <span style={{ color: "#445566", whiteSpace: "nowrap", fontSize: "0.68rem" }}>Type <span style={{ color: "#1a6fff" }}>MUN</span> for a surprise</span>
+        <span style={{ color: "#445566", whiteSpace: "nowrap", fontSize: "0.68rem" }}>Scroll down to explore ↓</span>
       </div>
 
       {/* HEADER */}
@@ -409,10 +449,10 @@ export default function MUNArena() {
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "0.75rem" }}>
                 {CHAIR_CONFERENCES.map((c, i) => (
                   <div key={i} className="chair-card">
-                    <div style={{ fontSize: "0.65rem", color: "#1a6fff", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.5rem" }}>{c.role}</div>
+                    <div style={{ fontSize: "0.65rem", color: "#fff", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.5rem" }}>{c.role}</div>
                     <div style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "0.25rem" }}>{c.conference}</div>
-                    <div style={{ fontSize: "0.83rem", color: "#8899aa", marginBottom: "0.75rem" }}>{c.committee}</div>
-                    <span style={{ background: "#0f1a2e", color: "#1a6fff", border: "1px solid #1a6fff33", borderRadius: "20px", padding: "0.15rem 0.6rem", fontSize: "0.68rem", fontWeight: 700 }}>
+                    <div style={{ fontSize: "0.83rem", color: "#fff", marginBottom: "0.75rem" }}>{c.committee}</div>
+                    <span style={{ background: "#0f1a2e", color: "#fff", border: "1px solid #1a6fff33", borderRadius: "20px", padding: "0.15rem 0.6rem", fontSize: "0.68rem", fontWeight: 700 }}>
                       Upcoming
                     </span>
                   </div>
@@ -426,10 +466,20 @@ export default function MUNArena() {
               <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "0.4rem" }}>Request a Template or Advice</h3>
               <p style={{ color: "#556677", fontSize: "0.82rem", marginBottom: "1rem" }}>Younger delegates — ask for specific committee templates or preparation advice.</p>
               <div style={{ display: "flex", gap: "0.75rem" }}>
-                <input className="input-field" style={{ flex: 1 }} placeholder="e.g. UNSC position paper template, DISEC clause writing help..." value={resourceRequest} onChange={e => setResourceRequest(e.target.value)} onKeyDown={e => e.key === "Enter" && submitRequest()} />
-                <button className="cta-btn cta-primary" onClick={submitRequest}>Send</button>
+                <input
+                  className="input-field"
+                  style={{ flex: 1 }}
+                  placeholder="e.g. UNSC position paper template, DISEC clause writing help..."
+                  value={resourceRequest}
+                  onChange={e => setResourceRequest(e.target.value)}
+                  onKeyDown={e => e.key === "Enter" && void submitRequest()}
+                />
+                <button className="cta-btn cta-primary" onClick={() => void submitRequest()} disabled={requestSubmitting}>
+                  {requestSubmitting ? "Sending..." : "Send"}
+                </button>
               </div>
               {requestSent && <p style={{ color: "#00c853", fontSize: "0.8rem", marginTop: "0.6rem" }}>✓ Request sent! Shivaan will get back to you.</p>}
+              {requestError && <p style={{ color: "#ff3d3d", fontSize: "0.8rem", marginTop: "0.6rem" }}>{requestError}</p>}
             </div>
           </div>
         )}
