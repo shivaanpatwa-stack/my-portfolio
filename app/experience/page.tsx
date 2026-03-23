@@ -467,6 +467,7 @@ export default function ExperienceVault() {
                                 fill
                                 style={{
                                   objectFit: exp.id === 1 && idx === 2 ? "contain" : "cover",
+                                  objectPosition: exp.id === 4 ? "center top" : "center",
                                   background: exp.id === 1 && idx === 2 ? "#0a0d14" : "transparent",
                                 }}
                                 sizes="(max-width: 768px) 100vw, 700px"
