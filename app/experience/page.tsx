@@ -43,11 +43,11 @@ const EXPERIENCES = [
     id: 4,
     year: "2024",
     title: "Rewilding: Marayoor",
-    role: "Sustainability & Wilderness Participant",
-    category: "Leadership",
-    summary: "Spent several days in the forests of Marayoor on an immersive rewilding course — building structures from earth, living close to nature, and learning sustainability from the ground up.",
-    insight: "Building a house out of dirt with your hands resets your perspective on what problem-solving actually means. No spreadsheets, no strategy decks — just raw materials and resourcefulness. The kind of thinking that transfers everywhere.",
-    skills: ["#Sustainability", "#ResourcefulThinking", "#Adaptability"],
+    role: "Participant",
+    category: "Environment",
+    summary: "A nature immersion program in Marayoor where we disconnected from the modern world and lived in natural environments. We built a gate entirely from natural materials like clay and mud, explored local ecosystems, and developed a deeper connection with the natural world.",
+    insight: "There's something quietly radical about spending a week without a screen and building something real with your hands. No notifications, no optimisation — just clay, effort, and a finished gate that stands because you willed it to. In an age where everything moves fast and nothing feels tangible, Marayoor reminded me that slowness isn't a weakness. Sometimes the most important work happens when you stop scrolling and start digging.",
+    skills: ["#Environment", "#Sustainability", "#NatureImmersion"],
     photo: null,
     highlight: false,
   },
@@ -79,7 +79,7 @@ const SKILLS = [
   { label: "Adaptability", category: "Interpersonal", ids: [4, 1] },
 ];
 
-const FILTERS = ["All", "Professional", "Leadership"];
+const FILTERS = ["All", "Professional", "Leadership", "Environment"];
 
 const ODYSSEY_MENTOR_PHOTOS = [
   "/odyssey-mentor-photo-1.webp",
@@ -95,14 +95,22 @@ const CISV_PHOTOS = [
   "/CISV-photo-4.JPG",
 ];
 
+const REWILDING_PHOTOS = [
+  "/Rewilding-photo-1.jpg",
+  "/Rewilding-photo-2.JPG",
+  "/Rewilding-photo-3.JPG",
+];
+
 const CAROUSEL_DATA: Record<number, { photos: string[]; albumUrl?: string }> = {
   1: { photos: ODYSSEY_MENTOR_PHOTOS, albumUrl: ODYSSEY_ALBUM_URL },
   2: { photos: CISV_PHOTOS },
+  4: { photos: REWILDING_PHOTOS },
 };
 
 const CATEGORY_COLOR: Record<string, string> = {
   Professional: "#1a6fff",
   Leadership: "#00c853",
+  Environment: "#2d9e6b",
 };
 
 export default function ExperienceVault() {
