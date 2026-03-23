@@ -466,9 +466,9 @@ export default function ExperienceVault() {
                                 alt={`${exp.title} photo ${idx + 1}`}
                                 fill
                                 style={{
-                                  objectFit: exp.id === 1 && idx === 2 ? "contain" : "cover",
+                                  objectFit: (exp.id === 1 && idx === 2) || exp.id === 4 ? "contain" : "cover",
                                   objectPosition: exp.id === 4 ? "center top" : "center",
-                                  background: exp.id === 1 && idx === 2 ? "#0a0d14" : "transparent",
+                                  background: (exp.id === 1 && idx === 2) || exp.id === 4 ? "#0a0d14" : "transparent",
                                 }}
                                 sizes="(max-width: 768px) 100vw, 700px"
                               />
