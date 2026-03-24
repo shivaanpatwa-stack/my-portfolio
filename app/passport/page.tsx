@@ -1,0 +1,869 @@
+"use client";
+import { useState, useEffect, useRef, useCallback } from "react";
+
+const COUNTRIES = [
+  {
+    id: "turkey", name: "Turkey", flag: "🇹🇷", region: "Middle East", year: "2012", badge: "First Stamp",
+    color: "#e63946",
+    vibe: "My very first international adventure. Istanbul's minarets and Bodrum's turquoise water — and an obsession with chasing cats through ancient alleyways.",
+    highlights: ["Istanbul", "Bodrum", "Beach days", "Cat colonies"],
+    photo: "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?w=800&q=80",
+    photoCaption: "Istanbul, Turkey",
+    // lat/lon for globe projection
+    lat: 39, lon: 35,
+  },
+  {
+    id: "uae", name: "UAE", flag: "🇦🇪", region: "Middle East", year: "2013", badge: "Desert Gold",
+    color: "#f4a261",
+    vibe: "Dubai's skyline hit different. Swam with dolphins at Atlantis — still one of the wildest experiences of my life.",
+    highlights: ["Dubai", "Atlantis", "Dolphins", "City sightseeing"],
+    photo: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80",
+    photoCaption: "Dubai, UAE",
+    lat: 25, lon: 55,
+  },
+  {
+    id: "singapore", name: "Singapore", flag: "🇸🇬", region: "Asia", year: "2013, 2017, 2022", badge: "Triple Entry",
+    color: "#2a9d8f",
+    vibe: "Three visits and counting. The Night Safari changes every time. This city is what the future looks like.",
+    highlights: ["Zoo & Night Safari", "Universal Studios", "Ferrari experience", "Family reunions"],
+    photo: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=800&q=80",
+    photoCaption: "Marina Bay, Singapore",
+    lat: 1, lon: 104,
+  },
+  {
+    id: "uk", name: "United Kingdom", flag: "🇬🇧", region: "Europe", year: "2014", badge: "West End Debut",
+    color: "#1a6fff",
+    vibe: "London's energy is electric. Watched Matilda on the West End — my first Broadway-style production. Changed how I think about storytelling.",
+    highlights: ["London", "Matilda musical", "City sightseeing"],
+    photo: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&q=80",
+    photoCaption: "London, UK",
+    lat: 51, lon: -1,
+  },
+  {
+    id: "czech", name: "Czech Republic", flag: "🇨🇿", region: "Europe", year: "2014", badge: "Old World",
+    color: "#6d597a",
+    vibe: "Prague is like stepping into a fairy tale. Vintage car tours through the Old Town, collecting wooden puppets — pure magic.",
+    highlights: ["Prague Old Town", "Vintage car tour", "Horse carriage", "Prague Zoo"],
+    photo: "https://images.unsplash.com/photo-1541849546-216549ae216d?w=800&q=80",
+    photoCaption: "Prague, Czech Republic",
+    lat: 50, lon: 15,
+  },
+  {
+    id: "switzerland", name: "Switzerland", flag: "🇨🇭", region: "Europe", year: "2015, 2024", badge: "Alpine Rush",
+    color: "#e9c46a",
+    vibe: "First snow in Grindelwald — speechless. Nine years later, back on skis in Zermatt with the Matterhorn watching over me.",
+    highlights: ["Grindelwald", "Interlaken", "Zermatt skiing", "Olympic Museum"],
+    photo: "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=800&q=80",
+    photoCaption: "Swiss Alps",
+    lat: 47, lon: 8,
+  },
+  {
+    id: "germany", name: "Germany", flag: "🇩🇪", region: "Europe", year: "2015", badge: "Engineering Nation",
+    color: "#457b9d",
+    vibe: "Fresh cheese from Viktualienmarkt every morning. The BMW Museum is a temple. Neuschwanstein by horse carriage — unreal.",
+    highlights: ["Munich", "Neuschwanstein Castle", "Black Forest", "Berlin"],
+    photo: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&q=80",
+    photoCaption: "Neuschwanstein, Germany",
+    lat: 51, lon: 10,
+  },
+  {
+    id: "hongkong", name: "Hong Kong", flag: "🇭🇰", region: "Asia", year: "2016", badge: "Skyline City",
+    color: "#e76f51",
+    vibe: "Disney Hong Kong and family reunions against one of the world's great skylines.",
+    highlights: ["Disney Hong Kong", "Family reunion", "City exploration"],
+    photo: "https://images.unsplash.com/photo-1536599424071-0b215a388ba7?w=800&q=80",
+    photoCaption: "Hong Kong",
+    lat: 22, lon: 114,
+  },
+  {
+    id: "spain", name: "Spain", flag: "🇪🇸", region: "Europe", year: "2017", badge: "Iberian Sweep",
+    color: "#f4a261",
+    vibe: "Hit five cities in one trip. Sagrada Família blew my mind. Puerto Banús in Marbella is on another level.",
+    highlights: ["Madrid", "Barcelona", "Marbella", "Granada Alhambra", "Palma"],
+    photo: "https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?w=800&q=80",
+    photoCaption: "Barcelona, Spain",
+    lat: 40, lon: -4,
+  },
+  {
+    id: "bhutan", name: "Bhutan", flag: "🇧🇹", region: "Asia", year: "2017", badge: "Himalayan Trek",
+    color: "#2a9d8f",
+    vibe: "Trekked to Tiger's Nest. The hike is brutal. The view is spiritual. Bhutan doesn't let just anyone in — and you feel it.",
+    highlights: ["Tiger's Nest trek", "Thimphu", "Paro", "Punakha"],
+    photo: "https://images.unsplash.com/photo-1580889240762-ac35d8395f6b?w=800&q=80",
+    photoCaption: "Tiger's Nest, Bhutan",
+    lat: 27, lon: 90,
+  },
+  {
+    id: "gibraltar", name: "Gibraltar", flag: "🇬🇮", region: "Europe", year: "2017", badge: "The Rock",
+    color: "#6d597a",
+    vibe: "The monkeys will steal your lunch. The view from The Rock makes it worth it.",
+    highlights: ["The Rock", "Barbary macaques", "Mountain views"],
+    photo: "https://images.unsplash.com/photo-1597598494791-e4f7ba35c4c1?w=800&q=80",
+    photoCaption: "Gibraltar",
+    lat: 36, lon: -5,
+  },
+  {
+    id: "canada", name: "Canada", flag: "🇨🇦", region: "North America", year: "2018", badge: "Rocky Road",
+    color: "#e63946",
+    vibe: "The Canadian Rockies road trip — Banff, Lake Louise, Jasper, Whistler. This is what wilderness actually means.",
+    highlights: ["Vancouver", "Banff", "Lake Louise", "Jasper", "Whistler"],
+    photo: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?w=800&q=80",
+    photoCaption: "Banff, Canada",
+    lat: 56, lon: -106,
+  },
+  {
+    id: "usa", name: "USA", flag: "🇺🇸", region: "North America", year: "2018, 2022", badge: "Coast to Coast",
+    color: "#1a6fff",
+    vibe: "Seattle's Pike Place to Harvard Yard. NYC's energy is unmatched. Boston showed me what a university town can truly become.",
+    highlights: ["NYC", "Boston / Harvard", "Orlando", "Seattle"],
+    photo: "https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?w=800&q=80",
+    photoCaption: "New York City, USA",
+    lat: 38, lon: -97,
+  },
+  {
+    id: "france", name: "France", flag: "🇫🇷", region: "Europe", year: "2019 (×2)", badge: "Lavender & Lights",
+    color: "#457b9d",
+    vibe: "Gordes lavender fields in summer. Eiffel Tower at Christmas. France has two completely different personalities.",
+    highlights: ["Aix-en-Provence", "Pont du Gard", "Avignon", "Cassis", "Paris Christmas"],
+    photo: "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=800&q=80",
+    photoCaption: "Paris, France",
+    lat: 46, lon: 2,
+  },
+  {
+    id: "portugal", name: "Portugal", flag: "🇵🇹", region: "Europe", year: "2019", badge: "Atlantic Edge",
+    color: "#e9c46a",
+    vibe: "Watched the world's biggest waves crash in Nazaré. Porto's Livraria Lello is the most beautiful bookstore alive.",
+    highlights: ["Lisbon", "Nazaré waves", "Óbidos", "Sintra", "Porto"],
+    photo: "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800&q=80",
+    photoCaption: "Lisbon, Portugal",
+    lat: 39, lon: -8,
+  },
+  {
+    id: "denmark", name: "Denmark", flag: "🇩🇰", region: "Europe", year: "2019", badge: "Hygge Life",
+    color: "#2a9d8f",
+    vibe: "Copenhagen is effortlessly cool. Tivoli at night is something from another era.",
+    highlights: ["Copenhagen", "Tivoli Gardens"],
+    photo: "https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?w=800&q=80",
+    photoCaption: "Copenhagen, Denmark",
+    lat: 56, lon: 10,
+  },
+  {
+    id: "belgium", name: "Belgium & Netherlands", flag: "🇧🇪", region: "Europe", year: "2019, 2025", badge: "Benelux Double",
+    color: "#f4a261",
+    vibe: "Bruges in 2019 was pure medieval. Delft in 2025 for CISV — boating through Giethoorn, Brussels MUN, best waffles of my life.",
+    highlights: ["Bruges", "Delft", "Giethoorn boating", "Brussels MUN", "Ghent"],
+    photo: "https://images.unsplash.com/photo-1559113202-c916b8e44373?w=800&q=80",
+    photoCaption: "Bruges, Belgium",
+    lat: 50, lon: 5,
+  },
+  {
+    id: "thailand", name: "Thailand", flag: "🇹🇭", region: "Asia", year: "2022", badge: "Golden Temples",
+    color: "#e9c46a",
+    vibe: "Phuket and Bangkok — temples, street food, chaos, and absolute beauty. Thailand operates on a different frequency.",
+    highlights: ["Phuket", "Bangkok", "Temples", "Street food"],
+    photo: "https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&q=80",
+    photoCaption: "Bangkok, Thailand",
+    lat: 15, lon: 101,
+  },
+  {
+    id: "austria", name: "Austria", flag: "🇦🇹", region: "Europe", year: "2022, 2023", badge: "Alpine Base",
+    color: "#6d597a",
+    vibe: "Christmas at the family home in Payerbach. Then ski season in Kitzbühel for Dad's 50th.",
+    highlights: ["Payerbach", "Kirchberg skiing", "Kitzbühel", "Innsbruck"],
+    photo: "https://images.unsplash.com/photo-1609856878074-cf31e21ccb6b?w=800&q=80",
+    photoCaption: "Austrian Alps",
+    lat: 47, lon: 14,
+  },
+  {
+    id: "croatia", name: "Croatia & Slovenia", flag: "🇭🇷", region: "Europe", year: "2023", badge: "Game of Thrones",
+    color: "#2a9d8f",
+    vibe: "Dubrovnik's GoT tour. Cliff jumping in Hvar from a private speedboat. Plitvice Lakes — the most beautiful natural sight I've ever seen.",
+    highlights: ["Dubrovnik GoT tour", "Hvar cliff jumping", "Blue Caves", "Plitvice Lakes"],
+    photo: "https://images.unsplash.com/photo-1555990538-c0f6b0acf83c?w=800&q=80",
+    photoCaption: "Plitvice Lakes, Croatia",
+    lat: 45, lon: 16,
+  },
+  {
+    id: "italy", name: "Italy & Vatican", flag: "🇮🇹", region: "Europe", year: "2024, 2025", badge: "Jubilee Year",
+    color: "#e63946",
+    vibe: "Milan's Galleria. Rome in the Jubilee Year. Venice — met up with CISV friends. Watched glass blowing in Murano.",
+    highlights: ["Milan", "Rome", "Venice", "Vatican Sistine Chapel", "Murano glass"],
+    photo: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&q=80",
+    photoCaption: "Rome, Italy",
+    lat: 42, lon: 12,
+  },
+  {
+    id: "greece", name: "Greece", flag: "🇬🇷", region: "Europe", year: "2024", badge: "Island Hopper",
+    color: "#1a6fff",
+    vibe: "Athens history overload. Monasteries of Meteora perched on cliffs. Island hopping through Santorini, Mykonos, and Paros.",
+    highlights: ["Athens", "Meteora", "Santorini", "Mykonos", "Paros"],
+    photo: "https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800&q=80",
+    photoCaption: "Santorini, Greece",
+    lat: 38, lon: 24,
+  },
+  {
+    id: "kenya", name: "Kenya", flag: "🇰🇪", region: "Africa", year: "2025", badge: "Safari Soul",
+    color: "#f4a261",
+    vibe: "Masai Mara safari. Saw a leopard up close. Africa recalibrates you. Nothing else feels quite as real.",
+    highlights: ["Nairobi", "Masai Mara safari", "Leopard sighting"],
+    photo: "https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=800&q=80",
+    photoCaption: "Masai Mara, Kenya",
+    lat: -1, lon: 37,
+  },
+  {
+    id: "vietnam", name: "Vietnam", flag: "🇻🇳", region: "Asia", year: "2025", badge: "Family Celebration",
+    color: "#e76f51",
+    vibe: "Grandfather's 70th birthday in Da Nang. Hoi An's lantern-lit streets at night. Vietnamese food hits different when you're actually there.",
+    highlights: ["Da Nang", "Hoi An", "Family celebration", "Local food"],
+    photo: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80",
+    photoCaption: "Hoi An, Vietnam",
+    lat: 16, lon: 108,
+  },
+  {
+    id: "srilanka", name: "Sri Lanka", flag: "🇱🇰", region: "Asia", year: "2025", badge: "Wild South",
+    color: "#2a9d8f",
+    vibe: "First surfing experience in Weligama. Yala National Park — spotted a leopard. Sri Lanka is criminally underrated.",
+    highlights: ["Weligama surfing", "Galle", "Yala leopard safari", "Colombo"],
+    photo: "https://images.unsplash.com/photo-1588598198321-9735fd5da207?w=800&q=80",
+    photoCaption: "Sri Lanka",
+    lat: 8, lon: 81,
+  },
+];
+
+const REGIONS = ["All", "Europe", "Asia", "North America", "Middle East", "Africa"];
+const REGION_COLORS: Record<string, string> = {
+  Europe: "#1a6fff", Asia: "#2a9d8f", "North America": "#e63946",
+  "Middle East": "#f4a261", Africa: "#e9c46a",
+};
+
+// Globe dimensions
+const CX = 200, CY = 200, R = 170;
+
+function projectPin(lat: number, lon: number, rotY: number) {
+  const phi = (90 - lat) * Math.PI / 180;
+  const theta = (lon + rotY) * Math.PI / 180;
+  const x = R * Math.sin(phi) * Math.sin(theta);
+  const y = -R * Math.cos(phi);
+  const z = R * Math.sin(phi) * Math.cos(theta);
+  const visible = z > -20; // slightly past horizon for smooth fade
+  const px = CX + x;
+  const py = CY + y;
+  const depth = (z + R) / (2 * R); // 0=back, 1=front
+  return { px, py, visible, depth, z };
+}
+
+export default function PassportPage() {
+  const [selected, setSelected] = useState<typeof COUNTRIES[0] | null>(null);
+  const [filter, setFilter] = useState("All");
+  const [easterEgg, setEasterEgg] = useState(false);
+  const [rotY, setRotY] = useState(0);
+  const [hoveredPin, setHoveredPin] = useState<string | null>(null);
+  const [globeTooltip, setGlobeTooltip] = useState<{ country: typeof COUNTRIES[0]; px: number; py: number } | null>(null);
+  const animRef = useRef<number>();
+  const lastTime = useRef<number>(0);
+  const isDragging = useRef(false);
+  const dragStart = useRef(0);
+  const rotStart = useRef(0);
+  const autoSpin = useRef(true);
+
+  useEffect(() => {
+    const animate = (time: number) => {
+      if (autoSpin.current && !isDragging.current) {
+        if (lastTime.current) {
+          const delta = time - lastTime.current;
+          setRotY(r => r + delta * 0.018);
+        }
+        lastTime.current = time;
+      } else {
+        lastTime.current = time;
+      }
+      animRef.current = requestAnimationFrame(animate);
+    };
+    animRef.current = requestAnimationFrame(animate);
+    return () => { if (animRef.current) cancelAnimationFrame(animRef.current); };
+  }, []);
+
+  const filtered = filter === "All" ? COUNTRIES : COUNTRIES.filter(c => c.region === filter);
+
+  // Sort pins by depth (back to front)
+  const projectedPins = COUNTRIES.map(c => ({ ...projectPin(c.lat, c.lon, rotY), country: c }))
+    .filter(p => p.visible)
+    .sort((a, b) => a.z - b.z);
+
+  return (
+    <div style={{ minHeight: "100vh", background: "#060810", color: "#e8eaf0", fontFamily: "'DM Sans', sans-serif", overflowX: "hidden" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=DM+Mono:wght@400;500&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: #060810; }
+        ::-webkit-scrollbar-thumb { background: #1a6fff33; border-radius: 4px; }
+
+        .id-card {
+          background: linear-gradient(135deg, #0b1220 0%, #091628 60%, #0b1117 100%);
+          border: 1px solid #1a2a4a;
+          border-radius: 28px;
+          padding: 2.75rem;
+          position: relative;
+          overflow: hidden;
+        }
+        .id-card::before {
+          content: '';
+          position: absolute; inset: 0;
+          background: repeating-linear-gradient(45deg, transparent, transparent 24px, rgba(26,111,255,0.016) 24px, rgba(26,111,255,0.016) 25px);
+          pointer-events: none;
+        }
+        .id-card-glow {
+          position: absolute; top: -30%; right: -10%;
+          width: 500px; height: 500px;
+          background: radial-gradient(circle, rgba(26,111,255,0.08) 0%, transparent 70%);
+          pointer-events: none;
+        }
+
+        .globe-container {
+          position: relative;
+          background: radial-gradient(ellipse at 45% 40%, #0b1628 0%, #060810 68%);
+          border: 1px solid #0f1a2e;
+          border-radius: 28px;
+          padding: 3rem 2rem 2rem;
+          overflow: visible;
+        }
+        .globe-svg-wrap {
+          position: relative;
+          width: 420px;
+          height: 420px;
+          margin: 0 auto;
+          cursor: grab;
+          user-select: none;
+        }
+        .globe-svg-wrap:active { cursor: grabbing; }
+        .globe-svg { width: 100%; height: 100%; overflow: visible; }
+
+        .flag-pin {
+          position: absolute;
+          transform: translate(-50%, -100%);
+          pointer-events: all;
+          cursor: pointer;
+          transition: transform 0.15s ease;
+          z-index: 10;
+        }
+        .flag-pin:hover { transform: translate(-50%, -108%) scale(1.15); }
+        .flag-bubble {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 32px;
+          height: 32px;
+          border-radius: 50% 50% 50% 0;
+          background: rgba(13,17,35,0.92);
+          border: 1.5px solid rgba(26,111,255,0.5);
+          font-size: 18px;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.5), 0 0 0 1px rgba(26,111,255,0.2);
+          backdrop-filter: blur(4px);
+          line-height: 1;
+          transform: rotate(-45deg);
+        }
+        .flag-emoji { transform: rotate(45deg); display: block; }
+        .flag-stem {
+          width: 1.5px;
+          height: 8px;
+          background: linear-gradient(to bottom, rgba(26,111,255,0.6), transparent);
+          margin: 0 auto;
+        }
+
+        .pin-tooltip {
+          position: absolute;
+          bottom: calc(100% + 10px);
+          left: 50%;
+          transform: translateX(-50%);
+          background: rgba(9,13,25,0.96);
+          border: 1px solid #1a2a4a;
+          border-radius: 10px;
+          padding: 0.6rem 0.9rem;
+          white-space: nowrap;
+          font-size: 0.72rem;
+          font-weight: 500;
+          color: #e8eaf0;
+          pointer-events: none;
+          backdrop-filter: blur(8px);
+          z-index: 20;
+          box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+        .pin-tooltip::after {
+          content: '';
+          position: absolute;
+          top: 100%; left: 50%;
+          transform: translateX(-50%);
+          border: 5px solid transparent;
+          border-top-color: rgba(9,13,25,0.96);
+        }
+
+        .stamp-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+          gap: 1rem;
+        }
+        .stamp-card {
+          background: #0c1017;
+          border: 1px solid #111825;
+          border-radius: 18px;
+          cursor: pointer;
+          transition: all 0.28s cubic-bezier(0.4,0,0.2,1);
+          overflow: hidden;
+        }
+        .stamp-card:hover {
+          border-color: rgba(26,111,255,0.4);
+          transform: translateY(-5px) scale(1.01);
+          box-shadow: 0 20px 48px rgba(26,111,255,0.1), 0 0 0 1px rgba(26,111,255,0.1);
+        }
+        .stamp-img {
+          width: 100%; height: 115px;
+          object-fit: cover; display: block;
+          filter: brightness(0.8) saturate(0.85);
+          transition: filter 0.3s, transform 0.3s;
+        }
+        .stamp-card:hover .stamp-img { filter: brightness(1) saturate(1.1); transform: scale(1.04); }
+        .stamp-img-wrap { overflow: hidden; position: relative; }
+        .placeholder-img {
+          width: 100%; height: 115px;
+          background: linear-gradient(135deg, #111827 0%, #0c1017 100%);
+          display: flex; flex-direction: column;
+          align-items: center; justify-content: center;
+          gap: 0.3rem; color: #2a3349;
+          border-bottom: 1px dashed #1a2030;
+          font-size: 0.65rem;
+          font-family: 'DM Mono', monospace;
+          letter-spacing: 0.05em;
+        }
+        .stamp-body { padding: 1rem; }
+        .stamp-badge {
+          display: inline-block;
+          font-size: 0.6rem; font-weight: 600;
+          letter-spacing: 0.09em; text-transform: uppercase;
+          padding: 0.18rem 0.55rem; border-radius: 20px; margin-bottom: 0.6rem;
+        }
+
+        .filter-btn {
+          padding: 0.42rem 1.05rem;
+          border-radius: 30px; border: 1px solid #141a28;
+          background: transparent; color: #4b5a72;
+          font-size: 0.75rem; font-weight: 500;
+          cursor: pointer; transition: all 0.2s;
+          font-family: 'DM Sans', sans-serif; letter-spacing: 0.02em;
+        }
+        .filter-btn:hover { border-color: rgba(26,111,255,0.3); color: #e8eaf0; }
+        .filter-btn.active { background: #1a6fff; border-color: #1a6fff; color: #fff; }
+
+        .modal-overlay {
+          position: fixed; inset: 0;
+          background: rgba(6,8,16,0.94);
+          z-index: 1000; display: flex;
+          align-items: center; justify-content: center;
+          padding: 1.5rem; backdrop-filter: blur(20px);
+          animation: fadeIn 0.2s ease;
+        }
+        .modal-box {
+          background: #0b1017; border: 1px solid #1a2340;
+          border-radius: 26px; max-width: 600px; width: 100%;
+          max-height: 90vh; overflow-y: auto;
+          animation: slideUp 0.3s cubic-bezier(0.4,0,0.2,1);
+          position: relative;
+          scrollbar-width: thin;
+        }
+        .modal-hero-wrap { position: relative; overflow: hidden; border-radius: 22px 22px 0 0; }
+        .modal-hero { width: 100%; height: 240px; object-fit: cover; display: block; }
+        .modal-hero-overlay {
+          position: absolute; inset: 0;
+          background: linear-gradient(to top, rgba(11,16,23,0.9) 0%, transparent 60%);
+        }
+        .modal-hero-caption {
+          position: absolute; bottom: 1rem; left: 1.5rem;
+          font-size: 0.65rem; color: rgba(255,255,255,0.4);
+          font-family: 'DM Mono', monospace; letter-spacing: 0.08em;
+        }
+        .modal-body { padding: 2rem; }
+
+        .your-photo-placeholder {
+          width: 100%; height: 200px;
+          background: #0b1017;
+          border: 1.5px dashed #1a2340;
+          border-radius: 14px;
+          display: flex; flex-direction: column;
+          align-items: center; justify-content: center;
+          gap: 0.5rem; text-align: center;
+          margin-bottom: 1.5rem;
+          transition: border-color 0.2s;
+        }
+        .your-photo-placeholder:hover { border-color: rgba(26,111,255,0.3); }
+
+        .highlight-pill {
+          display: inline-flex; align-items: center; gap: 0.4rem;
+          background: #111825; border: 1px solid #181e30;
+          border-radius: 8px; padding: 0.32rem 0.72rem;
+          font-size: 0.74rem; color: #8896a8;
+        }
+        .stat-pill {
+          display: flex; flex-direction: column; align-items: center;
+          padding: 1.25rem 1.5rem;
+          background: #0c1017; border: 1px solid #111825;
+          border-radius: 18px; flex: 1; min-width: 100px; gap: 0.2rem;
+          transition: border-color 0.2s;
+        }
+        .stat-pill:hover { border-color: rgba(26,111,255,0.25); }
+        .close-btn {
+          position: absolute; top: 1.1rem; right: 1.1rem;
+          width: 34px; height: 34px; border-radius: 10px;
+          border: 1px solid #1a2340; background: rgba(11,16,23,0.85);
+          color: #4b5a72; cursor: pointer;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 0.85rem; transition: all 0.2s; z-index: 5;
+        }
+        .close-btn:hover { background: #111825; color: #e8eaf0; }
+        .section-label {
+          font-size: 0.66rem; font-weight: 600; letter-spacing: 0.16em;
+          text-transform: uppercase; color: #1a6fff; margin-bottom: 0.75rem;
+        }
+        .nav-link { color: #5a6a82; text-decoration: none; font-size: 0.83rem; font-weight: 500; transition: color 0.2s; }
+        .nav-link:hover { color: #e8eaf0; }
+        .nav-link.cur { color: #e8eaf0; }
+        .dob-click { cursor: pointer; border-bottom: 1px dashed #1a6fff44; transition: color 0.2s; display: inline; }
+        .dob-click:hover { color: #1a6fff; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(24px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes floatIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pinPulse {
+          0%, 100% { box-shadow: 0 4px 16px rgba(0,0,0,0.5), 0 0 0 0px rgba(26,111,255,0.4); }
+          50% { box-shadow: 0 4px 16px rgba(0,0,0,0.5), 0 0 0 5px rgba(26,111,255,0); }
+        }
+        .flag-bubble { animation: pinPulse 2.5s ease-in-out infinite; }
+
+        .easter-modal {
+          position: fixed; inset: 0;
+          background: rgba(6,8,16,0.96);
+          z-index: 2000; display: flex;
+          align-items: center; justify-content: center;
+          padding: 2rem; backdrop-filter: blur(24px);
+          animation: fadeIn 0.3s ease;
+        }
+
+        .globe-drag-hint {
+          position: absolute; bottom: 1.5rem; left: 50%;
+          transform: translateX(-50%);
+          font-size: 0.65rem; color: #1f2d42;
+          font-family: 'DM Mono', monospace;
+          letter-spacing: 0.08em; white-space: nowrap;
+        }
+      `}</style>
+
+      {/* NAV */}
+      <nav style={{
+        padding: "1.2rem 2.5rem", display: "flex", alignItems: "center",
+        justifyContent: "space-between", borderBottom: "1px solid #0f1520",
+        position: "sticky", top: 0, background: "rgba(6,8,16,0.92)",
+        backdropFilter: "blur(14px)", zIndex: 100,
+      }}>
+        <a href="/" style={{ textDecoration: "none" }}>
+          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.25rem", fontWeight: 700, color: "#e8eaf0", letterSpacing: "0.02em" }}>SP</span>
+        </a>
+        <div style={{ display: "flex", gap: "2.5rem" }}>
+          {[["Finance Lab", "/finance"], ["MUN Arena", "/mun"], ["Experience", "/experience"], ["The Passport", "/passport"]].map(([label, href]) => (
+            <a key={label} href={href} className={`nav-link ${label === "The Passport" ? "cur" : ""}`}>{label}</a>
+          ))}
+        </div>
+      </nav>
+
+      <main style={{ maxWidth: 1120, margin: "0 auto", padding: "3.5rem 2rem 9rem" }}>
+
+        {/* HERO */}
+        <div style={{ marginBottom: "4.5rem", animation: "floatIn 0.8s ease forwards" }}>
+          <div className="section-label">Global Citizen · 28 Countries · 6 Continents</div>
+          <h1 style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: "clamp(4rem, 10vw, 8rem)",
+            fontWeight: 700, lineHeight: 0.9, letterSpacing: "-0.01em",
+            marginBottom: "1.75rem",
+          }}>
+            <span style={{ display: "block", color: "#c8ccd8" }}>The</span>
+            <span style={{ display: "block", fontStyle: "italic", background: "linear-gradient(125deg, #1a6fff 0%, #6fb3ff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Passport</span>
+          </h1>
+          <p style={{ fontSize: "1.05rem", color: "#4b5a72", maxWidth: 440, lineHeight: 1.8, fontWeight: 300 }}>
+            28 countries. 6 continents. A lifetime of global immersion.
+          </p>
+        </div>
+
+        {/* PASSPORT ID CARD */}
+        <div className="id-card" style={{ marginBottom: "3rem" }}>
+          <div className="id-card-glow" />
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "2.5rem", justifyContent: "space-between", position: "relative", zIndex: 1 }}>
+            <div style={{ flex: 1, minWidth: 260 }}>
+              <div className="section-label" style={{ marginBottom: "1.75rem" }}>Passport No. SP-2011-001</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem 2.5rem" }}>
+                {[
+                  ["HOLDER", "Shivaan Patwa"],
+                  ["STATUS", "Global Citizen / Active Explorer"],
+                  ["DATE OF BIRTH", <span key="dob" className="dob-click" onClick={() => setEasterEgg(true)} title="🔑">13/08/2011</span>],
+                  ["FIRST STAMP", "Turkey (2012)"],
+                  ["LATEST ENTRY", "Italy / Vatican (Dec 2025)"],
+                  ["CONTINENTS", "6 of 7"],
+                ].map(([label, val]) => (
+                  <div key={label as string}>
+                    <div style={{ fontSize: "0.6rem", letterSpacing: "0.13em", color: "#2a3349", fontWeight: 600, marginBottom: "0.35rem", fontFamily: "'DM Mono', monospace" }}>{label as string}</div>
+                    <div style={{ fontSize: "0.87rem", fontWeight: 500, color: "#c8ccd8" }}>{val}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "flex-end" }}>
+              <div style={{ fontSize: "3rem" }}>🛂</div>
+              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.52rem", color: "#141e30", lineHeight: 2.2, userSelect: "none", letterSpacing: "0.04em", textAlign: "right" }}>
+                P&lt;INDPATWA&lt;&lt;SHIVAAN&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;<br />
+                SP20110013&lt;6IND1308136M2812301&lt;&lt;&lt;&lt;&lt;2
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* STATS */}
+        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", marginBottom: "4.5rem" }}>
+          {[
+            { val: "28", label: "Countries", icon: "🌍" },
+            { val: "6", label: "Continents", icon: "🗺️" },
+            { val: "13", label: "Years Exploring", icon: "✈️" },
+            { val: "2012", label: "First Stamp", icon: "🔖" },
+          ].map(s => (
+            <div key={s.label} className="stat-pill">
+              <div style={{ fontSize: "1.3rem" }}>{s.icon}</div>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2.25rem", fontWeight: 700, color: "#1a6fff", lineHeight: 1 }}>{s.val}</div>
+              <div style={{ fontSize: "0.7rem", color: "#4b5a72", fontWeight: 500 }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── GLOBE ── */}
+        <div style={{ marginBottom: "5.5rem" }}>
+          <div className="section-label">The Map</div>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(1.8rem, 3.5vw, 2.6rem)", fontWeight: 700, marginBottom: "2rem", fontStyle: "italic" }}>
+            Every country, spinning live
+          </h2>
+          <div className="globe-container">
+            <div
+              className="globe-svg-wrap"
+              onMouseDown={e => {
+                isDragging.current = true;
+                autoSpin.current = false;
+                dragStart.current = e.clientX;
+                rotStart.current = rotY;
+              }}
+              onMouseMove={e => {
+                if (!isDragging.current) return;
+                const delta = e.clientX - dragStart.current;
+                setRotY(rotStart.current + delta * 0.4);
+              }}
+              onMouseUp={() => { isDragging.current = false; setTimeout(() => { autoSpin.current = true; lastTime.current = 0; }, 1500); }}
+              onMouseLeave={() => { if (isDragging.current) { isDragging.current = false; setTimeout(() => { autoSpin.current = true; lastTime.current = 0; }, 1500); } }}
+            >
+              <svg className="globe-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="gGrad" cx="38%" cy="32%">
+                    <stop offset="0%" stopColor="#0d1f3c" />
+                    <stop offset="100%" stopColor="#060810" />
+                  </radialGradient>
+                  <radialGradient id="gShine" cx="32%" cy="28%">
+                    <stop offset="0%" stopColor="rgba(26,111,255,0.14)" />
+                    <stop offset="100%" stopColor="transparent" />
+                  </radialGradient>
+                  <clipPath id="gClip"><circle cx={CX} cy={CY} r={R} /></clipPath>
+                </defs>
+                {/* Body */}
+                <circle cx={CX} cy={CY} r={R} fill="url(#gGrad)" />
+                <circle cx={CX} cy={CY} r={R} fill="url(#gShine)" />
+                {/* Lat lines */}
+                {[-60, -30, 0, 30, 60].map(lat => {
+                  const phi = (90 - lat) * Math.PI / 180;
+                  const ry2 = R * Math.sin(phi);
+                  const cy2 = CY - R * Math.cos(phi);
+                  return <ellipse key={lat} cx={CX} cy={cy2} rx={ry2} ry={ry2 * 0.22} fill="none" stroke="rgba(26,111,255,0.1)" strokeWidth="0.7" />;
+                })}
+                {/* Lon lines */}
+                {[0, 30, 60, 90, 120, 150].map(lon => {
+                  const angle = ((lon + rotY) % 360) * Math.PI / 180;
+                  if (Math.cos(angle) < 0) return null;
+                  return <ellipse key={lon} cx={CX} cy={CY} rx={Math.abs(Math.sin(angle)) * R} ry={R} fill="none" stroke="rgba(26,111,255,0.08)" strokeWidth="0.6" />;
+                })}
+                {/* Rim */}
+                <circle cx={CX} cy={CY} r={R} fill="none" stroke="rgba(26,111,255,0.25)" strokeWidth="1.2" />
+                {/* Shine */}
+                <ellipse cx={155} cy={148} rx={38} ry={22} fill="rgba(255,255,255,0.04)" transform="rotate(-28,155,148)" />
+              </svg>
+
+              {/* FLAG PINS — rendered as absolutely positioned over the SVG */}
+              <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+                {projectedPins.map(({ country, px, py, depth }) => {
+                  // Convert SVG coords to percentage of 420px container
+                  const left = (px / 400) * 100 + "%";
+                  const top = (py / 400) * 100 + "%";
+                  const opacity = Math.max(0.2, depth);
+                  const scale = 0.7 + depth * 0.45;
+                  return (
+                    <div
+                      key={country.id}
+                      className="flag-pin"
+                      style={{ left, top, opacity, transform: `translate(-50%, -100%) scale(${scale})`, pointerEvents: "all" }}
+                      onClick={() => setSelected(country)}
+                      onMouseEnter={() => setHoveredPin(country.id)}
+                      onMouseLeave={() => setHoveredPin(null)}
+                    >
+                      {hoveredPin === country.id && (
+                        <div className="pin-tooltip">
+                          <span style={{ marginRight: "0.35rem" }}>{country.flag}</span>
+                          {country.name}
+                          <span style={{ marginLeft: "0.5rem", color: "#3a4a62", fontFamily: "'DM Mono', monospace" }}>{country.year}</span>
+                        </div>
+                      )}
+                      <div className="flag-bubble">
+                        <span className="flag-emoji">{country.flag}</span>
+                      </div>
+                      <div className="flag-stem" />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="globe-drag-hint">drag to rotate · click a flag to explore</div>
+          </div>
+        </div>
+
+        {/* FILTERS */}
+        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "2rem", alignItems: "center" }}>
+          <span style={{ fontSize: "0.7rem", color: "#2a3349", fontWeight: 500, marginRight: "0.4rem", fontFamily: "'DM Mono', monospace", letterSpacing: "0.08em" }}>REGION</span>
+          {REGIONS.map(r => (
+            <button key={r} className={`filter-btn ${filter === r ? "active" : ""}`} onClick={() => setFilter(r)}>{r}</button>
+          ))}
+        </div>
+
+        {/* STAMP GRID */}
+        <div className="section-label" style={{ marginBottom: "1.5rem" }}>Entry Log — {filtered.length} Stamps</div>
+        <div className="stamp-grid" style={{ marginBottom: "5rem" }}>
+          {filtered.map(country => (
+            <div key={country.id} className="stamp-card" onClick={() => setSelected(country)}>
+              <div className="stamp-img-wrap">
+                <img src={country.photo} alt={country.photoCaption} className="stamp-img"
+                  onError={e => { (e.target as HTMLImageElement).parentElement!.innerHTML = `<div class="placeholder-img"><span style="font-size:1.4rem">📷</span><span>Add your photo</span><span>${country.name}</span></div>`; }} />
+              </div>
+              <div className="stamp-body">
+                <div className="stamp-badge" style={{ background: (REGION_COLORS[country.region] || "#1a6fff") + "20", color: REGION_COLORS[country.region] || "#1a6fff" }}>
+                  {country.badge}
+                </div>
+                <div style={{ fontSize: "1.5rem", marginBottom: "0.3rem" }}>{country.flag}</div>
+                <div style={{ fontWeight: 600, fontSize: "0.86rem", color: "#d0d4e0", marginBottom: "0.2rem" }}>{country.name}</div>
+                <div style={{ fontSize: "0.66rem", color: "#2a3349", fontFamily: "'DM Mono', monospace" }}>{country.year}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* FOOTER */}
+        <div style={{ textAlign: "center", marginTop: "4rem" }}>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "2rem", color: "#1a2233", marginBottom: "2.5rem", lineHeight: 1.4 }}>
+            "The world is big.<br />I'm just getting started."
+          </p>
+          <a href="/" style={{
+            display: "inline-flex", alignItems: "center", gap: "0.5rem",
+            padding: "0.8rem 2rem", background: "transparent",
+            border: "1px solid #141a28", borderRadius: "12px",
+            color: "#4b5a72", textDecoration: "none",
+            fontSize: "0.83rem", fontWeight: 500, transition: "all 0.2s",
+          }}>← Back to Home</a>
+        </div>
+      </main>
+
+      {/* COUNTRY MODAL */}
+      {selected && (
+        <div className="modal-overlay" onClick={() => setSelected(null)}>
+          <div className="modal-box" onClick={e => e.stopPropagation()}>
+            <button className="close-btn" onClick={() => setSelected(null)}>✕</button>
+            <div className="modal-hero-wrap">
+              <img src={selected.photo} alt={selected.photoCaption} className="modal-hero"
+                onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
+              <div className="modal-hero-overlay" />
+              <div className="modal-hero-caption">{selected.photoCaption}</div>
+            </div>
+            <div className="modal-body">
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "1.5rem", gap: "1rem" }}>
+                <div>
+                  <div className="stamp-badge" style={{ background: (REGION_COLORS[selected.region] || "#1a6fff") + "20", color: REGION_COLORS[selected.region] || "#1a6fff", marginBottom: "0.6rem" }}>{selected.badge}</div>
+                  <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", fontWeight: 700, color: "#e8eaf0", marginBottom: "0.2rem" }}>
+                    {selected.flag} {selected.name}
+                  </h2>
+                  <div style={{ fontSize: "0.68rem", fontFamily: "'DM Mono', monospace", color: "#2a3349" }}>{selected.region} · {selected.year}</div>
+                </div>
+              </div>
+
+              {/* YOUR PHOTO PLACEHOLDER */}
+              <div className="your-photo-placeholder">
+                <span style={{ fontSize: "2rem" }}>📷</span>
+                <span style={{ fontSize: "0.78rem", fontWeight: 600, color: "#2a3349", fontFamily: "'DM Mono', monospace", letterSpacing: "0.06em" }}>YOUR PHOTO</span>
+                <span style={{ fontSize: "0.7rem", color: "#1a2233" }}>Add your personal photo from {selected.name} here</span>
+              </div>
+
+              <div style={{ background: "#0f1520", borderRadius: "14px", padding: "1.25rem", marginBottom: "1.25rem", borderLeft: `3px solid ${REGION_COLORS[selected.region] || "#1a6fff"}` }}>
+                <div style={{ fontSize: "0.6rem", letterSpacing: "0.13em", color: "#2a3349", fontWeight: 600, marginBottom: "0.5rem", fontFamily: "'DM Mono', monospace" }}>VIBE CHECK</div>
+                <p style={{ fontSize: "0.88rem", color: "#c0c8d8", lineHeight: 1.85 }}>{selected.vibe}</p>
+              </div>
+
+              <div>
+                <div style={{ fontSize: "0.6rem", letterSpacing: "0.13em", color: "#2a3349", fontWeight: 600, marginBottom: "0.75rem", fontFamily: "'DM Mono', monospace" }}>HIGHLIGHTS</div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                  {selected.highlights.map(h => (
+                    <span key={h} className="highlight-pill">
+                      <span style={{ width: 5, height: 5, borderRadius: "50%", background: REGION_COLORS[selected.region] || "#1a6fff", display: "inline-block", flexShrink: 0 }} />
+                      {h}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* EASTER EGG */}
+      {easterEgg && (
+        <div className="easter-modal" onClick={() => setEasterEgg(false)}>
+          <div style={{
+            background: "#0b1017", border: "1px solid #1a2a4a",
+            borderRadius: "28px", padding: "3rem", maxWidth: 480,
+            textAlign: "center", animation: "slideUp 0.4s cubic-bezier(0.4,0,0.2,1)",
+          }} onClick={e => e.stopPropagation()}>
+            <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🗝️</div>
+            <div className="section-label" style={{ textAlign: "center", marginBottom: "0.75rem" }}>Hidden Map Unlocked</div>
+            <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1.9rem", fontWeight: 700, marginBottom: "1.75rem", color: "#e8eaf0" }}>
+              My Top 3 Places on Earth
+            </h3>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem", textAlign: "left", marginBottom: "2rem" }}>
+              {[
+                { rank: "01", name: "Plitvice Lakes, Croatia", why: "The most beautiful natural sight I've ever seen. Nothing comes close.", flag: "🇭🇷" },
+                { rank: "02", name: "Santorini, Greece", why: "Sunset from Oia. That view is permanently burned into my memory.", flag: "🇬🇷" },
+                { rank: "03", name: "Banff, Canada", why: "The Rockies changed my understanding of scale. Absolutely humbling.", flag: "🇨🇦" },
+              ].map(item => (
+                <div key={item.rank} style={{ display: "flex", gap: "1rem", alignItems: "flex-start", background: "#0f1520", borderRadius: "14px", padding: "1.1rem" }}>
+                  <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "1.1rem", fontWeight: 500, color: "#1a6fff", lineHeight: 1, flexShrink: 0, paddingTop: "0.1rem" }}>{item.rank}</span>
+                  <div>
+                    <div style={{ fontWeight: 600, fontSize: "0.9rem", color: "#e8eaf0", marginBottom: "0.3rem" }}>{item.flag} {item.name}</div>
+                    <div style={{ fontSize: "0.78rem", color: "#4b5a72", lineHeight: 1.65 }}>{item.why}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button onClick={() => setEasterEgg(false)} style={{
+              padding: "0.8rem 2.25rem", background: "#1a6fff", border: "none",
+              borderRadius: "12px", color: "#fff", fontWeight: 600,
+              cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "0.88rem",
+            }}>Close</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
