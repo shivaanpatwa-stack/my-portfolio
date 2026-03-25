@@ -98,7 +98,7 @@ const COUNTRIES = [
     color: "#6d597a",
     vibe: "The monkeys will steal your lunch. The view from The Rock makes it worth it.",
     highlights: ["The Rock", "Barbary macaques", "Mountain views"],
-    photo: "https://images.unsplash.com/photo-1597598494791-e4f7ba35c4c1?w=800&q=80",
+    photo: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
     photoCaption: "Gibraltar",
     lat: 36, lon: -5,
   },
