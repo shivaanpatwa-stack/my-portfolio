@@ -5,6 +5,7 @@ const NAV_LINKS = [
   { label: "Finance Lab", href: "/finance" },
   { label: "MUN Arena", href: "/mun" },
   { label: "Experience", href: "/experience" },
+  { label: "Passport", href: "/passport" },
 ];
 
 const STATS = [
@@ -355,6 +356,7 @@ export default function Home() {
             <a href="/finance" className="cta-btn cta-primary">The Finance Lab →</a>
             <a href="/mun" className="cta-btn cta-secondary">The MUN Arena →</a>
             <a href="/experience" className="cta-btn cta-secondary">Experience →</a>
+            <a href="/passport" className="cta-btn cta-secondary">The Passport →</a>
           </div>
         </section>
 
