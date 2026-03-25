@@ -188,7 +188,7 @@ const COUNTRIES = [
     color: "#6d597a",
     vibe: "Postojna Cave was like descending into a completely different world — vast chambers, stalactites that took millennia to form, and a little train that takes you deep into the karst. Lake Bled is almost absurdly picturesque: a castle on a cliff, an island in the middle of a lake, the Julian Alps as a backdrop. Slovenia is tiny but it feels layered, like it's been hiding something excellent. It was the quiet surprise of the trip.",
     highlights: ["Postojna Cave", "Lake Bled", "Ljubljana", "Julian Alps"],
-    photo: "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800&q=80",
+    photo: "https://images.pexels.com/photos/3525983/pexels-photo-3525983.jpeg?auto=compress&cs=tinysrgb&w=800",
     photoCaption: "Lake Bled, Slovenia",
     lat: 46, lon: 15,
   },
