@@ -5,7 +5,7 @@ const COUNTRIES = [
   {
     id: "turkey", name: "Turkey", flag: "🇹🇷", region: "Middle East", year: "2012", badge: "First Stamp",
     color: "#e63946",
-    vibe: "My very first international adventure — I was wide-eyed the entire trip. Istanbul felt ancient and electric at once, all minarets and bazaars and endless cups of çay pressed into your hands by strangers. Bodrum's turquoise water was unlike anything I'd ever seen. I spent half the trip chasing cats through alleyways — Istanbul has thousands of them, and every one has somewhere important to be.",
+    vibe: "My very first passport stamp — though at one year old, Istanbul lives in family photos rather than actual memory. I've grown up hearing about it: the cats, the bazaars, the minarets, Bodrum's impossibly blue water. Whether I remember it or not, it was the right city to start with. First stamp at age one still counts.",
     highlights: ["Istanbul", "Bodrum", "Beach days", "Cat colonies"],
     photo: "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?w=800&q=80",
     photoCaption: "Istanbul, Turkey",
@@ -15,7 +15,7 @@ const COUNTRIES = [
   {
     id: "uae", name: "UAE", flag: "🇦🇪", region: "Middle East", year: "2013", badge: "Desert Gold",
     color: "#f4a261",
-    vibe: "Dubai's skyline from the water felt like a movie set — nothing looks real from a distance. Swimming with dolphins at Atlantis was one of the wildest experiences of my life; they're so much bigger up close than you'd expect. The city operates at a scale that doesn't make sense until you're standing in the middle of it. For a thirteen-year-old, it was pure sensory overload.",
+    vibe: "Dubai at two years old means this one lives in family photos rather than memory — but the photos are great. There's a whole album of me apparently swimming with dolphins at Atlantis, which sounds unhinged for a toddler, but the evidence is undeniable. Dubai's scale is the kind of thing you can barely process as an adult, let alone at two. Allegedly I had a brilliant time.",
     highlights: ["Dubai", "Atlantis", "Dolphins", "City sightseeing"],
     photo: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80",
     photoCaption: "Dubai, UAE",
@@ -33,7 +33,7 @@ const COUNTRIES = [
   {
     id: "uk", name: "United Kingdom", flag: "🇬🇧", region: "Europe", year: "2014", badge: "West End Debut",
     color: "#1a6fff",
-    vibe: "London's energy hit me before I even left the underground — there's a pulse to the city you feel immediately. Watching Matilda on the West End was my first real theatrical experience, and it completely changed how I think about storytelling and performance. We walked everywhere, through parks and markets and side streets that felt like they'd been there forever. It planted a seed that made me want to come back as soon as I could.",
+    vibe: "London's energy hits you before you can even explain what a city is — there's a pulse to it you feel immediately. Watching Matilda on the West End at age three was my first real theatrical experience, and something about the storytelling landed even then. We walked everywhere — through parks, markets, and side streets that felt centuries old. It planted a seed that made me want to come back the moment we left.",
     highlights: ["London", "Matilda musical", "City sightseeing"],
     photo: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&q=80",
     photoCaption: "London, UK",
@@ -42,7 +42,7 @@ const COUNTRIES = [
   {
     id: "czech", name: "Czech Republic", flag: "🇨🇿", region: "Europe", year: "2014", badge: "Old World",
     color: "#6d597a",
-    vibe: "Prague is like stepping directly into a fairy tale — the cobblestones, the towers, the way the whole city looks like it was drawn rather than built. We toured the Old Town in a vintage car, which felt completely absurd in the best way. I bought a wooden puppet from a craftsman's stall and still have it somewhere at home. Prague Zoo was also genuinely world-class, which nobody tells you beforehand.",
+    vibe: "Prague looks like it was drawn rather than built — the cobblestones, the towers, the whole city in a palette that feels too perfect to be real. Touring the Old Town in a vintage car at age three is one of my earliest actual travel memories. A wooden puppet from a craftsman's stall came home with us and is still somewhere in the house. Prague Zoo is also genuinely world-class, which nobody tells you beforehand.",
     highlights: ["Prague Old Town", "Vintage car tour", "Horse carriage", "Prague Zoo"],
     photo: "https://images.unsplash.com/photo-1541849546-216549ae216d?w=800&q=80",
     photoCaption: "Prague, Czech Republic",
@@ -51,7 +51,7 @@ const COUNTRIES = [
   {
     id: "switzerland", name: "Switzerland", flag: "🇨🇭", region: "Europe", year: "2015, 2024", badge: "Alpine Rush",
     color: "#e9c46a",
-    vibe: "First snow — Grindelwald, 2015 — and I was completely speechless, a kid from Mumbai seeing the Alps for the first time. Nine years later I came back to ski in Zermatt, with the Matterhorn watching over the slopes like it had been waiting. The Olympic Museum in Lausanne was an unexpected highlight — it made the whole idea of Olympic sport feel deeply personal. Switzerland is the kind of place that gets better every time you understand it a little more.",
+    vibe: "First snow — Grindelwald, 2015 — a four-year-old from Mumbai completely speechless at the Alps for the first time. Nine years later I came back to ski in Zermatt, with the Matterhorn watching over the slopes like it had been waiting. The Olympic Museum in Lausanne was an unexpected highlight — it made Olympic sport feel deeply personal in a way I didn't expect. Switzerland gets better every time you understand it a little more.",
     highlights: ["Grindelwald", "Interlaken", "Zermatt skiing", "Olympic Museum"],
     photo: "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=800&q=80",
     photoCaption: "Swiss Alps",
@@ -60,7 +60,7 @@ const COUNTRIES = [
   {
     id: "germany", name: "Germany", flag: "🇩🇪", region: "Europe", year: "2015", badge: "Engineering Nation",
     color: "#457b9d",
-    vibe: "Fresh cheese from Viktualienmarkt every single morning — I could have eaten nothing else. The BMW Museum is genuinely a temple to engineering, the kind of place where you walk out wanting to build something. Neuschwanstein by horse carriage through the forest was so absurdly cinematic it felt staged. Munich, Black Forest, Berlin — Germany operates at full volume, and I loved every minute.",
+    vibe: "Viktualienmarkt in Munich had fresh cheese so good that even a four-year-old refused to eat anything else. The BMW Museum is a genuine temple to engineering — the kind of place where you walk out wanting to build something. Neuschwanstein by horse carriage through the forest was so cinematic it felt staged. Munich, Black Forest, Berlin — Germany operates at full volume across every dimension, and I loved every bit of it.",
     highlights: ["Munich", "Neuschwanstein Castle", "Black Forest", "Berlin"],
     photo: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&q=80",
     photoCaption: "Neuschwanstein, Germany",
@@ -69,7 +69,7 @@ const COUNTRIES = [
   {
     id: "hongkong", name: "Hong Kong", flag: "🇭🇰", region: "Asia", year: "2016", badge: "Skyline City",
     color: "#e76f51",
-    vibe: "Disney Hong Kong was everything I'd hoped for, but what surprised me was how much I loved the city itself — the layers and the density and the contrast. The skyline across Victoria Harbour is one of the great views on the planet, even against every other city skyline I've seen since. Family reunions here have a particular warmth to them — good food, loud tables, everyone talking at once. It's a city that gets under your skin.",
+    vibe: "Disney Hong Kong was everything a five-year-old could hope for, but what surprised me more was how much I loved the city itself — the density, the layers, the contrast between old and new at every turn. The skyline across Victoria Harbour is one of the great views on the planet. Family reunions here have their own warmth: good food, loud tables, everyone talking at once. It's a city that gets under your skin.",
     highlights: ["Disney Hong Kong", "Family reunion", "City exploration"],
     photo: "https://images.unsplash.com/photo-1536599424071-0b215a388ba7?w=800&q=80",
     photoCaption: "Hong Kong",
@@ -78,7 +78,7 @@ const COUNTRIES = [
   {
     id: "spain", name: "Spain", flag: "🇪🇸", region: "Europe", year: "2017", badge: "Iberian Sweep",
     color: "#f4a261",
-    vibe: "Five cities in one trip — Madrid, Barcelona, Marbella, Granada, Palma — which is either ambitious or borderline unhinged. The Sagrada Família genuinely stopped me mid-sentence; I had no idea architecture could feel like that. Puerto Banús in Marbella is a completely different world, all superyachts and designer stores and people-watching from cafés. The Alhambra in Granada was the quieter highlight — intricate, ancient, and worth every step.",
+    vibe: "Five cities in one trip — Madrid, Barcelona, Marbella, Granada, Palma — which is either ambitious or borderline unhinged for a six-year-old. The Sagrada Família stopped me mid-step; I had no idea architecture could feel like that. Puerto Banús in Marbella is its own world entirely — superyachts, designer stores, open-air cafés, pure spectacle. The Alhambra in Granada was the quieter highlight: intricate, ancient, and worth every step up the hill.",
     highlights: ["Madrid", "Barcelona", "Marbella", "Granada Alhambra", "Palma"],
     photo: "https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?w=800&q=80",
     photoCaption: "Barcelona, Spain",
@@ -87,7 +87,7 @@ const COUNTRIES = [
   {
     id: "bhutan", name: "Bhutan", flag: "🇧🇹", region: "Asia", year: "2017", badge: "Himalayan Trek",
     color: "#2a9d8f",
-    vibe: "Bhutan doesn't let just anyone in — you apply, you pay, you earn the entry — and you feel that exclusivity the moment you land. The trek to Tiger's Nest is brutal: steep, high-altitude, unforgiving. But standing in front of the monastery perched on that cliff, breathing hard, looking out over the valley — it's one of the most genuinely spiritual experiences I've had anywhere. Bhutan reminded me that some places are worth making difficult.",
+    vibe: "Bhutan doesn't let just anyone in — you apply, pay, and earn the entry — and you feel that weight the moment you land. The trek to Tiger's Nest at six years old was steep, relentless, and properly hard. But standing in front of that monastery perched on the cliff, looking out over the valley — it's one of the most awe-inspiring moments I've had anywhere. Some places are worth making difficult.",
     highlights: ["Tiger's Nest trek", "Thimphu", "Paro", "Punakha"],
     photo: "https://images.unsplash.com/photo-1580889240762-ac35d8395f6b?w=800&q=80",
     photoCaption: "Tiger's Nest, Bhutan",
@@ -96,7 +96,7 @@ const COUNTRIES = [
   {
     id: "gibraltar", name: "Gibraltar", flag: "🇬🇮", region: "Europe", year: "2017", badge: "The Rock",
     color: "#6d597a",
-    vibe: "A day trip that punches way above its weight. The Barbary macaques are fearless — one jumped on my shoulder and tried to steal my bag. Climbing The Rock gives you a view of two continents at once: Europe behind you, Africa across the water. One of the most unique geographical spots on the planet.",
+    vibe: "A day trip that punches way above its weight. The Barbary macaques are completely fearless — one jumped on my shoulder at age six and tried to steal my bag, which is a memory that sticks. Climbing The Rock gives you a view of two continents at once: Europe behind you, Africa across the water. One of the most unique geographical spots on the planet.",
     highlights: ["The Rock", "Barbary macaques", "Mountain views"],
     photo: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
     photoCaption: "Gibraltar",
@@ -114,7 +114,7 @@ const COUNTRIES = [
   {
     id: "usa", name: "USA", flag: "🇺🇸", region: "North America", year: "2018, 2022", badge: "Coast to Coast",
     color: "#1a6fff",
-    vibe: "Two very different trips — the first a family adventure hitting Seattle, Orlando, and New York; the second a university visit tour that felt genuinely life-changing. Standing in Harvard Yard for the first time, I understood what a university town at that scale actually feels like. NYC's energy is unlike any city I'd been to before — it operates at a frequency all its own. Pike Place Market in Seattle at 6am, coffee in hand, watching the fish throwers warm up, is a specific memory I'll keep forever.",
+    vibe: "Two very different trips — first a family adventure through Seattle, Orlando, and New York; then a university visit tour at age eleven that felt genuinely significant. Standing in Harvard Yard for the first time, I began to understand what a university at that scale actually feels like. NYC operates at a frequency unlike any other city — it hits you immediately and doesn't let up. Pike Place Market in Seattle at 6am, watching the fish throwers warm up, is a specific memory I'll keep for a long time.",
     highlights: ["NYC", "Boston / Harvard", "Orlando", "Seattle"],
     photo: "https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?w=800&q=80",
     photoCaption: "New York City, USA",
@@ -132,7 +132,7 @@ const COUNTRIES = [
   {
     id: "portugal", name: "Portugal", flag: "🇵🇹", region: "Europe", year: "2019", badge: "Atlantic Edge",
     color: "#e9c46a",
-    vibe: "Standing on the cliff at Nazaré watching the world's biggest waves was humbling in a physical way — the scale of them is hard to communicate. Porto's Livraria Lello is the most beautiful bookshop I've ever been in; I bought a book just to have something to carry out. Lisbon's trams and Sintra's palaces and Óbidos' medieval walls — Portugal packs an extraordinary amount into a small country. It might be the most underrated destination in Western Europe.",
+    vibe: "Standing on the cliff at Nazaré watching the world's biggest waves was humbling in a physical way — the scale is hard to communicate to someone who hasn't been. Porto's Livraria Lello is the most beautiful bookshop I've ever been in; I bought a book just to have something to carry out. Lisbon's trams, Sintra's palaces, Óbidos' medieval walls — Portugal packs an extraordinary amount into a small country. Probably the most underrated destination in Western Europe.",
     highlights: ["Lisbon", "Nazaré waves", "Óbidos", "Sintra", "Porto"],
     photo: "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800&q=80",
     photoCaption: "Lisbon, Portugal",
@@ -141,7 +141,7 @@ const COUNTRIES = [
   {
     id: "denmark", name: "Denmark", flag: "🇩🇰", region: "Europe", year: "2019", badge: "Hygge Life",
     color: "#2a9d8f",
-    vibe: "Copenhagen is effortlessly cool in a way that very few cities actually pull off — nothing feels forced or performative. Tivoli at night is something from another era, all warm lights and old rides and people just enjoying being there together. The food was better than I expected, the cycling was everywhere, and the city felt genuinely liveable in a way that made me think about what cities could be. I'd go back without a second thought.",
+    vibe: "Copenhagen is effortlessly cool in a way very few cities actually pull off — nothing feels forced or performed. Tivoli at night is something from another era: warm lights, old rides, people just enjoying being somewhere together. The food was better than expected, the cycling was everywhere, and the city felt genuinely liveable in a way that made me think about what cities could be. I'd go back without a second thought.",
     highlights: ["Copenhagen", "Tivoli Gardens"],
     photo: "https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?w=800&q=80",
     photoCaption: "Copenhagen, Denmark",
@@ -150,7 +150,7 @@ const COUNTRIES = [
   {
     id: "belgium", name: "Belgium & Netherlands", flag: "🇧🇪", region: "Europe", year: "2019, 2025", badge: "Benelux Double",
     color: "#f4a261",
-    vibe: "Bruges in 2019 was pure medieval Europe — horse-drawn carriages, canals, chocolate shops on every corner, and a slowness that felt deliberate. Delft in 2025 for CISV was completely different: international, chaotic, and one of the best weeks of my life. Boating through Giethoorn — no roads, just waterways and wooden bridges — was straight out of a Dutch painting. Brussels MUN was the kind of experience where you make friends you'll keep for years.",
+    vibe: "Bruges in 2019 was pure medieval Europe — horse-drawn carriages, canals, chocolate shops on every corner, a pace that felt deliberately slow. Delft in 2025 for CISV was completely different: international, chaotic, and one of the best weeks of my life. Boating through Giethoorn — no roads, just waterways and wooden bridges — felt straight out of a Dutch painting. Brussels MUN was the kind of experience where you make friends you actually keep.",
     highlights: ["Bruges", "Delft", "Giethoorn boating", "Brussels MUN", "Ghent"],
     photo: "https://images.unsplash.com/photo-1559113202-c916b8e44373?w=800&q=80",
     photoCaption: "Bruges, Belgium",
@@ -159,7 +159,7 @@ const COUNTRIES = [
   {
     id: "thailand", name: "Thailand", flag: "🇹🇭", region: "Asia", year: "2022", badge: "Golden Temples",
     color: "#e9c46a",
-    vibe: "Phuket and Bangkok in the same trip is a study in contrasts — beach calm followed by the full sensory chaos of a megacity. The temples in Bangkok are breathtaking up close: gold everywhere, incense smoke, monks in saffron, tourists and worshippers side by side. Street food culture in Thailand is so good that every other country's version feels like an approximation. Thailand operates on a different frequency, and I mean that completely as a compliment.",
+    vibe: "Phuket and Bangkok in the same trip is a study in contrasts — beach calm followed by the full sensory overload of a megacity. The temples in Bangkok are breathtaking up close: gold everywhere, incense, monks in saffron, tourists and worshippers moving through the same spaces. Thai street food is so good that every other country's version feels like an approximation. Thailand operates on its own frequency, and I mean that entirely as a compliment.",
     highlights: ["Phuket", "Bangkok", "Temples", "Street food"],
     photo: "https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&q=80",
     photoCaption: "Bangkok, Thailand",
@@ -168,7 +168,7 @@ const COUNTRIES = [
   {
     id: "austria", name: "Austria", flag: "🇦🇹", region: "Europe", year: "2022, 2023", badge: "Alpine Base",
     color: "#6d597a",
-    vibe: "Christmas at the family home in Payerbach felt like the Platonic ideal of a European winter — snow, mulled wine, the smell of pine, every cliché landing perfectly. Then ski season in Kitzbühel for Dad's 50th birthday, one of those rare trips where the occasion matches the setting exactly. Innsbruck surprised me — compact and walkable and surrounded by mountains that feel impossibly close. Austria makes the Alps feel personal rather than just spectacular.",
+    vibe: "Christmas at the family home in Payerbach felt like the ideal European winter — snow, mulled wine, the smell of pine, every cliché landing exactly right. Then ski season in Kitzbühel for Dad's 50th birthday — one of those rare trips where the occasion matches the setting perfectly. Innsbruck surprised me: compact, walkable, and ringed by mountains that feel impossibly close to the city. Austria makes the Alps feel personal rather than just spectacular.",
     highlights: ["Payerbach", "Kirchberg skiing", "Kitzbühel", "Innsbruck"],
     photo: "https://images.unsplash.com/photo-1609856878074-cf31e21ccb6b?w=800&q=80",
     photoCaption: "Austrian Alps",
@@ -177,7 +177,7 @@ const COUNTRIES = [
   {
     id: "croatia", name: "Croatia", flag: "🇭🇷", region: "Europe", year: "2023", badge: "Game of Thrones",
     color: "#2a9d8f",
-    vibe: "Dubrovnik's Game of Thrones tour made me look at the city completely differently — suddenly every staircase and wall had a scene attached to it. Cliff jumping in Hvar from a private speedboat was the kind of afternoon that exists only in summer, only in the Adriatic. Plitvice Lakes is the most beautiful natural sight I've ever seen — cascading turquoise pools through ancient forest, like the planet showing off. Croatia has a confidence to its beauty that I didn't expect.",
+    vibe: "Dubrovnik's Game of Thrones tour reframed the whole city — suddenly every staircase and fortress wall had a scene attached to it. Cliff jumping in Hvar from a private speedboat was the kind of afternoon that only exists in summer, only in the Adriatic. Plitvice Lakes is the most beautiful natural sight I've ever seen — cascading turquoise pools through ancient forest, like the planet showing off. Croatia has a quiet confidence to its beauty that I completely didn't expect.",
     highlights: ["Dubrovnik GoT tour", "Hvar cliff jumping", "Blue Caves", "Plitvice Lakes"],
     photo: "https://images.unsplash.com/photo-1555990538-c0f6b0acf83c?w=800&q=80",
     photoCaption: "Plitvice Lakes, Croatia",
@@ -195,7 +195,7 @@ const COUNTRIES = [
   {
     id: "italy", name: "Italy & Vatican", flag: "🇮🇹", region: "Europe", year: "2024, 2025", badge: "Jubilee Year",
     color: "#e63946",
-    vibe: "Milan's Galleria Vittorio Emanuele II set the tone — beautiful, grand, and immediately understood why Italians call it il salotto di Milano, the city's drawing room. Rome in the Jubilee Year was overwhelming in the best possible way: pilgrims everywhere, the Vatican more charged than usual, the Sistine Chapel carrying a completely different weight to it. Venice I explored with CISV friends, which made it feel human rather than just scenic — and watching glass being blown in Murano by hand was genuinely mesmerizing. Italy rewards returning.",
+    vibe: "Milan's Galleria Vittorio Emanuele II set the tone — beautiful, grand, and I immediately understood why Italians call it il salotto di Milano, the city's drawing room. Rome in the Jubilee Year was overwhelming in the best way: pilgrims everywhere, the Vatican more charged than usual, the Sistine Chapel carrying a different weight entirely. Venice I explored with CISV friends, which made it feel human rather than just scenic — watching glass being blown in Murano by hand was genuinely mesmerizing. Italy rewards every return.",
     highlights: ["Milan", "Rome", "Venice", "Vatican Sistine Chapel", "Murano glass"],
     photo: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&q=80",
     photoCaption: "Rome, Italy",
@@ -213,7 +213,7 @@ const COUNTRIES = [
   {
     id: "kenya", name: "Kenya", flag: "🇰🇪", region: "Africa", year: "2025", badge: "Safari Soul",
     color: "#f4a261",
-    vibe: "The Masai Mara is the kind of place that recalibrates you — there's a scale and wildness to it that makes every other landscape feel slightly smaller by comparison. We saw a leopard in a tree at close range, completely still, watching us watch it — a moment I replayed for weeks. The red earth, the acacia trees, the enormous sky, the sounds at night — Africa gets into you in a way that nothing fully prepares you for. Nothing else feels quite as real after.",
+    vibe: "The Masai Mara recalibrates you — there's a scale and wildness to it that makes every other landscape feel slightly smaller afterward. We spotted a leopard in a tree at close range, completely still, watching us watch it — a moment I replayed for weeks. The red earth, the acacia trees, the enormous open sky, the sounds at night — Africa gets into you in a way nothing fully prepares you for. Nothing else feels quite as real after.",
     highlights: ["Nairobi", "Masai Mara safari", "Leopard sighting"],
     photo: "https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=800&q=80",
     photoCaption: "Masai Mara, Kenya",
@@ -222,7 +222,7 @@ const COUNTRIES = [
   {
     id: "vietnam", name: "Vietnam", flag: "🇻🇳", region: "Asia", year: "2025", badge: "Family Celebration",
     color: "#e76f51",
-    vibe: "Grandfather's 70th birthday brought the whole family to Da Nang, which turned a trip into an occasion — the kind of memory that layers over the place itself. Hoi An at night, lit by hundreds of paper lanterns reflected in the Thu Bon river, is as beautiful as anywhere I've ever been. Vietnamese food hits completely differently when you're actually there: the freshness, the specificity, the way every region has its own version of everything. Vietnam was the trip that reminded me why family travel is the best kind.",
+    vibe: "Grandfather's 70th birthday brought the whole family to Da Nang, turning a trip into a proper occasion — the kind of memory that layers itself over the place. Hoi An at night, lit by hundreds of paper lanterns reflected in the Thu Bon river, is as beautiful as anywhere I've been. Vietnamese food hits completely differently when you're actually there: the freshness, the specificity, the way every region has its own version of everything. Vietnam reminded me why family travel is the best kind.",
     highlights: ["Da Nang", "Hoi An", "Family celebration", "Local food"],
     photo: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80",
     photoCaption: "Hoi An, Vietnam",
