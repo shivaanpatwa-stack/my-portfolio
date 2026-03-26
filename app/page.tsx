@@ -10,7 +10,7 @@ const NAV_LINKS = [
 
 const STATS = [
   { value: "18", label: "MUN Conferences", sub: "15 Delegate · 3 Chair" },
-  { value: "28", label: "Countries Explored", sub: "& counting" },
+  { value: "29", label: "Countries Explored", sub: "& counting" },
   { value: "10+", label: "Sports Played", sub: "always competing" },
   { value: "1", label: "Vision", sub: "for a Digital Future" },
 ];
