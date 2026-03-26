@@ -95,6 +95,15 @@ const COUNTRIES = [
     lat: 22, lon: 114,
   },
   {
+    id: "thailand", name: "Thailand", flag: "🇹🇭", region: "Asia", year: "2016, 2019, 2022", badge: "Golden Temples",
+    color: "#e9c46a",
+    vibe: "Three separate trips to Thailand across six years. First visit in 2016, then back in 2019, and again in 2022 for my aunt's 30th in Phuket and Bangkok. Thailand has a way of pulling you back — the temples, the chaos, the street food, the warmth of the people. Every visit hits different.",
+    highlights: ["Phuket", "Bangkok", "Temples", "Street food", "Aunt's 30th"],
+    photo: "https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&q=80",
+    photoCaption: "Bangkok, Thailand",
+    lat: 15, lon: 101,
+  },
+  {
     id: "spain", name: "Spain", flag: "🇪🇸", region: "Europe", year: "2017", badge: "Iberian Sweep",
     color: "#f4a261",
     vibe: "Five cities in one trip — Madrid, Barcelona, Marbella, Granada, Palma — which is either ambitious or borderline unhinged for a six-year-old. The Sagrada Família stopped me mid-step; I had no idea architecture could feel like that. Puerto Banús in Marbella is its own world entirely — superyachts, designer stores, open-air cafés, pure spectacle. The Alhambra in Granada was the quieter highlight: intricate, ancient, and worth every step up the hill.",
@@ -149,6 +158,15 @@ const COUNTRIES = [
     lat: 38, lon: -97,
   },
   {
+    id: "maldives", name: "Maldives", flag: "🇲🇻", region: "Asia", year: "May 2018, 2021", badge: "Ocean Paradise",
+    color: "#06b6d4",
+    vibe: "Two separate trips to paradise. In May 2018, stayed at the Jumeirah Vittaveli — the kids club was incredible and the water villa was unlike anything I'd ever seen. Would jump into the sea every single day and fed stingrays right from the shore. Back again in 2021 with family — snorkelling, the ocean, and total disconnection from the world. The Maldives resets you in a way nowhere else can.",
+    highlights: ["Jumeirah Vittaveli", "Water villa", "Fed stingrays", "Kids club", "Snorkelling", "Family trip 2021"],
+    photo: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=800&q=80",
+    photoCaption: "Maldives",
+    lat: 3, lon: 73,
+  },
+  {
     id: "france", name: "France", flag: "🇫🇷", region: "Europe", year: "2019 (×2)", badge: "Lavender & Lights",
     color: "#457b9d",
     vibe: "Two trips in one year showed me France has at least two completely distinct personalities. The summer trip through Provence — Gordes lavender fields, Pont du Gard, Cassis by boat — was slow and golden and warm in every sense. Paris at Christmas was the opposite: all lights and crowds and vin chaud and the Eiffel Tower doing its every-hour sparkle. Both versions of France are completely worth it.",
@@ -183,24 +201,6 @@ const COUNTRIES = [
     photo: "https://images.unsplash.com/photo-1559113202-c916b8e44373?w=800&q=80",
     photoCaption: "Bruges, Belgium",
     lat: 50, lon: 4,
-  },
-  {
-    id: "netherlands", name: "Netherlands", flag: "🇳🇱", region: "Europe", year: "2025", badge: "Canals & CISV",
-    color: "#e9c46a",
-    vibe: "Delft for CISV in 2025 was one of the best weeks of my life — international, chaotic, warm, and the kind of experience you can't fully explain to someone who wasn't there. Day trips to The Hague gave it context. Boating through Giethoorn — no roads, just waterways and wooden bridges — felt straight out of a Dutch painting. Leiden's compact university town energy was an unexpected highlight.",
-    highlights: ["Delft", "The Hague", "Giethoorn", "Leiden"],
-    photo: "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=800&q=80",
-    photoCaption: "Netherlands",
-    lat: 52, lon: 5,
-  },
-  {
-    id: "thailand", name: "Thailand", flag: "🇹🇭", region: "Asia", year: "2022", badge: "Golden Temples",
-    color: "#e9c46a",
-    vibe: "Phuket and Bangkok in the same trip is a study in contrasts — beach calm followed by the full sensory overload of a megacity. The temples in Bangkok are breathtaking up close: gold everywhere, incense, monks in saffron, tourists and worshippers moving through the same spaces. Thai street food is so good that every other country's version feels like an approximation. Thailand operates on its own frequency, and I mean that entirely as a compliment.",
-    highlights: ["Phuket", "Bangkok", "Temples", "Street food"],
-    photo: "https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&q=80",
-    photoCaption: "Bangkok, Thailand",
-    lat: 15, lon: 101,
   },
   {
     id: "austria", name: "Austria", flag: "🇦🇹", region: "Europe", year: "2022, 2023", badge: "Alpine Base",
@@ -239,15 +239,6 @@ const COUNTRIES = [
     lat: 42, lon: 12,
   },
   {
-    id: "vatican", name: "Vatican City", flag: "🇻🇦", region: "Europe", year: "2025", badge: "Jubilee Year",
-    color: "#c0a060",
-    vibe: "Visiting the Sistine Chapel and St. Peter's Basilica during the Jubilee Year 2025 gave the whole experience a different weight — pilgrims everywhere, the Vatican more charged than usual, the art carrying a significance that went beyond the aesthetic. One of the most historically significant years to visit, and you could feel it.",
-    highlights: ["Sistine Chapel", "St. Peter's Basilica", "Jubilee Year 2025"],
-    photo: "https://images.pexels.com/photos/3892129/pexels-photo-3892129.jpeg?auto=compress&cs=tinysrgb&w=800",
-    photoCaption: "St. Peter's Square, Vatican City",
-    lat: 41.9, lon: 12.45,
-  },
-  {
     id: "greece", name: "Greece", flag: "🇬🇷", region: "Europe", year: "2024", badge: "Island Hopper",
     color: "#1a6fff",
     vibe: "Athens hit me with more history per square metre than I knew how to process — the Acropolis is one thing, but it's the layers underneath that stay with you. Meteora is something else entirely: Byzantine monasteries balanced on top of sheer rock pillars, as if someone decided the most dramatic location possible was the only acceptable one. Island hopping through Santorini, Mykonos, and Paros gave each island room to be itself — every one completely different from the last. Greece is relentlessly, almost exhaustingly beautiful.",
@@ -255,6 +246,15 @@ const COUNTRIES = [
     photo: "https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800&q=80",
     photoCaption: "Santorini, Greece",
     lat: 38, lon: 24,
+  },
+  {
+    id: "vatican", name: "Vatican City", flag: "🇻🇦", region: "Europe", year: "2025", badge: "Jubilee Year",
+    color: "#c0a060",
+    vibe: "Visiting the Sistine Chapel and St. Peter's Basilica during the Jubilee Year 2025 gave the whole experience a different weight — pilgrims everywhere, the Vatican more charged than usual, the art carrying a significance that went beyond the aesthetic. One of the most historically significant years to visit, and you could feel it.",
+    highlights: ["Sistine Chapel", "St. Peter's Basilica", "Jubilee Year 2025"],
+    photo: "https://images.pexels.com/photos/3892129/pexels-photo-3892129.jpeg?auto=compress&cs=tinysrgb&w=800",
+    photoCaption: "St. Peter's Square, Vatican City",
+    lat: 41.9, lon: 12.45,
   },
   {
     id: "kenya", name: "Kenya", flag: "🇰🇪", region: "Africa", year: "2025", badge: "Safari Soul",
@@ -282,6 +282,15 @@ const COUNTRIES = [
     photo: "https://images.pexels.com/photos/29813525/pexels-photo-29813525.jpeg?auto=compress&cs=tinysrgb&w=800",
     photoCaption: "Sri Lanka",
     lat: 8, lon: 81,
+  },
+  {
+    id: "netherlands", name: "Netherlands", flag: "🇳🇱", region: "Europe", year: "2025", badge: "Dutch Canals",
+    color: "#e9c46a",
+    vibe: "Stayed in Delft in 2025. Day trips to The Hague, boating through the canals of Giethoorn, and exploring the beautiful university town of Leiden. The Dutch countryside is something else entirely — flat, green, and impossibly peaceful.",
+    highlights: ["Delft", "The Hague", "Giethoorn", "Leiden"],
+    photo: "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=800&q=80",
+    photoCaption: "Netherlands",
+    lat: 52, lon: 5,
   },
 ];
 
@@ -637,7 +646,7 @@ export default function PassportPage() {
 
         {/* HERO */}
         <div style={{ marginBottom: "4.5rem", animation: "floatIn 0.8s ease forwards" }}>
-          <div className="section-label">Global Citizen · 28 Countries · 6 Continents</div>
+          <div className="section-label">Global Citizen · 29 Countries · 6 Continents</div>
           <h1 style={{
             fontFamily: "'Cormorant Garamond', serif",
             fontSize: "clamp(4rem, 10vw, 8rem)",
@@ -648,7 +657,7 @@ export default function PassportPage() {
             <span style={{ display: "block", fontStyle: "italic", background: "linear-gradient(125deg, #1a6fff 0%, #6fb3ff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Passport</span>
           </h1>
           <p style={{ fontSize: "1.05rem", color: "#4b5a72", maxWidth: 440, lineHeight: 1.8, fontWeight: 300 }}>
-            28 countries. 6 continents. A lifetime of global immersion.
+            29 countries. 6 continents. A lifetime of global immersion.
           </p>
         </div>
 
@@ -687,7 +696,7 @@ export default function PassportPage() {
         {/* STATS */}
         <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", marginBottom: "4.5rem" }}>
           {[
-            { val: "28", label: "Countries", icon: "🌍" },
+            { val: "29", label: "Countries", icon: "🌍" },
             { val: "6", label: "Continents", icon: "🗺️" },
             { val: "13", label: "Years Exploring", icon: "✈️" },
             { val: "2012", label: "First Stamp", icon: "🔖" },
