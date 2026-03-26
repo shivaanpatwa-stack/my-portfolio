@@ -161,6 +161,10 @@ const COUNTRIES = [
     highlights: ["NYC", "Boston / Harvard", "Orlando", "Seattle"],
     photo: "https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?w=800&q=80",
     photoCaption: "New York City, USA",
+    photoGroups: [
+      { year: "2018", photos: ["/USA-photo-1-2018.JPG", "/USA-photo-4-2018.JPG", "/USA-photo-5-2018.JPG"] },
+      { year: "2022", photos: ["/USA-photo-2-2022.JPG", "/USA-photo-3-2022.JPG"] },
+    ],
     lat: 38, lon: -97,
   },
   {
