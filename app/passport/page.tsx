@@ -224,8 +224,8 @@ const COUNTRIES = [
     photo: "https://images.unsplash.com/photo-1559113202-c916b8e44373?w=800&q=80",
     photoCaption: "Bruges, Belgium",
     photoGroups: [
-      { year: "2019", photos: ["/Belgium-photo-3-2019.JPG", "/Belgium-photo-5-2019.JPG", "/Belgium-photo-6-2019.JPG"] },
-      { year: "2025", photos: ["/Belgium-photo-1-2025.JPG", "/Belgium-photo-2-2025.JPG", "/Belgium-photo-4-2025.JPG"] },
+      { year: "2019", photos: ["/Belgium-photo-2-2019.JPG", "/Belgium-photo-3-2019.JPG", "/Belgium-photo-4-2019.JPG"] },
+      { year: "2025", photos: ["/Belgium-photo-1-2025.JPG", "/Belgium-photo-5-2025.JPG", "/Belgium-photo-6-2025.JPG"] },
     ],
     lat: 50, lon: 4,
   },
