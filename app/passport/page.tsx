@@ -323,7 +323,7 @@ const COUNTRIES = [
     highlights: ["Da Nang", "Hoi An", "Family celebration", "Local food"],
     photo: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80",
     photoCaption: "Hoi An, Vietnam",
-    photos: ["https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=400&q=80", "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=400&q=80", "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80"],
+    photos: ["/Vietnam-photo-1.JPG", "/Vietnam-photo-2.JPG", "/Vietnam-photo-3.JPG"],
     lat: 16, lon: 108,
   },
   {
