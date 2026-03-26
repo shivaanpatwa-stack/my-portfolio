@@ -125,6 +125,9 @@ const COUNTRIES = [
     highlights: ["The Rock", "Barbary macaques", "Mountain views"],
     photo: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
     photoCaption: "Gibraltar",
+    photoGroups: [
+      { year: "2017", photos: ["/Gibraltar-photo-1.JPG"] },
+    ],
     lat: 36, lon: -5,
   },
   {
