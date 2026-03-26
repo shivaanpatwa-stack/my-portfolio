@@ -7,7 +7,7 @@ const COUNTRIES = [
     color: "#e63946",
     vibe: "My very first passport stamp — though at one year old, Istanbul lives in family photos rather than actual memory. I've grown up hearing about it: the cats, the bazaars, the minarets, Bodrum's impossibly blue water. Whether I remember it or not, it was the right city to start with. First stamp at age one still counts.",
     highlights: ["Istanbul", "Bodrum", "Beach days", "Cat colonies"],
-    photo: "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?w=800&q=80",
+    photo: "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800&q=80",
     photoCaption: "Istanbul, Turkey",
     photos: ["/Turkey-photo-1.JPG", "/Turkey-photo-2.JPG", "/Turkey-photo-3.JPG"],
     // lat/lon for globe projection
@@ -42,7 +42,7 @@ const COUNTRIES = [
     color: "#1a6fff",
     vibe: "London's energy hits you before you can even explain what a city is — there's a pulse to it you feel immediately. Watching Matilda on the West End at age three was my first real theatrical experience, and something about the storytelling landed even then. We walked everywhere — through parks, markets, and side streets that felt centuries old. It planted a seed that made me want to come back the moment we left.",
     highlights: ["London", "Matilda musical", "City sightseeing"],
-    photo: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&q=80",
+    photo: "https://images.unsplash.com/photo-1529655683826-aba9b3e77383?w=800&q=80",
     photoCaption: "London, UK",
     photos: ["/UK-photo-1.JPG", "/UK-photo-2.JPG", "/UK-photo-3.JPG"],
     lat: 51, lon: -1,
@@ -62,7 +62,7 @@ const COUNTRIES = [
     color: "#e9c46a",
     vibe: "First snow — Grindelwald, 2015 — a four-year-old from Mumbai completely speechless at the Alps for the first time. Nine years later I came back to ski in Zermatt, with the Matterhorn watching over the slopes like it had been waiting. The Olympic Museum in Lausanne was an unexpected highlight — it made Olympic sport feel deeply personal in a way I didn't expect. Switzerland gets better every time you understand it a little more.",
     highlights: ["Grindelwald", "Interlaken", "Zermatt skiing", "Olympic Museum"],
-    photo: "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=800&q=80",
+    photo: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80",
     photoCaption: "Swiss Alps",
     photoGroups: [
       { year: "2015", photos: ["/Switzerland-photo-3-2015.JPG", "/Switzerland-photo-4-2015.JPG"] },
@@ -113,7 +113,7 @@ const COUNTRIES = [
     color: "#f4a261",
     vibe: "Five cities in one trip — Madrid, Barcelona, Marbella, Granada, Palma — which is either ambitious or borderline unhinged for a six-year-old. The Sagrada Família stopped me mid-step; I had no idea architecture could feel like that. Puerto Banús in Marbella is its own world entirely — superyachts, designer stores, open-air cafés, pure spectacle. The Alhambra in Granada was the quieter highlight: intricate, ancient, and worth every step up the hill.",
     highlights: ["Madrid", "Barcelona", "Marbella", "Granada Alhambra", "Palma"],
-    photo: "https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?w=800&q=80",
+    photo: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80",
     photoCaption: "Barcelona, Spain",
     photoGroups: [
       { year: "2017", photos: ["/Spain-photo-1.JPG", "/Spain-photo-2.JPG", "/Spain-photo-3.JPG"] },
@@ -125,7 +125,7 @@ const COUNTRIES = [
     color: "#2a9d8f",
     vibe: "Bhutan doesn't let just anyone in — you apply, pay, and earn the entry — and you feel that weight the moment you land. The trek to Tiger's Nest at six years old was steep, relentless, and properly hard. But standing in front of that monastery perched on the cliff, looking out over the valley — it's one of the most awe-inspiring moments I've had anywhere. Some places are worth making difficult.",
     highlights: ["Tiger's Nest trek", "Thimphu", "Paro", "Punakha"],
-    photo: "https://images.pexels.com/photos/17505615/pexels-photo-17505615.jpeg?auto=compress&cs=tinysrgb&w=800",
+    photo: "https://images.unsplash.com/photo-1580889240762-ac35d8395f6b?w=800&q=80",
     photoCaption: "Tiger's Nest, Bhutan",
     photoGroups: [
       { year: "2017", photos: ["/Bhutan-photo-1.JPG", "/Bhutan-photo-2.JPG", "/Bhutan-photo-3.JPG"] },
@@ -232,7 +232,7 @@ const COUNTRIES = [
     color: "#e07b39",
     vibe: "Amsterdam with friends in 2019 — the kind of trip that writes itself. The canals, the bikes everywhere, the chaos of the city that somehow still feels relaxed. We wandered through Jordaan, ate at every place that looked good, and just let the city happen. Back in 2025, stayed in Delft with day trips to The Hague, boating through the canals of Giethoorn, and exploring the university town of Leiden. The Dutch countryside is flat, green, and impossibly peaceful.",
     highlights: ["Amsterdam", "Jordaan", "Canal walks", "Delft", "The Hague", "Giethoorn", "Leiden"],
-    photo: "https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?w=800&q=80",
+    photo: "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=800&q=80",
     photoCaption: "Amsterdam, Netherlands",
     photoGroups: [
       { year: "2019", photos: ["/Netherlands-photo-3-2019.JPG", "/Netherlands-photo-4-2019.JPG", "/Netherlands-photo-5-2019.JPG"] },
@@ -258,7 +258,7 @@ const COUNTRIES = [
     color: "#2a9d8f",
     vibe: "Dubrovnik's Game of Thrones tour reframed the whole city — suddenly every staircase and fortress wall had a scene attached to it. Cliff jumping in Hvar from a private speedboat was the kind of afternoon that only exists in summer, only in the Adriatic. Plitvice Lakes is the most beautiful natural sight I've ever seen — cascading turquoise pools through ancient forest, like the planet showing off. Croatia has a quiet confidence to its beauty that I completely didn't expect.",
     highlights: ["Dubrovnik GoT tour", "Hvar cliff jumping", "Blue Caves", "Plitvice Lakes"],
-    photo: "https://images.pexels.com/photos/18607758/pexels-photo-18607758.jpeg?auto=compress&cs=tinysrgb&w=800",
+    photo: "https://images.unsplash.com/photo-1555990538-c0f6b0acf83c?w=800&q=80",
     photoCaption: "Plitvice Lakes, Croatia",
     photos: ["/Croatia-photo-1.JPG", "/Croatia-photo-2.JPG", "/Croatia-photo-3.JPG"],
     lat: 45, lon: 16,
@@ -268,7 +268,7 @@ const COUNTRIES = [
     color: "#6d597a",
     vibe: "Postojna Caves was like descending into a completely different world — vast chambers, stalactites that took millennia to form, and a little train that takes you deep into the karst. Lake Bled is almost absurdly picturesque: a castle on a cliff, an island in the middle of a lake, the Julian Alps as a backdrop. Slovenia is tiny but it feels layered, like it's been hiding something excellent. It was the quiet surprise of the trip.",
     highlights: ["Postojna Caves", "Lake Bled", "Ljubljana", "Julian Alps"],
-    photo: "https://images.pexels.com/photos/3525983/pexels-photo-3525983.jpeg?auto=compress&cs=tinysrgb&w=800",
+    photo: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&q=80",
     photoCaption: "Lake Bled, Slovenia",
     photos: ["/Slovenia-photo-1.JPG", "/Slovenia-photo-2.JPG", "https://images.unsplash.com/photo-1580137189272-c9379f8864fd?w=400&q=80"],
     lat: 46, lon: 15,
@@ -301,7 +301,7 @@ const COUNTRIES = [
     color: "#c0a060",
     vibe: "Visiting the Sistine Chapel and St. Peter's Basilica during the Jubilee Year 2025 gave the whole experience a different weight — pilgrims everywhere, the Vatican more charged than usual, the art carrying a significance that went beyond the aesthetic. One of the most historically significant years to visit, and you could feel it.",
     highlights: ["Sistine Chapel", "St. Peter's Basilica", "Jubilee Year 2025"],
-    photo: "https://images.pexels.com/photos/3892129/pexels-photo-3892129.jpeg?auto=compress&cs=tinysrgb&w=800",
+    photo: "https://images.unsplash.com/photo-1555993539-1732b0258235?w=800&q=80",
     photoCaption: "St. Peter's Square, Vatican City",
     photos: ["/vatican-photo-1.JPG", "https://images.unsplash.com/photo-1555993539-1732b0258235?w=400&q=80", "https://images.unsplash.com/photo-1513581166391-887a96ddeafd?w=400&q=80"],
     lat: 41.9, lon: 12.45,
@@ -331,7 +331,7 @@ const COUNTRIES = [
     color: "#2a9d8f",
     vibe: "Learning to surf in Weligama was humbling and addictive in equal measure — the Indian Ocean doesn't care how many times you fall, but getting up feels extraordinary every single time. Galle Fort's Dutch colonial walls and streets were a complete surprise — layered history in a town that still feels fully alive. Yala National Park delivered another leopard sighting, which at this point I'm starting to take personally. Sri Lanka is criminally underrated: extraordinary food, stunning landscapes, warm people, and none of the crowds.",
     highlights: ["Weligama surfing", "Galle", "Yala leopard safari", "Colombo"],
-    photo: "https://images.pexels.com/photos/29813525/pexels-photo-29813525.jpeg?auto=compress&cs=tinysrgb&w=800",
+    photo: "https://images.unsplash.com/photo-1588598198321-9735fd5da207?w=800&q=80",
     photoCaption: "Sri Lanka",
     photos: ["/SriLanka-photo-1.JPG", "/SriLanka-photo-2.JPG", "/SriLanka-photo-3.JPG"],
     lat: 8, lon: 81,
@@ -367,12 +367,21 @@ export default function PassportPage() {
   const [rotY, setRotY] = useState(0);
   const [hoveredPin, setHoveredPin] = useState<string | null>(null);
   const [globeTooltip, setGlobeTooltip] = useState<{ country: typeof COUNTRIES[0]; px: number; py: number } | null>(null);
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const animRef = useRef<number | undefined>(undefined);
   const lastTime = useRef<number>(0);
   const isDragging = useRef(false);
   const dragStart = useRef(0);
   const rotStart = useRef(0);
   const autoSpin = useRef(true);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightboxSrc(null);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   useEffect(() => {
     const animate = (time: number) => {
@@ -430,7 +439,7 @@ export default function PassportPage() {
 
         .globe-container {
           position: relative;
-          background: radial-gradient(ellipse at 45% 40%, #0b1628 0%, #060810 68%);
+          background: radial-gradient(ellipse at 45% 40%, #060e1f 0%, #030508 72%);
           border: 1px solid #0f1a2e;
           border-radius: 28px;
           padding: 3rem 2rem 2rem;
@@ -460,12 +469,12 @@ export default function PassportPage() {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 32px;
-          height: 32px;
+          width: 44px;
+          height: 44px;
           border-radius: 50% 50% 50% 0;
           background: rgba(13,17,35,0.92);
           border: 1.5px solid rgba(26,111,255,0.5);
-          font-size: 18px;
+          font-size: 24px;
           box-shadow: 0 4px 16px rgba(0,0,0,0.5), 0 0 0 1px rgba(26,111,255,0.2);
           backdrop-filter: blur(4px);
           line-height: 1;
@@ -608,7 +617,7 @@ export default function PassportPage() {
           display: inline-flex; align-items: center; gap: 0.4rem;
           background: #111825; border: 1px solid #181e30;
           border-radius: 8px; padding: 0.36rem 0.8rem;
-          font-size: 0.82rem; color: #8896a8; line-height: 1.4;
+          font-size: 0.85rem; color: #8896a8; line-height: 1.4;
         }
         .stat-pill {
           display: flex; flex-direction: column; align-items: center;
@@ -628,7 +637,7 @@ export default function PassportPage() {
         }
         .close-btn:hover { background: #111825; color: #e8eaf0; }
         .modal-label {
-          font-size: 0.72rem; font-weight: 600; letter-spacing: 0.13em;
+          font-size: 0.75rem; font-weight: 600; letter-spacing: 0.13em;
           text-transform: uppercase; color: #2a3349; margin-bottom: 0.75rem;
           font-family: 'DM Mono', monospace;
         }
@@ -776,7 +785,19 @@ export default function PassportPage() {
               onMouseUp={() => { isDragging.current = false; setTimeout(() => { autoSpin.current = true; lastTime.current = 0; }, 1500); }}
               onMouseLeave={() => { if (isDragging.current) { isDragging.current = false; setTimeout(() => { autoSpin.current = true; lastTime.current = 0; }, 1500); } }}
             >
-              <svg className="globe-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+              {/* Atmosphere halo behind globe */}
+              <div style={{
+                position: "absolute",
+                left: "50%", top: "50%",
+                transform: "translate(-50%, -50%)",
+                width: 420, height: 420,
+                borderRadius: "50%",
+                background: "radial-gradient(circle, transparent 38%, rgba(26,111,255,0.18) 68%, transparent 80%)",
+                pointerEvents: "none",
+                zIndex: 0,
+              }} />
+              <svg className="globe-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg"
+                style={{ filter: "drop-shadow(0 0 18px rgba(26,111,255,0.45))", position: "relative", zIndex: 1 }}>
                 <defs>
                   <radialGradient id="gGrad" cx="38%" cy="32%">
                     <stop offset="0%" stopColor="#0d1f3c" />
@@ -791,18 +812,44 @@ export default function PassportPage() {
                 {/* Body */}
                 <circle cx={CX} cy={CY} r={R} fill="url(#gGrad)" />
                 <circle cx={CX} cy={CY} r={R} fill="url(#gShine)" />
+                {/* Continent outlines */}
+                <g clipPath="url(#gClip)">
+                  {[
+                    { id: "europe", points: [[35,-9],[36,28],[47,39],[55,27],[58,5],[51,-5],[44,-9],[35,-9]] as [number,number][] },
+                    { id: "africa", points: [[37,-5],[37,36],[-34,18],[-34,26],[-26,33],[11,51],[12,43],[15,42],[11,44],[2,42],[-11,40],[-34,26],[-34,18],[-17,12],[0,10],[5,-8],[14,-17],[22,-17],[30,-17],[37,-5]] as [number,number][] },
+                    { id: "namerica", points: [[70,-141],[83,-70],[60,-64],[25,-80],[20,-87],[9,-77],[8,-77],[15,-92],[20,-105],[30,-110],[32,-117],[48,-124],[60,-141],[70,-141]] as [number,number][] },
+                    { id: "samerica", points: [[12,-72],[10,-63],[5,-52],[-5,-35],[-23,-43],[-34,-58],[-55,-68],[-55,-66],[-17,-70],[-4,-80],[1,-78],[12,-72]] as [number,number][] },
+                    { id: "asia", points: [[10,100],[22,114],[35,140],[40,141],[52,142],[60,163],[68,170],[72,135],[73,80],[72,60],[55,50],[40,50],[38,27],[42,45],[55,60],[70,59],[73,80]] as [number,number][] },
+                    { id: "australia", points: [[-15,130],[-13,136],[-16,146],[-24,154],[-38,146],[-38,140],[-35,116],[-22,114],[-15,130]] as [number,number][] },
+                  ].map(continent => {
+                    const projected = continent.points.map(([lat, lon]) => projectPin(lat, lon, rotY));
+                    // Only draw if at least half of points are visible
+                    const visibleCount = projected.filter(p => p.visible).length;
+                    if (visibleCount < projected.length / 2) return null;
+                    const pointsStr = projected.map(p => `${p.px},${p.py}`).join(" ");
+                    return (
+                      <polygon
+                        key={continent.id}
+                        points={pointsStr}
+                        fill="rgba(26,111,255,0.15)"
+                        stroke="rgba(26,111,255,0.3)"
+                        strokeWidth="0.5"
+                      />
+                    );
+                  })}
+                </g>
                 {/* Lat lines */}
                 {[-60, -30, 0, 30, 60].map(lat => {
                   const phi = (90 - lat) * Math.PI / 180;
                   const ry2 = R * Math.sin(phi);
                   const cy2 = CY - R * Math.cos(phi);
-                  return <ellipse key={lat} cx={CX} cy={cy2} rx={ry2} ry={ry2 * 0.22} fill="none" stroke="rgba(26,111,255,0.1)" strokeWidth="0.7" />;
+                  return <ellipse key={lat} cx={CX} cy={cy2} rx={ry2} ry={ry2 * 0.22} fill="none" stroke="rgba(26,111,255,0.2)" strokeWidth="0.7" clipPath="url(#gClip)" />;
                 })}
                 {/* Lon lines */}
                 {[0, 30, 60, 90, 120, 150].map(lon => {
                   const angle = ((lon + rotY) % 360) * Math.PI / 180;
                   if (Math.cos(angle) < 0) return null;
-                  return <ellipse key={lon} cx={CX} cy={CY} rx={Math.abs(Math.sin(angle)) * R} ry={R} fill="none" stroke="rgba(26,111,255,0.08)" strokeWidth="0.6" />;
+                  return <ellipse key={lon} cx={CX} cy={CY} rx={Math.abs(Math.sin(angle)) * R} ry={R} fill="none" stroke="rgba(26,111,255,0.2)" strokeWidth="0.6" clipPath="url(#gClip)" />;
                 })}
                 {/* Rim */}
                 <circle cx={CX} cy={CY} r={R} fill="none" stroke="rgba(26,111,255,0.25)" strokeWidth="1.2" />
@@ -911,13 +958,13 @@ export default function PassportPage() {
                       display: "inline-flex", alignItems: "center", gap: "0.35rem",
                       background: "rgba(26,111,255,0.1)", border: "1px solid rgba(26,111,255,0.25)",
                       borderRadius: "20px", padding: "0.22rem 0.7rem",
-                      fontSize: "0.75rem", fontFamily: "'DM Mono', monospace",
+                      fontSize: "0.85rem", fontFamily: "'DM Mono', monospace",
                       color: "#1a6fff", fontWeight: 500, letterSpacing: "0.04em",
                     }}>
                       ✈ {selected.year}
                     </div>
                   </div>
-                  <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2.2rem", fontWeight: 700, color: "#e8eaf0", marginBottom: "0.35rem", lineHeight: 1.1 }}>
+                  <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2.4rem", fontWeight: 700, color: "#e8eaf0", marginBottom: "0.35rem", lineHeight: 1.1 }}>
                     {selected.flag} {selected.name}
                   </h2>
                   <div style={{ fontSize: "0.78rem", fontFamily: "'DM Mono', monospace", color: "#3a4a62", letterSpacing: "0.05em" }}>{selected.region}</div>
@@ -932,8 +979,8 @@ export default function PassportPage() {
                       <div style={{ fontSize: "0.72rem", fontFamily: "'DM Mono', monospace", color: "#3a4a62", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.5rem" }}>{group.year}</div>
                       <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(group.photos.length, 3)}, 1fr)`, gap: "0.75rem" }}>
                         {group.photos.map((src: string, i: number) => (
-                          <div key={i} style={{ borderRadius: "10px", overflow: "hidden", aspectRatio: "1", background: "#0f1520" }}>
-                            <img src={src} alt={`${selected.name} ${group.year} photo ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                          <div key={i} style={{ borderRadius: "10px", overflow: "hidden", aspectRatio: "1", background: "#0f1520", cursor: "pointer" }}>
+                            <img src={src} alt={`${selected.name} ${group.year} photo ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} onClick={() => setLightboxSrc(src)} />
                           </div>
                         ))}
                       </div>
@@ -943,8 +990,8 @@ export default function PassportPage() {
               ) : (selected as any).photos ? (
                 <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min((selected as any).photos.length, 3)}, 1fr)`, gap: "0.75rem", marginBottom: "1.5rem" }}>
                   {(selected as any).photos.map((src: string, i: number) => (
-                    <div key={i} style={{ borderRadius: "10px", overflow: "hidden", aspectRatio: "1", background: "#0f1520" }}>
-                      <img src={src} alt={`${selected.name} photo ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                    <div key={i} style={{ borderRadius: "10px", overflow: "hidden", aspectRatio: "1", background: "#0f1520", cursor: "pointer" }}>
+                      <img src={src} alt={`${selected.name} photo ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} onClick={() => setLightboxSrc(src)} />
                     </div>
                   ))}
                 </div>
@@ -958,7 +1005,7 @@ export default function PassportPage() {
 
               <div style={{ background: "#0f1520", borderRadius: "14px", padding: "1.5rem 1.75rem", marginBottom: "1.5rem", borderLeft: `3px solid ${REGION_COLORS[selected.region] || "#1a6fff"}` }}>
                 <div className="modal-label">VIBE CHECK</div>
-                <p style={{ fontSize: "0.95rem", color: "#c0c8d8", lineHeight: 2.0 }}>{selected.vibe}</p>
+                <p style={{ fontSize: "1rem", color: "#c0c8d8", lineHeight: 2.0 }}>{selected.vibe}</p>
               </div>
 
               <div>
@@ -974,6 +1021,44 @@ export default function PassportPage() {
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* LIGHTBOX */}
+      {lightboxSrc && (
+        <div
+          onClick={() => setLightboxSrc(null)}
+          style={{
+            position: "fixed", inset: 0,
+            background: "rgba(0,0,0,0.92)",
+            zIndex: 9999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <button
+            onClick={() => setLightboxSrc(null)}
+            style={{
+              position: "absolute", top: "1.25rem", right: "1.5rem",
+              background: "rgba(11,16,23,0.85)", border: "1px solid #1a2340",
+              borderRadius: "10px", color: "#e8eaf0",
+              width: 38, height: 38, fontSize: "1.1rem",
+              cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+              zIndex: 10000,
+            }}
+          >×</button>
+          <img
+            src={lightboxSrc}
+            alt="Enlarged photo"
+            onClick={e => e.stopPropagation()}
+            style={{
+              maxWidth: "90vw",
+              maxHeight: "90vh",
+              objectFit: "contain",
+              borderRadius: "8px",
+            }}
+          />
         </div>
       )}
 
