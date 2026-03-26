@@ -313,7 +313,7 @@ const COUNTRIES = [
     highlights: ["Nairobi", "Masai Mara safari", "Leopard sighting"],
     photo: "https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=800&q=80",
     photoCaption: "Masai Mara, Kenya",
-    photos: ["https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=400&q=80", "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=400&q=80", "https://images.unsplash.com/photo-1535941339077-2dd1c7963098?w=400&q=80"],
+    photos: ["/Kenya-photo-1.JPG", "/Kenya-photo-2.JPG", "/Kenya-photo-3.JPG"],
     lat: -1, lon: 37,
   },
   {
