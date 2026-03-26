@@ -330,6 +330,10 @@ const COUNTRIES = [
     highlights: ["Delft", "The Hague", "Giethoorn", "Leiden"],
     photo: "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=800&q=80",
     photoCaption: "Netherlands",
+    photoGroups: [
+      { year: "2019", photos: ["/Netherlands-photo-3-2019.JPG", "/Netherlands-photo-4-2019.JPG", "/Netherlands-photo-5-2019.JPG"] },
+      { year: "2025", photos: ["/Netherlands-photo-1-2025.JPG", "/Netherlands-photo-2-2025.JPG", "/Netherlands-photo-6-2025.JPG"] },
+    ],
     lat: 52, lon: 5,
   },
 ];
