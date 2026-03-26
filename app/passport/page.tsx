@@ -151,6 +151,7 @@ const COUNTRIES = [
     highlights: ["Vancouver", "Banff", "Lake Louise", "Jasper", "Whistler"],
     photo: "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?w=800&q=80",
     photoCaption: "Banff, Canada",
+    photos: ["/Canada-photo-1.JPG", "/Canada-photo-2.JPG", "/Canada-photo-3.JPG"],
     lat: 56, lon: -106,
   },
   {
