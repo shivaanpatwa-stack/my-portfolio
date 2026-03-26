@@ -113,6 +113,9 @@ const COUNTRIES = [
     highlights: ["Tiger's Nest trek", "Thimphu", "Paro", "Punakha"],
     photo: "https://images.pexels.com/photos/17505615/pexels-photo-17505615.jpeg?auto=compress&cs=tinysrgb&w=800",
     photoCaption: "Tiger's Nest, Bhutan",
+    photoGroups: [
+      { year: "2017", photos: ["/Bhutan-photo-1.JPG", "/Bhutan-photo-2.JPG", "/Bhutan-photo-3.JPG"] },
+    ],
     lat: 27, lon: 90,
   },
   {
