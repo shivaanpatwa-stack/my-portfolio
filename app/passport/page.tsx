@@ -186,8 +186,8 @@ const COUNTRIES = [
   {
     id: "slovenia", name: "Slovenia", flag: "🇸🇮", region: "Europe", year: "2023", badge: "Cave Explorer",
     color: "#6d597a",
-    vibe: "Postojna Cave was like descending into a completely different world — vast chambers, stalactites that took millennia to form, and a little train that takes you deep into the karst. Lake Bled is almost absurdly picturesque: a castle on a cliff, an island in the middle of a lake, the Julian Alps as a backdrop. Slovenia is tiny but it feels layered, like it's been hiding something excellent. It was the quiet surprise of the trip.",
-    highlights: ["Postojna Cave", "Lake Bled", "Ljubljana", "Julian Alps"],
+    vibe: "Postojna Caves was like descending into a completely different world — vast chambers, stalactites that took millennia to form, and a little train that takes you deep into the karst. Lake Bled is almost absurdly picturesque: a castle on a cliff, an island in the middle of a lake, the Julian Alps as a backdrop. Slovenia is tiny but it feels layered, like it's been hiding something excellent. It was the quiet surprise of the trip.",
+    highlights: ["Postojna Caves", "Lake Bled", "Ljubljana", "Julian Alps"],
     photo: "https://images.pexels.com/photos/3525983/pexels-photo-3525983.jpeg?auto=compress&cs=tinysrgb&w=800",
     photoCaption: "Lake Bled, Slovenia",
     lat: 46, lon: 15,
@@ -490,7 +490,7 @@ export default function PassportPage() {
           font-size: 0.65rem; color: rgba(255,255,255,0.4);
           font-family: 'DM Mono', monospace; letter-spacing: 0.08em;
         }
-        .modal-body { padding: 2rem; }
+        .modal-body { padding: 3rem; }
 
         .your-photo-placeholder {
           width: 100%; height: 200px;
@@ -508,8 +508,8 @@ export default function PassportPage() {
         .highlight-pill {
           display: inline-flex; align-items: center; gap: 0.4rem;
           background: #111825; border: 1px solid #181e30;
-          border-radius: 8px; padding: 0.32rem 0.72rem;
-          font-size: 0.74rem; color: #8896a8;
+          border-radius: 8px; padding: 0.36rem 0.8rem;
+          font-size: 0.82rem; color: #8896a8; line-height: 1.4;
         }
         .stat-pill {
           display: flex; flex-direction: column; align-items: center;
@@ -528,8 +528,13 @@ export default function PassportPage() {
           font-size: 0.85rem; transition: all 0.2s; z-index: 5;
         }
         .close-btn:hover { background: #111825; color: #e8eaf0; }
+        .modal-label {
+          font-size: 0.72rem; font-weight: 600; letter-spacing: 0.13em;
+          text-transform: uppercase; color: #2a3349; margin-bottom: 0.75rem;
+          font-family: 'DM Mono', monospace;
+        }
         .section-label {
-          font-size: 0.66rem; font-weight: 600; letter-spacing: 0.16em;
+          font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em;
           text-transform: uppercase; color: #1a6fff; margin-bottom: 0.75rem;
         }
         .nav-link { color: #5a6a82; text-decoration: none; font-size: 0.83rem; font-weight: 500; transition: color 0.2s; }
@@ -799,13 +804,24 @@ export default function PassportPage() {
               <div className="modal-hero-caption">{selected.photoCaption}</div>
             </div>
             <div className="modal-body">
-              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "1.5rem", gap: "1rem" }}>
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "1.75rem", gap: "1rem" }}>
                 <div>
-                  <div className="stamp-badge" style={{ background: (REGION_COLORS[selected.region] || "#1a6fff") + "20", color: REGION_COLORS[selected.region] || "#1a6fff", marginBottom: "0.6rem" }}>{selected.badge}</div>
-                  <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", fontWeight: 700, color: "#e8eaf0", marginBottom: "0.2rem" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "0.75rem", flexWrap: "wrap" }}>
+                    <div className="stamp-badge" style={{ background: (REGION_COLORS[selected.region] || "#1a6fff") + "20", color: REGION_COLORS[selected.region] || "#1a6fff", margin: 0 }}>{selected.badge}</div>
+                    <div style={{
+                      display: "inline-flex", alignItems: "center", gap: "0.35rem",
+                      background: "rgba(26,111,255,0.1)", border: "1px solid rgba(26,111,255,0.25)",
+                      borderRadius: "20px", padding: "0.22rem 0.7rem",
+                      fontSize: "0.75rem", fontFamily: "'DM Mono', monospace",
+                      color: "#1a6fff", fontWeight: 500, letterSpacing: "0.04em",
+                    }}>
+                      ✈ {selected.year}
+                    </div>
+                  </div>
+                  <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2.2rem", fontWeight: 700, color: "#e8eaf0", marginBottom: "0.35rem", lineHeight: 1.1 }}>
                     {selected.flag} {selected.name}
                   </h2>
-                  <div style={{ fontSize: "0.68rem", fontFamily: "'DM Mono', monospace", color: "#2a3349" }}>{selected.region} · {selected.year}</div>
+                  <div style={{ fontSize: "0.78rem", fontFamily: "'DM Mono', monospace", color: "#3a4a62", letterSpacing: "0.05em" }}>{selected.region}</div>
                 </div>
               </div>
 
@@ -816,13 +832,13 @@ export default function PassportPage() {
                 <span style={{ fontSize: "0.7rem", color: "#1a2233" }}>Add your personal photo from {selected.name} here</span>
               </div>
 
-              <div style={{ background: "#0f1520", borderRadius: "14px", padding: "1.25rem", marginBottom: "1.25rem", borderLeft: `3px solid ${REGION_COLORS[selected.region] || "#1a6fff"}` }}>
-                <div style={{ fontSize: "0.6rem", letterSpacing: "0.13em", color: "#2a3349", fontWeight: 600, marginBottom: "0.5rem", fontFamily: "'DM Mono', monospace" }}>VIBE CHECK</div>
-                <p style={{ fontSize: "0.88rem", color: "#c0c8d8", lineHeight: 1.85 }}>{selected.vibe}</p>
+              <div style={{ background: "#0f1520", borderRadius: "14px", padding: "1.5rem 1.75rem", marginBottom: "1.5rem", borderLeft: `3px solid ${REGION_COLORS[selected.region] || "#1a6fff"}` }}>
+                <div className="modal-label">VIBE CHECK</div>
+                <p style={{ fontSize: "0.95rem", color: "#c0c8d8", lineHeight: 2.0 }}>{selected.vibe}</p>
               </div>
 
               <div>
-                <div style={{ fontSize: "0.6rem", letterSpacing: "0.13em", color: "#2a3349", fontWeight: 600, marginBottom: "0.75rem", fontFamily: "'DM Mono', monospace" }}>HIGHLIGHTS</div>
+                <div className="modal-label">HIGHLIGHTS</div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
                   {selected.highlights.map(h => (
                     <span key={h} className="highlight-pill">
