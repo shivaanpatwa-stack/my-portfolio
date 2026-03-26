@@ -44,6 +44,7 @@ const COUNTRIES = [
     highlights: ["London", "Matilda musical", "City sightseeing"],
     photo: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&q=80",
     photoCaption: "London, UK",
+    photos: ["/UK-photo-1.JPG", "/UK-photo-2.JPG", "/UK-photo-3.JPG"],
     lat: 51, lon: -1,
   },
   {
