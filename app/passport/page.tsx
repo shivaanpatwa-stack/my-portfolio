@@ -211,6 +211,9 @@ const COUNTRIES = [
     highlights: ["Copenhagen", "Tivoli Gardens"],
     photo: "https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?w=800&q=80",
     photoCaption: "Copenhagen, Denmark",
+    photoGroups: [
+      { year: "2019", photos: ["/Denmark-photo-1.JPG", "/Denmark-photo-2.JPG", "/Denmark-photo-3.JPG"] },
+    ],
     lat: 56, lon: 10,
   },
   {
