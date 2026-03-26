@@ -17,7 +17,7 @@ const STATS = [
 
 const FACTS = [
   "Executed my first investment at 10 years old and have been tracking markets ever since.",
-  "28 countries stamped in the passport — the mission is to see them all.",
+  "29 countries stamped in the passport — the mission is to see them all.",
   "Started a project selling semi-precious stones, invested the cash into stocks, and bought my PS5 with the profits.",
 ];
 
