@@ -1068,8 +1068,29 @@ export default function PassportPage() {
           ))}
         </div>
 
+        {/* EASTER EGG HINT */}
+        <div style={{ textAlign: "center", marginTop: "3rem", marginBottom: "2rem" }}>
+          <div style={{
+            display: "inline-block",
+            opacity: 0.35,
+            transform: "rotate(-2deg)",
+            border: "2px solid #8b0000",
+            borderRadius: "4px",
+            padding: "0.6rem 1.4rem",
+            fontFamily: "'DM Mono', monospace",
+            fontSize: "0.75rem",
+            color: "#8b0000",
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+            lineHeight: 1.6,
+            userSelect: "none",
+          }}>
+            CLASSIFIED // This passport contains hidden secrets. Explore carefully.
+          </div>
+        </div>
+
         {/* FOOTER */}
-        <div style={{ textAlign: "center", marginTop: "4rem" }}>
+        <div style={{ textAlign: "center", marginTop: "1rem" }}>
           <div style={{ color: "rgba(255,255,255,0.06)", fontSize: "0.7rem", fontFamily: "monospace", marginBottom: "1.5rem", letterSpacing: "0.08em" }}>secrets hidden within...</div>
           <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "2rem", color: "#1a2233", marginBottom: "2.5rem", lineHeight: 1.4 }}>
             "The world is big.<br />I'm just getting started."
