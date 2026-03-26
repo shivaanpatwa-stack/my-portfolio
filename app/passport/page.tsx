@@ -187,6 +187,9 @@ const COUNTRIES = [
     highlights: ["Aix-en-Provence", "Pont du Gard", "Avignon", "Cassis", "Paris Christmas"],
     photo: "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=800&q=80",
     photoCaption: "Paris, France",
+    photoGroups: [
+      { year: "2019", photos: ["/France-photo-1.JPG", "/France-photo-2.JPG", "/France-photo-3.JPG"] },
+    ],
     lat: 46, lon: 2,
   },
   {
