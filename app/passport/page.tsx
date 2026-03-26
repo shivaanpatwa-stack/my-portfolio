@@ -295,6 +295,7 @@ const COUNTRIES = [
     highlights: ["Athens", "Meteora", "Santorini", "Mykonos", "Paros"],
     photo: "https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800&q=80",
     photoCaption: "Santorini, Greece",
+    photos: ["/Greece-photo-1.JPG", "/Greece-photo-2.JPG", "/Greece-photo-3.JPG"],
     lat: 38, lon: 24,
   },
   {
