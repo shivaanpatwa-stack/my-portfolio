@@ -54,6 +54,7 @@ const COUNTRIES = [
     highlights: ["Prague Old Town", "Vintage car tour", "Horse carriage", "Prague Zoo"],
     photo: "https://images.unsplash.com/photo-1541849546-216549ae216d?w=800&q=80",
     photoCaption: "Prague, Czech Republic",
+    photos: ["/Czech-photo-1.JPG", "/Czech-photo-2.JPG", "/Czech-photo-3.JPG"],
     lat: 50, lon: 15,
   },
   {
