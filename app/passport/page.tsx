@@ -230,12 +230,16 @@ const COUNTRIES = [
     lat: 50, lon: 4,
   },
   {
-    id: "netherlands", name: "Netherlands", flag: "🇳🇱", region: "Europe", year: "2019", badge: "Canal City",
+    id: "netherlands", name: "Netherlands", flag: "🇳🇱", region: "Europe", year: "2019, 2025", badge: "Canal City",
     color: "#e07b39",
-    vibe: "Amsterdam with friends in 2019 — the kind of trip that writes itself. The canals, the bikes everywhere, the chaos of the city that somehow still feels relaxed. We wandered through Jordaan, ate at every place that looked good, and just let the city happen. Amsterdam has this rare quality where you don't need a plan — you can just walk and it rewards you.",
-    highlights: ["Amsterdam", "Jordaan", "Canal walks", "City exploration"],
+    vibe: "Amsterdam with friends in 2019 — the kind of trip that writes itself. The canals, the bikes everywhere, the chaos of the city that somehow still feels relaxed. We wandered through Jordaan, ate at every place that looked good, and just let the city happen. Back in 2025, stayed in Delft with day trips to The Hague, boating through the canals of Giethoorn, and exploring the university town of Leiden. The Dutch countryside is flat, green, and impossibly peaceful.",
+    highlights: ["Amsterdam", "Jordaan", "Canal walks", "Delft", "The Hague", "Giethoorn", "Leiden"],
     photo: "https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?w=800&q=80",
     photoCaption: "Amsterdam, Netherlands",
+    photoGroups: [
+      { year: "2019", photos: ["/Netherlands-photo-3-2019.JPG", "/Netherlands-photo-4-2019.JPG", "/Netherlands-photo-5-2019.JPG"] },
+      { year: "2025", photos: ["/Netherlands-photo-1-2025.JPG", "/Netherlands-photo-2-2025.JPG", "/Netherlands-photo-6-2025.JPG"] },
+    ],
     lat: 52, lon: 5,
   },
   {
@@ -322,19 +326,6 @@ const COUNTRIES = [
     photo: "https://images.pexels.com/photos/29813525/pexels-photo-29813525.jpeg?auto=compress&cs=tinysrgb&w=800",
     photoCaption: "Sri Lanka",
     lat: 8, lon: 81,
-  },
-  {
-    id: "netherlands", name: "Netherlands", flag: "🇳🇱", region: "Europe", year: "2025", badge: "Dutch Canals",
-    color: "#e9c46a",
-    vibe: "Stayed in Delft in 2025. Day trips to The Hague, boating through the canals of Giethoorn, and exploring the beautiful university town of Leiden. The Dutch countryside is something else entirely — flat, green, and impossibly peaceful.",
-    highlights: ["Delft", "The Hague", "Giethoorn", "Leiden"],
-    photo: "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=800&q=80",
-    photoCaption: "Netherlands",
-    photoGroups: [
-      { year: "2019", photos: ["/Netherlands-photo-3-2019.JPG", "/Netherlands-photo-4-2019.JPG", "/Netherlands-photo-5-2019.JPG"] },
-      { year: "2025", photos: ["/Netherlands-photo-1-2025.JPG", "/Netherlands-photo-2-2025.JPG", "/Netherlands-photo-6-2025.JPG"] },
-    ],
-    lat: 52, lon: 5,
   },
 ];
 
