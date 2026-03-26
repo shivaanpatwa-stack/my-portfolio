@@ -199,6 +199,9 @@ const COUNTRIES = [
     highlights: ["Lisbon", "Nazaré waves", "Óbidos", "Sintra", "Porto"],
     photo: "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=800&q=80",
     photoCaption: "Lisbon, Portugal",
+    photoGroups: [
+      { year: "2019", photos: ["/Portugal-photo-1.JPG", "/Portugal-photo-2.JPG", "/Portugal-photo-3.JPG"] },
+    ],
     lat: 39, lon: -8,
   },
   {
