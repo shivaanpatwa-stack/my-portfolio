@@ -101,6 +101,11 @@ const COUNTRIES = [
     highlights: ["Phuket", "Bangkok", "Temples", "Street food", "Aunt's 30th"],
     photo: "https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&q=80",
     photoCaption: "Bangkok, Thailand",
+    photoGroups: [
+      { year: "2016", photos: ["/Thailand-photo-2-2016.JPG", "/Thailand-photo-5-2016.JPG"] },
+      { year: "2019", photos: ["/Thailand-photo-1-2019.JPG", "/Thailand-photo-4-2019.JPG"] },
+      { year: "2022", photos: ["/Thailand-photo-3-2022.JPG", "/Thailand-photo-6-2022.JPG"] },
+    ],
     lat: 15, lon: 101,
   },
   {
