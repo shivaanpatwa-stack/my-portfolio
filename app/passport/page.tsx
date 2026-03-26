@@ -368,6 +368,18 @@ export default function PassportPage() {
   const [hoveredPin, setHoveredPin] = useState<string | null>(null);
   const [globeTooltip, setGlobeTooltip] = useState<{ country: typeof COUNTRIES[0]; px: number; py: number } | null>(null);
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+
+  // Easter egg states
+  const [globeClicks, setGlobeClicks] = useState(0);
+  const [showExplorerEgg, setShowExplorerEgg] = useState(false);
+  const [wanderlustBuffer, setWanderlustBuffer] = useState("");
+  const [showWanderlust, setShowWanderlust] = useState(false);
+  const [confettiPieces, setConfettiPieces] = useState<{ id: number; color: string; left: number; delay: number; duration: number; rotation: number }[]>([]);
+  const [passportClicks, setPassportClicks] = useState(0);
+  const [showClassified, setShowClassified] = useState(false);
+  const [konamiBuffer, setKonamiBuffer] = useState<string[]>([]);
+  const [showKonami, setShowKonami] = useState(false);
+
   const animRef = useRef<number | undefined>(undefined);
   const lastTime = useRef<number>(0);
   const isDragging = useRef(false);
@@ -375,9 +387,42 @@ export default function PassportPage() {
   const rotStart = useRef(0);
   const autoSpin = useRef(true);
 
+  const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","KeyB","KeyA"];
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setLightboxSrc(null);
+      if (e.key === "Escape") { setLightboxSrc(null); setShowExplorerEgg(false); setShowWanderlust(false); setShowKonami(false); }
+
+      // Wanderlust buffer
+      setWanderlustBuffer(prev => {
+        const next = (prev + e.key).slice(-10);
+        if (next.toUpperCase() === "WANDERLUST") {
+          setShowWanderlust(true);
+          const pieces = Array.from({ length: 60 }, (_, i) => ({
+            id: i,
+            color: ["#e9c46a","#1a6fff","#e63946","#2a9d8f","#f4a261","#ffffff"][Math.floor(Math.random() * 6)],
+            left: Math.random() * 100,
+            delay: Math.random() * 1.5,
+            duration: 2.5 + Math.random() * 1.5,
+            rotation: Math.random() * 720 - 360,
+          }));
+          setConfettiPieces(pieces);
+          setTimeout(() => { setShowWanderlust(false); setConfettiPieces([]); }, 4000);
+          return "";
+        }
+        return next;
+      });
+
+      // Konami code
+      const key = e.code;
+      setKonamiBuffer(prev => {
+        const next = [...prev, key].slice(-10);
+        if (next.length === 10 && next.every((k, i) => k === KONAMI[i])) {
+          setShowKonami(true);
+          return [];
+        }
+        return next;
+      });
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -676,6 +721,69 @@ export default function PassportPage() {
           font-family: 'DM Mono', monospace;
           letter-spacing: 0.08em; white-space: nowrap;
         }
+
+        @keyframes confettiFall {
+          0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(110vh) rotate(var(--rot)); opacity: 0; }
+        }
+        .confetti-piece {
+          position: fixed;
+          top: -10px;
+          width: 8px;
+          height: 8px;
+          border-radius: 2px;
+          pointer-events: none;
+          z-index: 9998;
+          animation: confettiFall var(--dur) var(--delay) linear forwards;
+        }
+        @keyframes classifiedStamp {
+          from { transform: rotate(-25deg) scale(1.5); opacity: 0; }
+          to { transform: rotate(-25deg) scale(1); opacity: 1; }
+        }
+        .classified-stamp {
+          position: absolute;
+          top: 50%; left: 50%;
+          transform: rotate(-25deg) scale(1);
+          transform-origin: center;
+          translate: -50% -50%;
+          color: #e63946;
+          border: 3px solid #e63946;
+          padding: 0.3rem 0.75rem;
+          font-family: 'DM Mono', monospace;
+          font-size: 1.1rem;
+          font-weight: 700;
+          letter-spacing: 0.15em;
+          border-radius: 4px;
+          pointer-events: none;
+          animation: classifiedStamp 0.3s cubic-bezier(0.4,0,0.2,1) forwards;
+          white-space: nowrap;
+          text-shadow: 0 0 8px rgba(230,57,70,0.5);
+          box-shadow: 0 0 12px rgba(230,57,70,0.3);
+          z-index: 10;
+        }
+        @keyframes wanderlustFadeOut {
+          0% { opacity: 1; transform: translateY(0); }
+          70% { opacity: 1; transform: translateY(0); }
+          100% { opacity: 0; transform: translateY(-12px); }
+        }
+        .wanderlust-toast {
+          position: fixed;
+          top: 5rem;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #0d1421;
+          border: 1.5px solid #e9c46a;
+          border-radius: 14px;
+          padding: 0.85rem 2rem;
+          font-weight: 700;
+          font-size: 1rem;
+          color: #e9c46a;
+          z-index: 9999;
+          pointer-events: none;
+          animation: wanderlustFadeOut 4s ease forwards;
+          white-space: nowrap;
+          box-shadow: 0 8px 32px rgba(233,196,106,0.2);
+        }
       `}</style>
 
       {/* NAV */}
@@ -719,7 +827,35 @@ export default function PassportPage() {
           <div className="id-card-glow" />
           <div style={{ display: "flex", flexWrap: "wrap", gap: "2.5rem", justifyContent: "space-between", position: "relative", zIndex: 1 }}>
             <div style={{ flex: 1, minWidth: 260 }}>
-              <div className="section-label" style={{ marginBottom: "1.75rem" }}>Passport No. SP-2011-001</div>
+              <div className="section-label" style={{ marginBottom: "1.75rem", position: "relative", display: "inline-block", cursor: "pointer" }}
+                onClick={() => {
+                  setPassportClicks(prev => {
+                    const next = prev + 1;
+                    if (next >= 3) {
+                      setShowClassified(true);
+                      // Play thud sound via Web Audio API
+                      try {
+                        const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.frequency.setValueAtTime(60, ctx.currentTime);
+                        osc.type = "sine";
+                        gain.gain.setValueAtTime(1, ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+                        osc.start(ctx.currentTime);
+                        osc.stop(ctx.currentTime + 0.15);
+                      } catch {}
+                      return 0;
+                    }
+                    return next;
+                  });
+                }}
+              >
+                Passport No. SP-2011-001
+                {showClassified && <span className="classified-stamp">CLASSIFIED</span>}
+              </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem 2.5rem" }}>
                 {[
                   ["HOLDER", "Shivaan Patwa"],
@@ -797,6 +933,15 @@ export default function PassportPage() {
                 zIndex: 0,
               }} />
               <svg className="globe-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg"
+                onClick={() => {
+                  if (!isDragging.current) {
+                    setGlobeClicks(prev => {
+                      const next = prev + 1;
+                      if (next >= 5) { setShowExplorerEgg(true); return 0; }
+                      return next;
+                    });
+                  }
+                }}
                 style={{ filter: "drop-shadow(0 0 18px rgba(26,111,255,0.45))", position: "relative", zIndex: 1 }}>
                 <defs>
                   <radialGradient id="gGrad" cx="38%" cy="32%">
@@ -925,6 +1070,7 @@ export default function PassportPage() {
 
         {/* FOOTER */}
         <div style={{ textAlign: "center", marginTop: "4rem" }}>
+          <div style={{ color: "rgba(255,255,255,0.06)", fontSize: "0.7rem", fontFamily: "monospace", marginBottom: "1.5rem", letterSpacing: "0.08em" }}>secrets hidden within...</div>
           <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "2rem", color: "#1a2233", marginBottom: "2.5rem", lineHeight: 1.4 }}>
             "The world is big.<br />I'm just getting started."
           </p>
@@ -1059,6 +1205,66 @@ export default function PassportPage() {
               borderRadius: "8px",
             }}
           />
+        </div>
+      )}
+
+      {/* CONFETTI */}
+      {confettiPieces.map(p => (
+        <div key={p.id} className="confetti-piece" style={{
+          background: p.color,
+          left: `${p.left}%`,
+          "--dur": `${p.duration}s`,
+          "--delay": `${p.delay}s`,
+          "--rot": `${p.rotation}deg`,
+        } as React.CSSProperties} />
+      ))}
+
+      {/* WANDERLUST TOAST */}
+      {showWanderlust && (
+        <div className="wanderlust-toast">True Wanderer Unlocked 🏅</div>
+      )}
+
+      {/* EXPLORER EGG MODAL (globe 5 clicks) */}
+      {showExplorerEgg && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)", zIndex: 2000, display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem", backdropFilter: "blur(20px)", animation: "fadeIn 0.25s ease" }}
+          onClick={() => setShowExplorerEgg(false)}>
+          <div style={{ background: "#0a0f1a", border: "1px solid #1a6fff33", borderRadius: 16, padding: "2rem", maxWidth: 420, width: "100%", textAlign: "center", animation: "slideUp 0.3s cubic-bezier(0.4,0,0.2,1)", position: "relative" }}
+            onClick={e => e.stopPropagation()}>
+            <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🌍</div>
+            <h3 style={{ fontWeight: 700, color: "#fff", fontSize: "1.3rem", marginBottom: "1rem" }}>You found the explorer mode 🌍</h3>
+            <p style={{ color: "#8899aa", fontSize: "0.95rem", lineHeight: 1.75, marginBottom: "1.75rem" }}>Most people see the world through a screen. Shivaan sees it through a boarding pass.</p>
+            <button onClick={() => setShowExplorerEgg(false)} style={{ padding: "0.7rem 2rem", background: "#1a6fff", border: "none", borderRadius: 10, color: "#fff", fontWeight: 600, cursor: "pointer", fontSize: "0.88rem", fontFamily: "'DM Sans', sans-serif" }}>Close</button>
+          </div>
+        </div>
+      )}
+
+      {/* KONAMI MODAL */}
+      {showKonami && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)", zIndex: 2000, display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem", backdropFilter: "blur(20px)", animation: "fadeIn 0.25s ease" }}
+          onClick={() => setShowKonami(false)}>
+          <div style={{ background: "#0a0f1a", border: "1px solid rgba(26,111,255,0.2)", borderRadius: 16, padding: "2rem", maxWidth: 480, width: "100%", animation: "slideUp 0.3s cubic-bezier(0.4,0,0.2,1)", position: "relative" }}
+            onClick={e => e.stopPropagation()}>
+            <button onClick={() => setShowKonami(false)} style={{ position: "absolute", top: "1rem", right: "1rem", width: 32, height: 32, borderRadius: 8, border: "1px solid #1a2340", background: "rgba(11,16,23,0.85)", color: "#4b5a72", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.85rem" }}>✕</button>
+            <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem", textAlign: "center" }}>🗺️</div>
+            <h3 style={{ fontWeight: 700, color: "#fff", fontSize: "1.3rem", marginBottom: "0.4rem", textAlign: "center" }}>Dream Destinations 🗺️</h3>
+            <p style={{ color: "#8899aa", fontSize: "0.85rem", textAlign: "center", marginBottom: "1.5rem" }}>Places still on the list...</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem" }}>
+              {[
+                { flag: "🇯🇵", name: "Japan", reason: "Cherry blossoms and ancient temples" },
+                { flag: "🇧🇷", name: "Brazil", reason: "Amazon, carnival, and the world's most joyful culture" },
+                { flag: "🇳🇿", name: "New Zealand", reason: "Lord of the Rings landscapes and the end of the earth" },
+                { flag: "🇲🇦", name: "Morocco", reason: "Sahara dunes, medinas, and a world completely unlike any other" },
+              ].map(dest => (
+                <div key={dest.name} style={{ display: "flex", gap: "1rem", alignItems: "center", background: "#0d1421", border: "1px solid rgba(26,111,255,0.12)", borderRadius: 12, padding: "0.9rem 1.1rem" }}>
+                  <span style={{ fontSize: "1.8rem", flexShrink: 0 }}>{dest.flag}</span>
+                  <div>
+                    <div style={{ fontWeight: 600, color: "#e8eaf0", fontSize: "0.9rem", marginBottom: "0.2rem" }}>{dest.name}</div>
+                    <div style={{ color: "#8899aa", fontSize: "0.78rem", lineHeight: 1.5 }}>{dest.reason}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       )}
 
