@@ -282,6 +282,10 @@ const COUNTRIES = [
     highlights: ["Milan", "Rome", "Venice", "Murano glass blowing"],
     photo: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&q=80",
     photoCaption: "Rome, Italy",
+    photoGroups: [
+      { year: "2024", photos: ["/Italy-photo-1-2024.JPG", "/Italy-photo-2-2024.JPG"] },
+      { year: "2025", photos: ["/Italy-photo-3-2025.JPG", "/Italy-photo-4-2025.JPG", "/Italy-photo-5-2025.JPG", "/Italy-photo-6-2025.JPG"] },
+    ],
     lat: 42, lon: 12,
   },
   {
