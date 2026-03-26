@@ -20,6 +20,7 @@ const COUNTRIES = [
     highlights: ["Dubai", "Atlantis", "Dolphins", "City sightseeing"],
     photo: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&q=80",
     photoCaption: "Dubai, UAE",
+    photos: ["/UAE-photo-1.JPG", "/UAE-photo-2.JPG", "/UAE-photo-3.JPG"],
     lat: 25, lon: 55,
   },
   {
