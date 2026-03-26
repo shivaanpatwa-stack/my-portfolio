@@ -215,8 +215,8 @@ const COUNTRIES = [
     color: "#c0a060",
     vibe: "Visiting the Sistine Chapel and St. Peter's Basilica during the Jubilee Year 2025 gave the whole experience a different weight — pilgrims everywhere, the Vatican more charged than usual, the art carrying a significance that went beyond the aesthetic. One of the most historically significant years to visit, and you could feel it.",
     highlights: ["Sistine Chapel", "St. Peter's Basilica", "Jubilee Year 2025"],
-    photo: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80",
-    photoCaption: "Vatican City",
+    photo: "https://images.pexels.com/photos/3892129/pexels-photo-3892129.jpeg?auto=compress&cs=tinysrgb&w=800",
+    photoCaption: "St. Peter's Square, Vatican City",
     lat: 41.9, lon: 12.45,
   },
   {
