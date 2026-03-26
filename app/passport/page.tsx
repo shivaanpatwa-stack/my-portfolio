@@ -174,6 +174,10 @@ const COUNTRIES = [
     highlights: ["Jumeirah Vittaveli", "Water villa", "Fed stingrays", "Kids club", "Snorkelling", "Family trip 2021"],
     photo: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=800&q=80",
     photoCaption: "Maldives",
+    photoGroups: [
+      { year: "2018", photos: ["/Maldives-photo-1-2018.JPG", "/Maldives-photo-4-2018.JPG"] },
+      { year: "2021", photos: ["/Maldives-photo-2-2021.JPG", "/Maldives-photo-3-2021.JPG"] },
+    ],
     lat: 3, lon: 73,
   },
   {
