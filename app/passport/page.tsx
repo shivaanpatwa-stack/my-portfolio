@@ -333,7 +333,7 @@ const COUNTRIES = [
     highlights: ["Weligama surfing", "Galle", "Yala leopard safari", "Colombo"],
     photo: "https://images.pexels.com/photos/29813525/pexels-photo-29813525.jpeg?auto=compress&cs=tinysrgb&w=800",
     photoCaption: "Sri Lanka",
-    photos: ["https://images.unsplash.com/photo-1588392382834-a891154bca4d?w=400&q=80", "https://images.unsplash.com/photo-1615184697985-c9bde1b07da7?w=400&q=80", "https://images.unsplash.com/photo-1580674684081-7617fbf3d745?w=400&q=80"],
+    photos: ["/SriLanka-photo-1.JPG", "/SriLanka-photo-2.JPG", "/SriLanka-photo-3.JPG"],
     lat: 8, lon: 81,
   },
 ];
