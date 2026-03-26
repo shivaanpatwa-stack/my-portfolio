@@ -9,6 +9,7 @@ const COUNTRIES = [
     highlights: ["Istanbul", "Bodrum", "Beach days", "Cat colonies"],
     photo: "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?w=800&q=80",
     photoCaption: "Istanbul, Turkey",
+    photos: ["/Turkey-photo-1.JPG", "/Turkey-photo-2.JPG", "/Turkey-photo-3.JPG"],
     // lat/lon for globe projection
     lat: 39, lon: 35,
   },
@@ -843,12 +844,22 @@ export default function PassportPage() {
                 </div>
               </div>
 
-              {/* YOUR PHOTO PLACEHOLDER */}
-              <div className="your-photo-placeholder">
-                <span style={{ fontSize: "2rem" }}>📷</span>
-                <span style={{ fontSize: "0.78rem", fontWeight: 600, color: "#2a3349", fontFamily: "'DM Mono', monospace", letterSpacing: "0.06em" }}>YOUR PHOTO</span>
-                <span style={{ fontSize: "0.7rem", color: "#1a2233" }}>Add your personal photo from {selected.name} here</span>
-              </div>
+              {/* PERSONAL PHOTOS */}
+              {(selected as any).photos ? (
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.75rem", marginBottom: "1.5rem" }}>
+                  {(selected as any).photos.map((src: string, i: number) => (
+                    <div key={i} style={{ borderRadius: "10px", overflow: "hidden", aspectRatio: "1", background: "#0f1520" }}>
+                      <img src={src} alt={`${selected.name} photo ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="your-photo-placeholder">
+                  <span style={{ fontSize: "2rem" }}>📷</span>
+                  <span style={{ fontSize: "0.78rem", fontWeight: 600, color: "#2a3349", fontFamily: "'DM Mono', monospace", letterSpacing: "0.06em" }}>YOUR PHOTO</span>
+                  <span style={{ fontSize: "0.7rem", color: "#1a2233" }}>Add your personal photo from {selected.name} here</span>
+                </div>
+              )}
 
               <div style={{ background: "#0f1520", borderRadius: "14px", padding: "1.5rem 1.75rem", marginBottom: "1.5rem", borderLeft: `3px solid ${REGION_COLORS[selected.region] || "#1a6fff"}` }}>
                 <div className="modal-label">VIBE CHECK</div>
