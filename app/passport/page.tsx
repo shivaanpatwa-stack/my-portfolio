@@ -101,6 +101,9 @@ const COUNTRIES = [
     highlights: ["Madrid", "Barcelona", "Marbella", "Granada Alhambra", "Palma"],
     photo: "https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?w=800&q=80",
     photoCaption: "Barcelona, Spain",
+    photoGroups: [
+      { year: "2017", photos: ["/Spain-photo-1.JPG", "/Spain-photo-2.JPG", "/Spain-photo-3.JPG"] },
+    ],
     lat: 40, lon: -4,
   },
   {
