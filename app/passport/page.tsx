@@ -236,6 +236,10 @@ const COUNTRIES = [
     highlights: ["Payerbach", "Kirchberg skiing", "Kitzbühel", "Innsbruck"],
     photo: "https://images.unsplash.com/photo-1609856878074-cf31e21ccb6b?w=800&q=80",
     photoCaption: "Austrian Alps",
+    photoGroups: [
+      { year: "2022", photos: ["/Austria-photo-2-2022.JPG", "/Austria-photo-3-2022.JPG", "/Austria-photo-5-2022.JPG"] },
+      { year: "2023", photos: ["/Austria-photo-1-2023.JPG", "/Austria-photo-4-2023.JPG"] },
+    ],
     lat: 47, lon: 14,
   },
   {
