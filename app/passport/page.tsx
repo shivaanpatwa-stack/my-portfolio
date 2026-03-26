@@ -262,6 +262,7 @@ const COUNTRIES = [
     highlights: ["Dubrovnik GoT tour", "Hvar cliff jumping", "Blue Caves", "Plitvice Lakes"],
     photo: "https://images.pexels.com/photos/18607758/pexels-photo-18607758.jpeg?auto=compress&cs=tinysrgb&w=800",
     photoCaption: "Plitvice Lakes, Croatia",
+    photos: ["/Croatia-photo-1.JPG", "/Croatia-photo-2.JPG", "/Croatia-photo-3.JPG"],
     lat: 45, lon: 16,
   },
   {
