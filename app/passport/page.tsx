@@ -89,6 +89,9 @@ const COUNTRIES = [
     highlights: ["Disney Hong Kong", "Family reunion", "City exploration"],
     photo: "https://images.unsplash.com/photo-1536599424071-0b215a388ba7?w=800&q=80",
     photoCaption: "Hong Kong",
+    photoGroups: [
+      { year: "2016", photos: ["/Honkkong-photo-1.JPG", "/Honkkong-photo-2.JPG", "/Honkkong-photo-3.JPG"] },
+    ],
     lat: 22, lon: 114,
   },
   {
