@@ -230,6 +230,15 @@ const COUNTRIES = [
     lat: 50, lon: 4,
   },
   {
+    id: "netherlands", name: "Netherlands", flag: "🇳🇱", region: "Europe", year: "2019", badge: "Canal City",
+    color: "#e07b39",
+    vibe: "Amsterdam with friends in 2019 — the kind of trip that writes itself. The canals, the bikes everywhere, the chaos of the city that somehow still feels relaxed. We wandered through Jordaan, ate at every place that looked good, and just let the city happen. Amsterdam has this rare quality where you don't need a plan — you can just walk and it rewards you.",
+    highlights: ["Amsterdam", "Jordaan", "Canal walks", "City exploration"],
+    photo: "https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?w=800&q=80",
+    photoCaption: "Amsterdam, Netherlands",
+    lat: 52, lon: 5,
+  },
+  {
     id: "austria", name: "Austria", flag: "🇦🇹", region: "Europe", year: "2022, 2023", badge: "Alpine Base",
     color: "#6d597a",
     vibe: "Christmas at the family home in Payerbach felt like the ideal European winter — snow, mulled wine, the smell of pine, every cliché landing exactly right. Then ski season in Kitzbühel for Dad's 50th birthday — one of those rare trips where the occasion matches the setting perfectly. Innsbruck surprised me: compact, walkable, and ringed by mountains that feel impossibly close to the city. Austria makes the Alps feel personal rather than just spectacular.",
