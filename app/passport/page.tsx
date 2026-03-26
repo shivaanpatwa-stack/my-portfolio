@@ -64,6 +64,10 @@ const COUNTRIES = [
     highlights: ["Grindelwald", "Interlaken", "Zermatt skiing", "Olympic Museum"],
     photo: "https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=800&q=80",
     photoCaption: "Swiss Alps",
+    photoGroups: [
+      { year: "2015", photos: ["/Switzerland-photo-3-2015.JPG", "/Switzerland-photo-4-2015.JPG"] },
+      { year: "2024", photos: ["/Switzerland-photo-1-2024.JPG", "/Switzerland-photo-2-2024.JPG"] },
+    ],
     lat: 47, lon: 8,
   },
   {
@@ -858,7 +862,7 @@ export default function PassportPage() {
                   {(selected as any).photoGroups.map((group: { year: string; photos: string[] }) => (
                     <div key={group.year} style={{ marginBottom: "1rem" }}>
                       <div style={{ fontSize: "0.72rem", fontFamily: "'DM Mono', monospace", color: "#3a4a62", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.5rem" }}>{group.year}</div>
-                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.75rem" }}>
+                      <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(group.photos.length, 3)}, 1fr)`, gap: "0.75rem" }}>
                         {group.photos.map((src: string, i: number) => (
                           <div key={i} style={{ borderRadius: "10px", overflow: "hidden", aspectRatio: "1", background: "#0f1520" }}>
                             <img src={src} alt={`${selected.name} ${group.year} photo ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
