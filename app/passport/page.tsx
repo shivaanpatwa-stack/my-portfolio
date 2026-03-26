@@ -139,9 +139,7 @@ const COUNTRIES = [
     highlights: ["The Rock", "Barbary macaques", "Mountain views"],
     photo: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
     photoCaption: "Gibraltar",
-    photoGroups: [
-      { year: "2017", photos: ["/Gibraltar-photo-1.JPG"] },
-    ],
+    photos: ["/Gibraltar-photo-1.JPG", "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80", "https://images.unsplash.com/photo-1597598494791-e4f7ba35c4c1?w=400&q=80"],
     lat: 36, lon: -5,
   },
   {
@@ -305,6 +303,7 @@ const COUNTRIES = [
     highlights: ["Sistine Chapel", "St. Peter's Basilica", "Jubilee Year 2025"],
     photo: "https://images.pexels.com/photos/3892129/pexels-photo-3892129.jpeg?auto=compress&cs=tinysrgb&w=800",
     photoCaption: "St. Peter's Square, Vatican City",
+    photos: ["/vatican-photo-1.JPG", "https://images.unsplash.com/photo-1555993539-1732b0258235?w=400&q=80", "https://images.unsplash.com/photo-1513581166391-887a96ddeafd?w=400&q=80"],
     lat: 41.9, lon: 12.45,
   },
   {
