@@ -77,6 +77,9 @@ const COUNTRIES = [
     highlights: ["Munich", "Neuschwanstein Castle", "Black Forest", "Berlin"],
     photo: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&q=80",
     photoCaption: "Neuschwanstein, Germany",
+    photoGroups: [
+      { year: "2015", photos: ["/Germany-photo-1.JPG", "/Germany-photo-2.JPG", "/Germany-photo-3.JPG"] },
+    ],
     lat: 51, lon: 10,
   },
   {
