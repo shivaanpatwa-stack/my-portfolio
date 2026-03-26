@@ -272,6 +272,7 @@ const COUNTRIES = [
     highlights: ["Postojna Caves", "Lake Bled", "Ljubljana", "Julian Alps"],
     photo: "https://images.pexels.com/photos/3525983/pexels-photo-3525983.jpeg?auto=compress&cs=tinysrgb&w=800",
     photoCaption: "Lake Bled, Slovenia",
+    photos: ["/Slovenia-photo-1.JPG", "/Slovenia-photo-2.JPG"],
     lat: 46, lon: 15,
   },
   {
@@ -933,7 +934,7 @@ export default function PassportPage() {
                   ))}
                 </div>
               ) : (selected as any).photos ? (
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.75rem", marginBottom: "1.5rem" }}>
+                <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min((selected as any).photos.length, 3)}, 1fr)`, gap: "0.75rem", marginBottom: "1.5rem" }}>
                   {(selected as any).photos.map((src: string, i: number) => (
                     <div key={i} style={{ borderRadius: "10px", overflow: "hidden", aspectRatio: "1", background: "#0f1520" }}>
                       <img src={src} alt={`${selected.name} photo ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
