@@ -270,7 +270,7 @@ const COUNTRIES = [
     highlights: ["Postojna Caves", "Lake Bled", "Ljubljana", "Julian Alps"],
     photo: "https://images.pexels.com/photos/3525983/pexels-photo-3525983.jpeg?auto=compress&cs=tinysrgb&w=800",
     photoCaption: "Lake Bled, Slovenia",
-    photos: ["/Slovenia-photo-1.JPG", "/Slovenia-photo-2.JPG"],
+    photos: ["/Slovenia-photo-1.JPG", "/Slovenia-photo-2.JPG", "https://images.unsplash.com/photo-1580137189272-c9379f8864fd?w=400&q=80"],
     lat: 46, lon: 15,
   },
   {
@@ -313,6 +313,7 @@ const COUNTRIES = [
     highlights: ["Nairobi", "Masai Mara safari", "Leopard sighting"],
     photo: "https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=800&q=80",
     photoCaption: "Masai Mara, Kenya",
+    photos: ["https://images.unsplash.com/photo-1547970810-dc1eac37d174?w=400&q=80", "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=400&q=80", "https://images.unsplash.com/photo-1535941339077-2dd1c7963098?w=400&q=80"],
     lat: -1, lon: 37,
   },
   {
@@ -322,6 +323,7 @@ const COUNTRIES = [
     highlights: ["Da Nang", "Hoi An", "Family celebration", "Local food"],
     photo: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80",
     photoCaption: "Hoi An, Vietnam",
+    photos: ["https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=400&q=80", "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=400&q=80", "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80"],
     lat: 16, lon: 108,
   },
   {
@@ -331,6 +333,7 @@ const COUNTRIES = [
     highlights: ["Weligama surfing", "Galle", "Yala leopard safari", "Colombo"],
     photo: "https://images.pexels.com/photos/29813525/pexels-photo-29813525.jpeg?auto=compress&cs=tinysrgb&w=800",
     photoCaption: "Sri Lanka",
+    photos: ["https://images.unsplash.com/photo-1588392382834-a891154bca4d?w=400&q=80", "https://images.unsplash.com/photo-1615184697985-c9bde1b07da7?w=400&q=80", "https://images.unsplash.com/photo-1580674684081-7617fbf3d745?w=400&q=80"],
     lat: 8, lon: 81,
   },
 ];
