@@ -30,6 +30,11 @@ const COUNTRIES = [
     highlights: ["Zoo & Night Safari", "Universal Studios", "Ferrari experience", "Family reunions"],
     photo: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=800&q=80",
     photoCaption: "Marina Bay, Singapore",
+    photoGroups: [
+      { year: "2013", photos: ["/Singapore-photo-5-2013.JPG", "/Singapore-photo-6-2013.JPG"] },
+      { year: "2017", photos: ["/Singapore-photo-1-2017.JPG", "/Singapore-photo-2-2017.JPG", "/Singapore-photo-3-2017.JPG"] },
+      { year: "2022", photos: ["/Singapore-photo-4-2022.jpeg"] },
+    ],
     lat: 1, lon: 104,
   },
   {
@@ -846,7 +851,22 @@ export default function PassportPage() {
               </div>
 
               {/* PERSONAL PHOTOS */}
-              {(selected as any).photos ? (
+              {(selected as any).photoGroups ? (
+                <div style={{ marginBottom: "1.5rem" }}>
+                  {(selected as any).photoGroups.map((group: { year: string; photos: string[] }) => (
+                    <div key={group.year} style={{ marginBottom: "1rem" }}>
+                      <div style={{ fontSize: "0.72rem", fontFamily: "'DM Mono', monospace", color: "#3a4a62", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.5rem" }}>{group.year}</div>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.75rem" }}>
+                        {group.photos.map((src: string, i: number) => (
+                          <div key={i} style={{ borderRadius: "10px", overflow: "hidden", aspectRatio: "1", background: "#0f1520" }}>
+                            <img src={src} alt={`${selected.name} ${group.year} photo ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (selected as any).photos ? (
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.75rem", marginBottom: "1.5rem" }}>
                   {(selected as any).photos.map((src: string, i: number) => (
                     <div key={i} style={{ borderRadius: "10px", overflow: "hidden", aspectRatio: "1", background: "#0f1520" }}>
