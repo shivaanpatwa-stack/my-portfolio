@@ -128,7 +128,7 @@ const COUNTRIES = [
     photo: "https://images.unsplash.com/photo-1580889240762-ac35d8395f6b?w=800&q=80",
     photoCaption: "Tiger's Nest, Bhutan",
     photoGroups: [
-      { year: "2017", photos: ["/Bhutan-photo-1.JPG", "/Bhutan-photo-2.JPG", "/Bhutan-photo-3.JPG"] },
+      { year: "2017", photos: ["/Bhutan-photo-1.jpg", "/Bhutan-photo-2.jpg", "/Bhutan-photo-3.jpg"] },
     ],
     lat: 27, lon: 90,
   },
@@ -256,7 +256,7 @@ const COUNTRIES = [
     highlights: ["Dubrovnik GoT tour", "Hvar cliff jumping", "Blue Caves", "Plitvice Lakes"],
     photo: "https://images.unsplash.com/photo-1555990538-c0f6b0acf83c?w=800&q=80",
     photoCaption: "Plitvice Lakes, Croatia",
-    photos: ["/Croatia-photo-1.JPG", "/Croatia-photo-2.JPG", "/Croatia-photo-3.JPG"],
+    photos: ["/Croatia-photo-1.jpg", "/Croatia-photo-2.jpg", "/Croatia-photo-3.jpg"],
     lat: 45, lon: 16,
   },
   {
@@ -329,7 +329,7 @@ const COUNTRIES = [
     highlights: ["Weligama surfing", "Galle", "Yala leopard safari", "Colombo"],
     photo: "https://images.unsplash.com/photo-1588598198321-9735fd5da207?w=800&q=80",
     photoCaption: "Sri Lanka",
-    photos: ["/SriLanka-photo-1.JPG", "/SriLanka-photo-2.JPG", "/SriLanka-photo-3.JPG"],
+    photos: ["/SriLanka-photo-1.jpg", "/SriLanka-photo-2.jpg", "/SriLanka-photo-3.jpg"],
     lat: 8, lon: 81,
   },
 ];
