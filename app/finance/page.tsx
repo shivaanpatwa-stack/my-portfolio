@@ -326,7 +326,7 @@ export default function FinanceLab() {
   };
 
   return (
-    <main style={{ background: "#07090e", color: "#dde4ee", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif" }}>
+    <main style={{ background: "#07090e", color: "#dde4ee", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&family=DM+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -490,9 +490,19 @@ export default function FinanceLab() {
             padding: 1.25rem 1rem !important;
           }
 
+          .modal-overlay {
+            padding: 0 !important;
+            align-items: flex-end !important;
+          }
           .modal {
             padding: 1.25rem !important;
-            max-height: 90vh;
+            max-height: 92dvh !important;
+            max-height: 92vh !important;
+            width: 100vw !important;
+            border-radius: 16px 16px 0 0 !important;
+            border-left: none !important;
+            border-right: none !important;
+            border-bottom: none !important;
           }
 
           .ai-chat-box {
@@ -504,6 +514,7 @@ export default function FinanceLab() {
           }
           .form-row .cta-btn {
             width: 100%;
+            min-height: 44px;
           }
           .form-row .input-field {
             width: 100%;
@@ -513,11 +524,26 @@ export default function FinanceLab() {
             gap: 0.75rem;
             padding: 0.875rem 0.75rem;
           }
+
+          .nav-tab {
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+          }
+
+          .cta-btn {
+            min-height: 44px;
+          }
         }
 
         @media (max-width: 480px) {
           .content-wrap {
             padding: 1.25rem 0.875rem !important;
+          }
+
+          .article-row {
+            flex-direction: column;
+            align-items: flex-start;
           }
         }
       `}</style>

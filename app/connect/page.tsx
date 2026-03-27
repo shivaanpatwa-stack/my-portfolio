@@ -145,6 +145,29 @@ export default function ConnectPage() {
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }
           .cards-grid { grid-template-columns: 1fr !important; }
+
+          .contact-card {
+            padding: 1.5rem !important;
+            min-height: 44px;
+          }
+
+          nav {
+            padding: 0.875rem 1.25rem !important;
+          }
+
+          .page-content {
+            padding: 7rem 1.25rem 4rem !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .page-content {
+            padding: 6rem 1rem 3rem !important;
+          }
+
+          .contact-card {
+            padding: 1.25rem !important;
+          }
         }
       `}</style>
 
@@ -186,7 +209,7 @@ export default function ConnectPage() {
       )}
 
       {/* PAGE CONTENT */}
-      <div style={{ position: "relative", zIndex: 1, maxWidth: 900, margin: "0 auto", padding: "9rem 2rem 6rem" }}>
+      <div className="page-content" style={{ position: "relative", zIndex: 1, maxWidth: 900, margin: "0 auto", padding: "9rem 2rem 6rem" }}>
 
         {/* HEADER */}
         <div style={{ marginBottom: "3.5rem" }}>

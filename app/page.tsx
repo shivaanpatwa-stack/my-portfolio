@@ -410,13 +410,51 @@ export default function Home() {
           .hero-cta-group .cta-btn {
             width: 100%;
             justify-content: center;
+            min-height: 44px;
           }
 
           .now-row { gap: 0.625rem; }
+
+          .stats-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+
+          .quote-block {
+            padding: 1.75rem 1.25rem !important;
+          }
+
+          .now-widget {
+            width: 100% !important;
+          }
+
+          .hero-section {
+            padding: 5rem 1.25rem 2.5rem !important;
+          }
+
+          .resume-cta-inner {
+            padding: 1.75rem 1.25rem !important;
+          }
+
+          .cta-btn {
+            min-height: 44px;
+          }
         }
 
         @media (max-width: 480px) {
           nav { padding: 0.75rem 1rem !important; }
+
+          .stats-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+
+          .stat-card {
+            padding: 1rem !important;
+          }
+
+          .section-padding {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+          }
         }
       `}</style>
 
@@ -484,7 +522,7 @@ export default function Home() {
       <div style={{ position: "relative", zIndex: 1 }}>
 
         {/* HERO */}
-        <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "7rem 2rem 3rem", maxWidth: 1200, margin: "0 auto" }}>
+        <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "7rem 2rem 3rem", maxWidth: 1200, margin: "0 auto" }}>
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(3rem, 8vw, 6.5rem)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: "1.25rem" }}>
             Shivaan<br />
             <span style={{ color: "#1a6fff" }}>Patwa.</span>
@@ -512,7 +550,7 @@ export default function Home() {
           ref={reg("stats")}
           style={{ padding: "2rem 2rem", maxWidth: 1200, margin: "0 auto" }}
         >
-          <div className={fade("stats")} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}>
+          <div className={`stats-grid ${fade("stats")}`} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}>
             {STATS.map((s, i) => (
               <div key={i} className="stat-card" style={{ transitionDelay: `${i * 80}ms` }}>
                 <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.75rem", fontWeight: 900, color: "#1a6fff", lineHeight: 1 }}>{s.value}</div>
@@ -529,7 +567,7 @@ export default function Home() {
           ref={reg("quote")}
           style={{ padding: "2.5rem 2rem", maxWidth: 1200, margin: "0 auto" }}
         >
-          <div className={fade("quote")} style={{
+          <div className={`quote-block ${fade("quote")}`} style={{
             background: "linear-gradient(135deg, #0d1117 0%, #0a0f1a 100%)",
             border: "1px solid #1a2235",
             borderRadius: "20px",
@@ -597,7 +635,7 @@ export default function Home() {
           ref={reg("resume-cta")}
           style={{ padding: "2.5rem 2rem 4rem", maxWidth: 1200, margin: "0 auto", textAlign: "center" }}
         >
-          <div className={fade("resume-cta")} style={{
+          <div className={`resume-cta-inner ${fade("resume-cta")}`} style={{
             background: "#0d1117",
             border: "1px solid #111827",
             borderRadius: "16px",

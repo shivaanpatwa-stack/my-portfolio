@@ -354,8 +354,63 @@ export default function MUNArena() {
         }
 
         @media (max-width: 768px) {
-          .conf-row { grid-template-columns: 1fr; gap: 0.4rem; }
+          .conf-row {
+            grid-template-columns: 1fr;
+            gap: 0.4rem;
+          }
+          .conf-header { display: none !important; }
           .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+          .tab-btn {
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .cta-btn {
+            min-height: 44px;
+          }
+
+          .ticker-bar {
+            gap: 1rem;
+            padding: 0.6rem 1rem;
+            font-size: 0.68rem;
+            overflow-x: auto;
+          }
+
+          .mun-header {
+            padding: 1.25rem 1rem !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+          }
+
+          .mun-content {
+            padding: 1.5rem 1rem !important;
+          }
+
+          .docs-grid {
+            grid-template-columns: 1fr !important;
+          }
+
+          .resource-row {
+            flex-direction: column !important;
+          }
+          .resource-row .cta-btn {
+            width: 100%;
+          }
+          .resource-row .input-field {
+            width: 100%;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .stat-pill {
+            padding: 0.75rem 1rem;
+          }
+          .award-badge {
+            font-size: 0.65rem;
+          }
         }
       `}</style>
 
@@ -380,7 +435,7 @@ export default function MUNArena() {
       </div>
 
       {/* HEADER */}
-      <div style={{ borderBottom: "1px solid #0f1520", padding: "1.5rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+      <div className="mun-header" style={{ borderBottom: "1px solid #0f1520", padding: "1.5rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
         <div>
           <a href="/" style={{ color: "#445566", fontSize: "0.78rem", textDecoration: "none", letterSpacing: "0.08em" }}>← SP.</a>
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.6rem, 5vw, 2.4rem)", fontWeight: 900, marginTop: "0.2rem", letterSpacing: "-0.02em" }}>
@@ -399,7 +454,7 @@ export default function MUNArena() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 1000, margin: "0 auto", padding: "2rem" }}>
+      <div className="mun-content" style={{ maxWidth: 1000, margin: "0 auto", padding: "2rem" }}>
 
         {/* STATS ROW */}
         <div className="stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0.75rem", marginBottom: "2rem" }}>
@@ -424,7 +479,7 @@ export default function MUNArena() {
             <p style={{ color: "#556677", fontSize: "0.83rem", marginBottom: "1.5rem" }}>Click any row to expand the briefing note.</p>
 
             {/* Table header */}
-            <div style={{ display: "grid", gridTemplateColumns: "60px 1fr 1fr 1fr 140px", gap: "0.75rem", padding: "0.5rem 1.25rem", marginBottom: "0.25rem" }}>
+            <div className="conf-header" style={{ display: "grid", gridTemplateColumns: "60px 1fr 1fr 1fr 140px", gap: "0.75rem", padding: "0.5rem 1.25rem", marginBottom: "0.25rem" }}>
               {["Yr", "Conference", "Committee", "Country", "Award"].map(h => (
                 <div key={h} style={{ fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#334455" }}>{h}</div>
               ))}
@@ -486,7 +541,7 @@ export default function MUNArena() {
               <span className="section-tag">Community</span>
               <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "0.4rem" }}>Request a Template or Advice</h3>
               <p style={{ color: "#556677", fontSize: "0.82rem", marginBottom: "1rem" }}>Younger delegates — ask for specific committee templates or preparation advice.</p>
-              <div style={{ display: "flex", gap: "0.75rem" }}>
+              <div className="resource-row" style={{ display: "flex", gap: "0.75rem" }}>
                 <input
                   className="input-field"
                   style={{ flex: 1 }}
@@ -545,7 +600,7 @@ export default function MUNArena() {
               A compilation of my best MUN documents — position papers, resolutions and working papers.
             </p>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "0.875rem" }}>
+            <div className="docs-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "0.875rem" }}>
               {DOCUMENT_DRIVE_FOLDERS.map((d) => (
                 <a
                   key={d.href}

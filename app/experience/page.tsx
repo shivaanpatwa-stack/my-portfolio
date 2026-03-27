@@ -359,10 +359,55 @@ export default function ExperienceVault() {
           cursor: pointer;
         }
         .album-btn:hover { border-color: #1a6fff44; color: #dde4ee; }
+
+        @media (max-width: 768px) {
+          .exp-header {
+            padding: 1.25rem 1rem !important;
+          }
+
+          .exp-main {
+            padding: 1.5rem 1rem !important;
+          }
+
+          .exp-card {
+            padding: 1.25rem !important;
+          }
+
+          .filter-btn {
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+          }
+
+          .skill-grid-btn {
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+          }
+
+          .carousel-arrow {
+            width: 44px;
+            height: 44px;
+          }
+
+          .origin-card {
+            padding: 1.5rem !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .exp-card {
+            padding: 1rem !important;
+          }
+
+          .timeline-line {
+            display: none;
+          }
+        }
       `}</style>
 
       {/* HEADER */}
-      <div style={{ borderBottom: "1px solid #0f1520", padding: "1.5rem 2rem" }}>
+      <div className="exp-header" style={{ borderBottom: "1px solid #0f1520", padding: "1.5rem 2rem" }}>
         <a href="/" style={{ color: "#445566", fontSize: "0.78rem", textDecoration: "none", letterSpacing: "0.08em" }}>
           ← SP.
         </a>
@@ -381,7 +426,7 @@ export default function ExperienceVault() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 800, margin: "0 auto", padding: "2.5rem 2rem" }}>
+      <div className="exp-main" style={{ maxWidth: 800, margin: "0 auto", padding: "2.5rem 2rem" }}>
         {/* TIMELINE */}
         <div style={{ position: "relative" }}>
           <div className="timeline-line" />
