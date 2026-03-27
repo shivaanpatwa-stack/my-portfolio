@@ -367,13 +367,13 @@ export default function PassportPage() {
   // Easter egg states
   const [globeClicks, setGlobeClicks] = useState(0);
   const [showExplorerEgg, setShowExplorerEgg] = useState(false);
-  const [wanderlustBuffer, setWanderlustBuffer] = useState("");
   const [showWanderlust, setShowWanderlust] = useState(false);
   const [confettiPieces, setConfettiPieces] = useState<{ id: number; color: string; left: number; delay: number; duration: number; rotation: number }[]>([]);
   const [passportClicks, setPassportClicks] = useState(0);
   const [showClassified, setShowClassified] = useState(false);
-  const [konamiBuffer, setKonamiBuffer] = useState<string[]>([]);
+  const [globeTapCount, setGlobeTapCount] = useState(0);
   const [showKonami, setShowKonami] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const animRef = useRef<number | undefined>(undefined);
   const lastTime = useRef<number>(0);
@@ -381,43 +381,26 @@ export default function PassportPage() {
   const dragStart = useRef(0);
   const rotStart = useRef(0);
   const autoSpin = useRef(true);
+  const titlePressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const globeTapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","KeyB","KeyA"];
+  const triggerWanderlust = () => {
+    setShowWanderlust(true);
+    const pieces = Array.from({ length: 60 }, (_, i) => ({
+      id: i,
+      color: ["#e9c46a","#1a6fff","#e63946","#2a9d8f","#f4a261","#ffffff"][Math.floor(Math.random() * 6)],
+      left: Math.random() * 100,
+      delay: Math.random() * 1.5,
+      duration: 2.5 + Math.random() * 1.5,
+      rotation: Math.random() * 720 - 360,
+    }));
+    setConfettiPieces(pieces);
+    setTimeout(() => { setShowWanderlust(false); setConfettiPieces([]); }, 4000);
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") { setLightboxSrc(null); setShowExplorerEgg(false); setShowWanderlust(false); setShowKonami(false); }
-
-      // Wanderlust buffer
-      setWanderlustBuffer(prev => {
-        const next = (prev + e.key).slice(-10);
-        if (next.toUpperCase() === "WANDERLUST") {
-          setShowWanderlust(true);
-          const pieces = Array.from({ length: 60 }, (_, i) => ({
-            id: i,
-            color: ["#e9c46a","#1a6fff","#e63946","#2a9d8f","#f4a261","#ffffff"][Math.floor(Math.random() * 6)],
-            left: Math.random() * 100,
-            delay: Math.random() * 1.5,
-            duration: 2.5 + Math.random() * 1.5,
-            rotation: Math.random() * 720 - 360,
-          }));
-          setConfettiPieces(pieces);
-          setTimeout(() => { setShowWanderlust(false); setConfettiPieces([]); }, 4000);
-          return "";
-        }
-        return next;
-      });
-
-      // Konami code
-      const key = e.code;
-      setKonamiBuffer(prev => {
-        const next = [...prev, key].slice(-10);
-        if (next.length === 10 && next.every((k, i) => k === KONAMI[i])) {
-          setShowKonami(true);
-          return [];
-        }
-        return next;
-      });
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -763,9 +746,9 @@ export default function PassportPage() {
         }
         .wanderlust-toast {
           position: fixed;
-          top: 5rem;
+          top: 50%;
           left: 50%;
-          transform: translateX(-50%);
+          transform: translate(-50%, -50%);
           background: #0d1421;
           border: 1.5px solid #e9c46a;
           border-radius: 14px;
@@ -779,6 +762,67 @@ export default function PassportPage() {
           white-space: nowrap;
           box-shadow: 0 8px 32px rgba(233,196,106,0.2);
         }
+
+        /* MOBILE RESPONSIVENESS */
+        @media (max-width: 768px) {
+          .stamp-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+          .globe-container {
+            max-width: 100% !important;
+            transform: scale(0.85);
+            transform-origin: top center;
+          }
+          .passport-id-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .country-modal {
+            width: 100vw !important;
+            max-width: 100vw !important;
+            height: 100vh !important;
+            max-height: 100vh !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+            top: 0 !important;
+            left: 0 !important;
+          }
+          .stat-pills {
+            flex-wrap: wrap !important;
+          }
+          .passport-hero-title {
+            font-size: clamp(2.5rem, 10vw, 4rem) !important;
+          }
+          .passport-desktop-nav {
+            display: none !important;
+          }
+          .passport-hamburger {
+            display: flex !important;
+          }
+          .modal-box {
+            width: 100vw !important;
+            max-width: 100vw !important;
+            max-height: 100dvh !important;
+            border-radius: 0 !important;
+          }
+          .flag-bubble {
+            width: 32px !important;
+            height: 32px !important;
+            font-size: 18px !important;
+          }
+          .globe-svg-wrap {
+            width: 100% !important;
+            height: auto !important;
+            max-width: 420px !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .stamp-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 0.5rem !important;
+          }
+        }
+        .passport-desktop-nav { display: flex; }
+        .passport-hamburger { display: none; }
       `}</style>
 
       {/* NAV */}
@@ -791,24 +835,50 @@ export default function PassportPage() {
         <a href="/" style={{ textDecoration: "none" }}>
           <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.25rem", fontWeight: 700, color: "#e8eaf0", letterSpacing: "0.02em" }}>SP</span>
         </a>
-        <div style={{ display: "flex", gap: "2.5rem" }}>
+        <div className="passport-desktop-nav" style={{ gap: "2.5rem" }}>
           {[["Finance Lab", "/finance"], ["MUN Arena", "/mun"], ["Experience", "/experience"], ["The Passport", "/passport"], ["Connect", "/connect"]].map(([label, href]) => (
             <a key={label} href={href} className={`nav-link ${label === "The Passport" ? "cur" : ""}`}>{label}</a>
           ))}
         </div>
+        <button
+          className="passport-hamburger"
+          onClick={() => setMobileMenuOpen(o => !o)}
+          style={{ background: "none", border: "none", color: "#e8eaf0", fontSize: "1.5rem", cursor: "pointer", alignItems: "center", justifyContent: "center", padding: "0.25rem" }}
+          aria-label="Open menu"
+        >☰</button>
       </nav>
+
+      {/* MOBILE MENU OVERLAY */}
+      {mobileMenuOpen && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(6,8,16,0.97)", zIndex: 200, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "2rem", backdropFilter: "blur(16px)" }}>
+          <button onClick={() => setMobileMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "1.5rem", background: "none", border: "none", color: "#e8eaf0", fontSize: "1.8rem", cursor: "pointer" }}>✕</button>
+          {[["Finance Lab", "/finance"], ["MUN Arena", "/mun"], ["Experience", "/experience"], ["The Passport", "/passport"], ["Connect", "/connect"]].map(([label, href]) => (
+            <a key={label} href={href} onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: "none", fontSize: "1.4rem", fontWeight: 500, color: label === "The Passport" ? "#e8eaf0" : "#5a6a82", fontFamily: "'DM Sans', sans-serif" }}>{label}</a>
+          ))}
+        </div>
+      )}
 
       <main style={{ maxWidth: 1120, margin: "0 auto", padding: "3.5rem 2rem 9rem" }}>
 
         {/* HERO */}
         <div style={{ marginBottom: "4.5rem", animation: "floatIn 0.8s ease forwards" }}>
           <div className="section-label">Global Citizen · 29 Countries · 6 Continents</div>
-          <h1 style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: "clamp(4rem, 10vw, 8rem)",
-            fontWeight: 700, lineHeight: 0.9, letterSpacing: "-0.01em",
-            marginBottom: "1.75rem",
-          }}>
+          <h1
+            className="passport-hero-title"
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "clamp(4rem, 10vw, 8rem)",
+              fontWeight: 700, lineHeight: 0.9, letterSpacing: "-0.01em",
+              marginBottom: "1.75rem",
+              cursor: "default",
+              userSelect: "none",
+            }}
+            onMouseDown={() => { titlePressTimer.current = setTimeout(() => triggerWanderlust(), 2000); }}
+            onMouseUp={() => { if (titlePressTimer.current) { clearTimeout(titlePressTimer.current); titlePressTimer.current = null; } }}
+            onMouseLeave={() => { if (titlePressTimer.current) { clearTimeout(titlePressTimer.current); titlePressTimer.current = null; } }}
+            onTouchStart={() => { titlePressTimer.current = setTimeout(() => triggerWanderlust(), 2000); }}
+            onTouchEnd={() => { if (titlePressTimer.current) { clearTimeout(titlePressTimer.current); titlePressTimer.current = null; } }}
+          >
             <span style={{ display: "block", color: "#c8ccd8" }}>The</span>
             <span style={{ display: "block", fontStyle: "italic", background: "linear-gradient(125deg, #1a6fff 0%, #6fb3ff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Passport</span>
           </h1>
@@ -900,6 +970,7 @@ export default function PassportPage() {
             Every country, spinning live
           </h2>
           <div className="globe-container">
+            <div style={{ maxWidth: "100%", overflowX: "hidden" }}>
             <div
               className="globe-svg-wrap"
               onMouseDown={e => {
@@ -930,9 +1001,22 @@ export default function PassportPage() {
               <svg className="globe-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg"
                 onClick={() => {
                   if (!isDragging.current) {
+                    // 5-click explorer egg
                     setGlobeClicks(prev => {
                       const next = prev + 1;
                       if (next >= 5) { setShowExplorerEgg(true); return 0; }
+                      return next;
+                    });
+                    // Triple-tap konami (dream destinations)
+                    setGlobeTapCount(prev => {
+                      const next = prev + 1;
+                      if (globeTapTimer.current) clearTimeout(globeTapTimer.current);
+                      if (next >= 3) {
+                        setShowKonami(true);
+                        globeTapTimer.current = null;
+                        return 0;
+                      }
+                      globeTapTimer.current = setTimeout(() => { setGlobeTapCount(0); }, 600);
                       return next;
                     });
                   }
@@ -1029,6 +1113,7 @@ export default function PassportPage() {
                   );
                 })}
               </div>
+            </div>
             </div>
             <div className="globe-drag-hint">drag to rotate · click a flag to explore</div>
           </div>
