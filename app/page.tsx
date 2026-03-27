@@ -377,6 +377,45 @@ export default function Home() {
           </div>
         </section>
 
+        {/* PERSONAL QUOTE */}
+        <section
+          id="quote"
+          ref={reg("quote")}
+          style={{ padding: "2.5rem 2rem", maxWidth: 1200, margin: "0 auto" }}
+        >
+          <div className={fade("quote")} style={{
+            background: "linear-gradient(135deg, #0d1117 0%, #0a0f1a 100%)",
+            border: "1px solid #1a2235",
+            borderRadius: "20px",
+            padding: "3rem 3.5rem",
+            textAlign: "center",
+            position: "relative",
+            overflow: "hidden",
+          }}>
+            {/* subtle glow */}
+            <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: "80%", height: "80%", background: "radial-gradient(ellipse, rgba(26,111,255,0.05) 0%, transparent 70%)", pointerEvents: "none" }} />
+            <div style={{ position: "relative" }}>
+              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(3rem, 8vw, 5.5rem)", lineHeight: 0.8, color: "#1a6fff", marginBottom: "0.5rem", opacity: 0.9 }}>"</div>
+              <p style={{
+                fontFamily: "'Playfair Display', serif",
+                fontStyle: "italic",
+                fontSize: "clamp(1.15rem, 3vw, 1.6rem)",
+                fontWeight: 700,
+                color: "#e8eaf0",
+                lineHeight: 1.65,
+                maxWidth: 720,
+                margin: "0 auto",
+                letterSpacing: "-0.01em",
+              }}>
+                Wealth. Unforgettable experiences. Every country on the map. And the right people to share it with. That's all I want.
+              </p>
+              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(3rem, 8vw, 5.5rem)", lineHeight: 0.8, color: "#1a6fff", marginTop: "0.5rem", opacity: 0.9, textAlign: "right", maxWidth: 720, margin: "0.5rem auto 0" }}>"</div>
+              <div style={{ marginTop: "1.5rem", width: 40, height: 2, background: "#1a6fff", margin: "1.5rem auto 0", borderRadius: 2 }} />
+              <div style={{ marginTop: "0.75rem", fontSize: "0.8rem", color: "#334455", letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600 }}>Shivaan Patwa</div>
+            </div>
+          </div>
+        </section>
+
         {/* THE NOW */}
         <section
           id="now"
