@@ -1144,14 +1144,14 @@ export default function PassportPage() {
         <div style={{ textAlign: "center", marginTop: "3rem", marginBottom: "2rem" }}>
           <div style={{
             display: "inline-block",
-            opacity: 0.35,
+            opacity: 1,
             transform: "rotate(-2deg)",
-            border: "2px solid #8b0000",
+            border: "2px solid #cc0000",
             borderRadius: "4px",
             padding: "0.6rem 1.4rem",
             fontFamily: "'DM Mono', monospace",
             fontSize: "0.75rem",
-            color: "#8b0000",
+            color: "#cc0000",
             letterSpacing: "0.15em",
             textTransform: "uppercase",
             lineHeight: 1.6,
@@ -1163,15 +1163,15 @@ export default function PassportPage() {
 
         {/* FOOTER */}
         <div style={{ textAlign: "center", marginTop: "1rem" }}>
-          <div style={{ color: "rgba(255,255,255,0.06)", fontSize: "0.7rem", fontFamily: "monospace", marginBottom: "1.5rem", letterSpacing: "0.08em" }}>secrets hidden within...</div>
-          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "2rem", color: "#6b7280", marginBottom: "2.5rem", lineHeight: 1.4 }}>
+          <div style={{ color: "#6b7280", fontSize: "0.7rem", fontFamily: "monospace", marginBottom: "1.5rem", letterSpacing: "0.08em" }}>secrets hidden within...</div>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "2rem", color: "#9ca3af", marginBottom: "2.5rem", lineHeight: 1.4 }}>
             "The world is big.<br />I'm just getting started."
           </p>
           <a href="/" style={{
             display: "inline-flex", alignItems: "center", gap: "0.5rem",
             padding: "0.8rem 2rem", background: "transparent",
-            border: "1px solid #141a28", borderRadius: "12px",
-            color: "#4b5a72", textDecoration: "none",
+            border: "1px solid #6b7280", borderRadius: "12px",
+            color: "#6b7280", textDecoration: "none",
             fontSize: "0.83rem", fontWeight: 500, transition: "all 0.2s",
           }}>← Back to Home</a>
         </div>
