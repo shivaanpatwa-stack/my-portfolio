@@ -336,7 +336,7 @@ export default function FinanceLab() {
   };
 
   return (
-    <main style={{ background: "#07090e", color: "#dde4ee", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", overflowX: "hidden" }}>
+    <main style={{ background: "#07090e", color: "#dde4ee", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&family=DM+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -707,7 +707,7 @@ export default function FinanceLab() {
 
       {/* ARTICLE MODAL */}
       {selectedArticle && (
-        <div onClick={() => setSelectedArticle(null)} style={{ position: "fixed", top: "0", left: "0", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem", boxSizing: "border-box" }}>
+        <div onClick={() => setSelectedArticle(null)} style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}>
           <div onClick={e => e.stopPropagation()} style={{ position: "relative", background: "#0d1117", border: "1px solid #1a1e2e", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", flexShrink: 0, padding: "2.5rem" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.5rem" }}>
               <div>

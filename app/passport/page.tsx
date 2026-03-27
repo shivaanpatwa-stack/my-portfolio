@@ -431,7 +431,7 @@ export default function PassportPage() {
     .sort((a, b) => a.z - b.z);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#060810", color: "#e8eaf0", fontFamily: "'DM Sans', sans-serif", overflowX: "hidden" }}>
+    <div style={{ minHeight: "100vh", background: "#060810", color: "#e8eaf0", fontFamily: "'DM Sans', sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=DM+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -849,7 +849,7 @@ export default function PassportPage() {
         </div>
       )}
 
-      <main style={{ maxWidth: 1120, margin: "0 auto", padding: "3.5rem 2rem 9rem" }}>
+      <main style={{ maxWidth: 1120, margin: "0 auto", padding: "3.5rem 2rem 9rem", overflowX: "hidden" }}>
 
         {/* HERO */}
         <div style={{ marginBottom: "4.5rem", animation: "floatIn 0.8s ease forwards" }}>
@@ -1179,7 +1179,7 @@ export default function PassportPage() {
 
       {/* COUNTRY MODAL */}
       {selected && (
-        <div onClick={() => setSelected(null)} style={{ position: "fixed", top: "0", left: "0", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem", boxSizing: "border-box" }}>
+        <div onClick={() => setSelected(null)} style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}>
           <div onClick={e => e.stopPropagation()} style={{ position: "relative", background: "#0b1017", border: "1px solid #1a2340", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", flexShrink: 0 }}>
             <button className="close-btn" onClick={() => setSelected(null)}>✕</button>
             <div className="modal-hero-wrap">
@@ -1267,7 +1267,7 @@ export default function PassportPage() {
       {lightboxSrc && (
         <div
           onClick={() => setLightboxSrc(null)}
-          style={{ position: "fixed", top: "0", left: "0", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.92)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem", boxSizing: "border-box" }}
+          style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.92)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}
         >
           <button
             onClick={() => setLightboxSrc(null)}
@@ -1313,7 +1313,7 @@ export default function PassportPage() {
 
       {/* EXPLORER EGG MODAL (globe 5 clicks) */}
       {showExplorerEgg && (
-        <div style={{ position: "fixed", top: "0", left: "0", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem", boxSizing: "border-box" }}
+        <div style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}
           onClick={() => setShowExplorerEgg(false)}>
           <div style={{ position: "relative", background: "#0b1017", border: "1px solid #1a2340", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", flexShrink: 0, padding: "2rem", textAlign: "center" }}
             onClick={e => e.stopPropagation()}>
@@ -1327,7 +1327,7 @@ export default function PassportPage() {
 
       {/* KONAMI MODAL */}
       {showKonami && (
-        <div style={{ position: "fixed", top: "0", left: "0", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem", boxSizing: "border-box" }}
+        <div style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}
           onClick={() => setShowKonami(false)}>
           <div style={{ position: "relative", background: "#0b1017", border: "1px solid #1a2340", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", flexShrink: 0, padding: "2rem" }}
             onClick={e => e.stopPropagation()}>
@@ -1357,7 +1357,7 @@ export default function PassportPage() {
 
       {/* EASTER EGG */}
       {easterEgg && (
-        <div onClick={() => setEasterEgg(false)} style={{ position: "fixed", top: "0", left: "0", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem", boxSizing: "border-box" }}>
+        <div onClick={() => setEasterEgg(false)} style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}>
           <div style={{ position: "relative", background: "#0b1017", border: "1px solid #1a2340", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", flexShrink: 0, padding: "2.5rem", textAlign: "center" }} onClick={e => e.stopPropagation()}>
             <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🗝️</div>
             <div className="section-label" style={{ textAlign: "center", marginBottom: "0.75rem" }}>Hidden Map Unlocked</div>
