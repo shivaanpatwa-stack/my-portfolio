@@ -1179,8 +1179,8 @@ export default function PassportPage() {
 
       {/* COUNTRY MODAL */}
       {selected && (
-        <div className="modal-overlay" onClick={() => setSelected(null)}>
-          <div className="modal-box" onClick={e => e.stopPropagation()}>
+        <div onClick={() => setSelected(null)} style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}>
+          <div onClick={e => e.stopPropagation()} style={{ position: "relative", background: "#0b1017", border: "1px solid #1a2340", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", margin: "auto" }}>
             <button className="close-btn" onClick={() => setSelected(null)}>✕</button>
             <div className="modal-hero-wrap">
               <img src={selected.photo} alt={selected.photoCaption} className="modal-hero"
@@ -1267,14 +1267,7 @@ export default function PassportPage() {
       {lightboxSrc && (
         <div
           onClick={() => setLightboxSrc(null)}
-          style={{
-            position: "fixed", inset: 0,
-            background: "rgba(0,0,0,0.92)",
-            zIndex: 9999,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+          style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.92)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}
         >
           <button
             onClick={() => setLightboxSrc(null)}
@@ -1320,9 +1313,9 @@ export default function PassportPage() {
 
       {/* EXPLORER EGG MODAL (globe 5 clicks) */}
       {showExplorerEgg && (
-        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, width: "100%", height: "100%", background: "rgba(0,0,0,0.85)", zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem", backdropFilter: "blur(12px)", overflowY: "auto", animation: "fadeIn 0.25s ease" }}
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}
           onClick={() => setShowExplorerEgg(false)}>
-          <div style={{ background: "#0a0f1a", border: "1px solid #1a6fff33", borderRadius: 20, padding: "2rem", maxWidth: 420, width: "100%", position: "relative", margin: "auto", overflowY: "auto", maxHeight: "85vh", textAlign: "center", animation: "slideUp 0.3s cubic-bezier(0.4,0,0.2,1)" }}
+          <div style={{ position: "relative", background: "#0b1017", border: "1px solid #1a2340", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", margin: "auto", padding: "2rem", textAlign: "center" }}
             onClick={e => e.stopPropagation()}>
             <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🌍</div>
             <h3 style={{ fontWeight: 700, color: "#fff", fontSize: "1.3rem", marginBottom: "1rem" }}>You found the explorer mode 🌍</h3>
@@ -1334,9 +1327,9 @@ export default function PassportPage() {
 
       {/* KONAMI MODAL */}
       {showKonami && (
-        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, width: "100%", height: "100%", background: "rgba(0,0,0,0.85)", zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem", backdropFilter: "blur(12px)", overflowY: "auto", animation: "fadeIn 0.25s ease" }}
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}
           onClick={() => setShowKonami(false)}>
-          <div style={{ background: "#0a0f1a", border: "1px solid rgba(26,111,255,0.2)", borderRadius: 20, padding: "2rem", maxWidth: 480, width: "100%", position: "relative", margin: "auto", overflowY: "auto", maxHeight: "85vh", animation: "slideUp 0.3s cubic-bezier(0.4,0,0.2,1)" }}
+          <div style={{ position: "relative", background: "#0b1017", border: "1px solid #1a2340", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", margin: "auto", padding: "2rem" }}
             onClick={e => e.stopPropagation()}>
             <button onClick={() => setShowKonami(false)} style={{ position: "absolute", top: "1rem", right: "1rem", width: 32, height: 32, borderRadius: 8, border: "1px solid #1a2340", background: "rgba(11,16,23,0.85)", color: "#4b5a72", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.85rem" }}>✕</button>
             <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem", textAlign: "center" }}>🗺️</div>
@@ -1364,13 +1357,8 @@ export default function PassportPage() {
 
       {/* EASTER EGG */}
       {easterEgg && (
-        <div className="easter-modal" onClick={() => setEasterEgg(false)}>
-          <div className="easter-box" style={{
-            background: "#0b1017", border: "1px solid #1a2a4a",
-            borderRadius: "20px", padding: "2.5rem", width: "100%", maxWidth: 480,
-            position: "relative", margin: "auto", overflowY: "auto", maxHeight: "85vh",
-            textAlign: "center", animation: "slideUp 0.4s cubic-bezier(0.4,0,0.2,1)",
-          }} onClick={e => e.stopPropagation()}>
+        <div onClick={() => setEasterEgg(false)} style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}>
+          <div style={{ position: "relative", background: "#0b1017", border: "1px solid #1a2340", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", margin: "auto", padding: "2.5rem", textAlign: "center" }} onClick={e => e.stopPropagation()}>
             <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🗝️</div>
             <div className="section-label" style={{ textAlign: "center", marginBottom: "0.75rem" }}>Hidden Map Unlocked</div>
             <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1.9rem", fontWeight: 700, marginBottom: "1.75rem", color: "#e8eaf0" }}>

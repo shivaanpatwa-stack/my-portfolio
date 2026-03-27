@@ -707,8 +707,8 @@ export default function FinanceLab() {
 
       {/* ARTICLE MODAL */}
       {selectedArticle && (
-        <div className="modal-overlay" onClick={() => setSelectedArticle(null)}>
-          <div className="modal" onClick={e => e.stopPropagation()}>
+        <div onClick={() => setSelectedArticle(null)} style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}>
+          <div onClick={e => e.stopPropagation()} style={{ position: "relative", background: "#0d1117", border: "1px solid #1a1e2e", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", margin: "auto", padding: "2.5rem" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.5rem" }}>
               <div>
                 <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.75rem", color: "#1a6fff", marginBottom: "0.5rem" }}>{selectedArticle.week} · {selectedArticle.date}</div>
