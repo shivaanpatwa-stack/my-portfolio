@@ -176,7 +176,7 @@ function generateResume() {
   checkPage(14);
   sectionHeading("GLOBAL EXPOSURE");
   bodyText(
-    "29 countries across 6 continents. Lived experiences across Europe, Asia, the Middle East, Africa, and the Americas."
+    "29 countries across 4 continents. Lived experiences across Europe, Asia, Africa, and the Americas."
   );
   y += 2;
 
@@ -389,7 +389,8 @@ export default function Home() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;
+          padding-top: 5rem;
           gap: 2rem;
         }
         .mobile-nav-link {

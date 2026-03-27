@@ -493,8 +493,14 @@ export default function MUNArena() {
                   <div style={{ fontSize: "0.83rem", color: "#8899aa" }}>{c.committee}</div>
                   <div style={{ fontSize: "0.83rem", color: "#aabbc8" }}>{c.country}</div>
                   <div>
-                    <span className="award-badge" style={{ background: `${AWARD_COLOR[c.award]}18`, color: AWARD_COLOR[c.award], border: `1px solid ${AWARD_COLOR[c.award]}33` }}>
-                      {c.award === "Best Delegate" ? "🥇" : c.award === "Outstanding Delegate" ? "🏆" : c.award === "DQ" ? "🚫" : "●"} {c.award}
+                    <span className="award-badge" style={{
+                      background: `${AWARD_COLOR[c.award]}${c.award === "Best Delegate" || c.award === "Outstanding Delegate" ? "30" : "18"}`,
+                      color: AWARD_COLOR[c.award],
+                      border: `1px solid ${AWARD_COLOR[c.award]}${c.award === "Best Delegate" || c.award === "Outstanding Delegate" ? "66" : "33"}`,
+                      fontWeight: c.award === "Best Delegate" || c.award === "Outstanding Delegate" ? 800 : 700,
+                      fontSize: c.award === "Best Delegate" || c.award === "Outstanding Delegate" ? "0.75rem" : "0.7rem",
+                    }}>
+                      {c.award === "Best Delegate" ? "🥇" : c.award === "Outstanding Delegate" ? "🏆" : c.award === "Honorable Mention" ? "🎖️" : c.award === "Verbal Mention" ? "📣" : c.award === "DQ" ? "🚫" : "●"} {c.award}
                     </span>
                   </div>
                 </div>

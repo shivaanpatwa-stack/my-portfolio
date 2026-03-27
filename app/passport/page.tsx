@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 
 const COUNTRIES = [
   {
-    id: "turkey", name: "Turkey", flag: "🇹🇷", region: "Middle East", year: "2012", badge: "First Stamp",
+    id: "turkey", name: "Turkey", flag: "🇹🇷", region: "Asia", year: "2012", badge: "First Stamp",
     color: "#e63946",
     vibe: "My very first passport stamp — though at one year old, Istanbul lives in family photos rather than actual memory. I've grown up hearing about it: the cats, the bazaars, the minarets, Bodrum's impossibly blue water. Whether I remember it or not, it was the right city to start with. First stamp at age one still counts.",
     highlights: ["Istanbul", "Bodrum", "Beach days", "Cat colonies"],
@@ -14,7 +14,7 @@ const COUNTRIES = [
     lat: 39, lon: 35,
   },
   {
-    id: "uae", name: "UAE", flag: "🇦🇪", region: "Middle East", year: "2013", badge: "Desert Gold",
+    id: "uae", name: "UAE", flag: "🇦🇪", region: "Asia", year: "2013", badge: "Desert Gold",
     color: "#f4a261",
     vibe: "Dubai at two years old means this one lives in family photos rather than memory — but the photos are great. There's a whole album of me apparently swimming with dolphins at Atlantis, which sounds unhinged for a toddler, but the evidence is undeniable. Dubai's scale is the kind of thing you can barely process as an adult, let alone at two. Allegedly I had a brilliant time.",
     highlights: ["Dubai", "Atlantis", "Dolphins", "City sightseeing"],
@@ -334,10 +334,10 @@ const COUNTRIES = [
   },
 ];
 
-const REGIONS = ["All", "Europe", "Asia", "North America", "Middle East", "Africa"];
+const REGIONS = ["All", "Europe", "Asia", "North America", "Africa"];
 const REGION_COLORS: Record<string, string> = {
   Europe: "#1a6fff", Asia: "#2a9d8f", "North America": "#e63946",
-  "Middle East": "#f4a261", Africa: "#e9c46a",
+  Africa: "#e9c46a",
 };
 
 // Globe dimensions
@@ -798,11 +798,23 @@ export default function PassportPage() {
           .passport-hamburger {
             display: flex !important;
           }
+          .modal-overlay {
+            align-items: flex-start !important;
+            padding: 0 !important;
+          }
           .modal-box {
             width: 100vw !important;
             max-width: 100vw !important;
             max-height: 100dvh !important;
             border-radius: 0 !important;
+          }
+          .modal-body {
+            padding: 1.5rem !important;
+          }
+          .easter-modal {
+            align-items: flex-start !important;
+            padding: 1rem !important;
+            padding-top: 2rem !important;
           }
           .flag-bubble {
             width: 32px !important;
@@ -850,7 +862,7 @@ export default function PassportPage() {
 
       {/* MOBILE MENU OVERLAY */}
       {mobileMenuOpen && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(6,8,16,0.97)", zIndex: 200, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "2rem", backdropFilter: "blur(16px)" }}>
+        <div style={{ position: "fixed", inset: 0, background: "rgba(6,8,16,0.97)", zIndex: 200, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start", paddingTop: "5rem", gap: "2rem", backdropFilter: "blur(16px)" }}>
           <button onClick={() => setMobileMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "1.5rem", background: "none", border: "none", color: "#e8eaf0", fontSize: "1.8rem", cursor: "pointer" }}>✕</button>
           {[["Finance Lab", "/finance"], ["MUN Arena", "/mun"], ["Experience", "/experience"], ["The Passport", "/passport"], ["Connect", "/connect"]].map(([label, href]) => (
             <a key={label} href={href} onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: "none", fontSize: "1.4rem", fontWeight: 500, color: label === "The Passport" ? "#e8eaf0" : "#5a6a82", fontFamily: "'DM Sans', sans-serif" }}>{label}</a>
@@ -862,7 +874,7 @@ export default function PassportPage() {
 
         {/* HERO */}
         <div style={{ marginBottom: "4.5rem", animation: "floatIn 0.8s ease forwards" }}>
-          <div className="section-label">Global Citizen · 29 Countries · 6 Continents</div>
+          <div className="section-label">Global Citizen · 29 Countries · 4 Continents</div>
           <h1
             className="passport-hero-title"
             style={{
@@ -883,7 +895,7 @@ export default function PassportPage() {
             <span style={{ display: "block", fontStyle: "italic", background: "linear-gradient(125deg, #1a6fff 0%, #6fb3ff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Passport</span>
           </h1>
           <p style={{ fontSize: "1.05rem", color: "#4b5a72", maxWidth: 440, lineHeight: 1.8, fontWeight: 300 }}>
-            29 countries. 6 continents. A lifetime of global immersion.
+            29 countries. 4 continents. A lifetime of global immersion.
           </p>
         </div>
 
@@ -928,7 +940,7 @@ export default function PassportPage() {
                   ["DATE OF BIRTH", <span key="dob" className="dob-click" onClick={() => setEasterEgg(true)} title="🔑">13/08/2011</span>],
                   ["FIRST STAMP", "Turkey (2012)"],
                   ["LATEST ENTRY", "Italy / Vatican (Dec 2025)"],
-                  ["CONTINENTS", "6 of 7"],
+                  ["CONTINENTS", "4 of 7"],
                 ].map(([label, val]) => (
                   <div key={label as string}>
                     <div style={{ fontSize: "0.6rem", letterSpacing: "0.13em", color: "#2a3349", fontWeight: 600, marginBottom: "0.35rem", fontFamily: "'DM Mono', monospace" }}>{label as string}</div>
@@ -951,7 +963,7 @@ export default function PassportPage() {
         <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", marginBottom: "4.5rem" }}>
           {[
             { val: "29", label: "Countries", icon: "🌍" },
-            { val: "6", label: "Continents", icon: "🗺️" },
+            { val: "4", label: "Continents", icon: "🗺️" },
             { val: "13", label: "Years Exploring", icon: "✈️" },
             { val: "2012", label: "First Stamp", icon: "🔖" },
           ].map(s => (
