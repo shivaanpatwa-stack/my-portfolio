@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import jsPDF from "jspdf";
 
 const NAV_LINKS = [
   { label: "Finance Lab", href: "/finance" },
@@ -16,11 +17,178 @@ const STATS = [
   { value: "1", label: "Vision", sub: "for a Digital Future" },
 ];
 
-const FACTS = [
-  "Executed my first investment at 10 years old and have been tracking markets ever since.",
-  "29 countries stamped in the passport — the mission is to see them all.",
-  "Started a project selling semi-precious stones, invested the cash into stocks, and bought my PS5 with the profits.",
-];
+function generateResume() {
+  const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+  const pageW = 210;
+  const marginL = 18;
+  const marginR = 18;
+  const contentW = pageW - marginL - marginR;
+  const navy = [26, 39, 68] as [number, number, number];
+  const gray = [51, 51, 51] as [number, number, number];
+  const lightGray = [120, 120, 120] as [number, number, number];
+
+  let y = 18;
+
+  // Name
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(22);
+  doc.setTextColor(...navy);
+  doc.text("SHIVAAN PATWA", marginL, y);
+  y += 7;
+
+  // Contact line
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9);
+  doc.setTextColor(...lightGray);
+  doc.text("shivaanpatwa@gmail.com  |  @sh1vaan_  |  Mumbai, India", marginL, y);
+  y += 4;
+
+  // Thin navy rule
+  doc.setDrawColor(...navy);
+  doc.setLineWidth(0.4);
+  doc.line(marginL, y, pageW - marginR, y);
+  y += 6;
+
+  // Helper: section heading
+  const sectionHeading = (title: string) => {
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10);
+    doc.setTextColor(...navy);
+    doc.text(title, marginL, y);
+    y += 1.5;
+    doc.setDrawColor(...navy);
+    doc.setLineWidth(0.25);
+    doc.line(marginL, y, pageW - marginR, y);
+    y += 4;
+  };
+
+  // Helper: body text with wrapping
+  const bodyText = (text: string, indent = 0) => {
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.setTextColor(...gray);
+    const lines = doc.splitTextToSize(text, contentW - indent);
+    doc.text(lines, marginL + indent, y);
+    y += lines.length * 4.5;
+  };
+
+  // Helper: bullet
+  const bullet = (text: string) => {
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.setTextColor(...gray);
+    doc.text("•", marginL, y);
+    const lines = doc.splitTextToSize(text, contentW - 5);
+    doc.text(lines, marginL + 5, y);
+    y += lines.length * 4.5;
+  };
+
+  // Helper: check page overflow and add new page if needed
+  const checkPage = (needed = 10) => {
+    if (y + needed > 280) {
+      doc.addPage();
+      y = 18;
+    }
+  };
+
+  // PROFILE
+  sectionHeading("PROFILE");
+  bodyText(
+    "A 14-year-old finance enthusiast, Model UN delegate, and global citizen with a passion for understanding markets, international relations, and global affairs. Self-driven, intellectually curious, and always looking for the next challenge."
+  );
+  y += 2;
+
+  // EDUCATION
+  checkPage(14);
+  sectionHeading("EDUCATION");
+  bodyText("Oberoi International School, Goregaon — Grade 9 (Current)");
+  y += 2;
+
+  // EXPERIENCE & LEADERSHIP
+  checkPage(14);
+  sectionHeading("EXPERIENCE & LEADERSHIP");
+  bullet(
+    "Odyssey: The Mentor (Jan 2026) — Returned as a mentor and program leader, responsible for guiding the next cohort through the same leadership program that shaped my own development. Shifted from participant to leader, developing skills in reading a room, adapting on the fly, and making others feel seen."
+  );
+  checkPage(10);
+  bullet(
+    "CISV Step Up: Panheli (Jun–Jul 2025) — Participated in a 23-day international peace education camp with delegations from 10 countries including Italy, Spain, Mongolia, Vietnam, Sweden, Latvia and Mexico. Collaborated on Project Milaap, planning and executing activities rooted in cross-cultural exchange and global issues."
+  );
+  checkPage(10);
+  bullet(
+    "Rewilding: Marayoor (2024) — Participated in a nature immersion program, building a gate entirely from natural materials including clay and mud, and developing a deeper understanding of natural ecosystems."
+  );
+  y += 2;
+
+  // MODEL UNITED NATIONS
+  checkPage(14);
+  sectionHeading("MODEL UNITED NATIONS");
+  bodyText(
+    "Active MUN delegate and chair with experience across multiple international and national conferences. Developed strong skills in public speaking, resolution drafting, negotiation, diplomacy, and crisis management."
+  );
+  y += 1;
+
+  const munConferences = [
+    { name: "OISMUN (Grade 6)", role: "Delegate — UNHRC — Iraq", award: "Outstanding Delegate" },
+    { name: "OISMUN (Grade 7)", role: "Delegate — WHO — Colombia", award: "Verbal Mention" },
+    { name: "OISMUN (Grade 8)", role: "Delegate — UNHRC — Canada", award: "Verbal Mention" },
+    { name: "Mumbai MUN (Grade 8)", role: "Delegate — UNDP — Germany", award: "Verbal Mention" },
+    { name: "DYPMUN (Grade 8)", role: "Delegate — Lok Sabha — PM Modi", award: "Best Delegate" },
+    { name: "OISMUN (Grade 8)", role: "Delegate — Indian Cabinet — M. Kharge", award: "Honorable Mention" },
+    { name: "EMUN (Grade 8)", role: "Delegate — DISEC — China", award: "Honorable Mention" },
+    { name: "JBCNMUN (Grade 8)", role: "Delegate — DISEC — USA", award: "Best Delegate" },
+    { name: "Brussels MUN (Grade 8)", role: "Delegate — EUCOM — Malta", award: "Honorable Mention" },
+    { name: "HMUN India (Grade 9)", role: "Delegate — UNGA Legal — Lebanon", award: "DQ" },
+    { name: "JBCN Oshiwara (Grade 9)", role: "Delegate — UNSC — Iran", award: "Verbal Mention" },
+    { name: "ABWAMUN (Grade 9)", role: "Delegate — UNHRC — France", award: "None" },
+    { name: "Mumbai MUN Open (Grade 9)", role: "Delegate — UNODC — United Kingdom", award: "Verbal Mention" },
+    { name: "OISMUN (Grade 9)", role: "Delegate — Lok Sabha — Rajnath Singh", award: "Outstanding Delegate" },
+    { name: "SpringMUN (Grade 9)", role: "Delegate — UNHRC — The Taliban", award: "Outstanding Delegate" },
+    { name: "WLCMUN", role: "Co-Director — UNODC", award: "Upcoming" },
+    { name: "EMUN", role: "Co-Director — DISEC", award: "Upcoming" },
+    { name: "OIS MSMUN", role: "Assistant Director — ECOSOC", award: "Upcoming" },
+  ];
+
+  for (const conf of munConferences) {
+    checkPage(8);
+    const awardStr = conf.award && conf.award !== "None" ? ` — ${conf.award}` : "";
+    bullet(`${conf.name} — ${conf.role}${awardStr}`);
+  }
+  y += 2;
+
+  // ENTREPRENEURSHIP
+  checkPage(14);
+  sectionHeading("ENTREPRENEURSHIP");
+  bullet(
+    "The Stone Trading Project (2023) — Independently sourced and curated semi-precious stones, built a client base among friends and family, and managed the full sales cycle. Reinvested 100% of profits into the stock market and used the returns to self-fund a major purchase — demonstrating an end-to-end understanding of earn, invest, and compound from an early age."
+  );
+  y += 2;
+
+  // FINANCE & INVESTING
+  checkPage(14);
+  sectionHeading("FINANCE & INVESTING");
+  bodyText(
+    "Developed an interest in investing at age 10. Built a deep understanding of markets, equity investing, macroeconomic trends, and global financial systems. Actively tracks NASDAQ, NSE, and Shanghai Stock Exchange. Author of the Weekly Finance Journal (WFJ) — a self-initiated series covering global finance topics, written and published consistently."
+  );
+  y += 2;
+
+  // GLOBAL EXPOSURE
+  checkPage(14);
+  sectionHeading("GLOBAL EXPOSURE");
+  bodyText(
+    "29 countries across 6 continents. Lived experiences across Europe, Asia, the Middle East, Africa, and the Americas."
+  );
+  y += 2;
+
+  // SKILLS
+  checkPage(14);
+  sectionHeading("SKILLS");
+  bodyText(
+    "Public Speaking  ·  Research & Analysis  ·  Resolution Drafting  ·  Negotiation  ·  Cross-Cultural Communication  ·  Leadership  ·  Entrepreneurial Thinking  ·  Financial Literacy  ·  Writing"
+  );
+
+  doc.save("Shivaan_Patwa_Resume.pdf");
+}
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -108,13 +276,6 @@ export default function Home() {
           transform: translateY(-4px);
         }
 
-        .fact-item {
-          border-left: 2px solid #1a1e2e;
-          padding: 0.75rem 1.25rem;
-          transition: border-color 0.3s;
-        }
-        .fact-item:hover { border-color: #1a6fff; }
-
         .cta-btn {
           display: inline-flex;
           align-items: center;
@@ -197,22 +358,6 @@ export default function Home() {
           text-transform: uppercase;
           color: #1a6fff;
           margin-bottom: 0.5rem;
-        }
-
-        .social-icon {
-          width: 44px; height: 44px;
-          border-radius: 10px;
-          border: 1px solid #1a1e2e;
-          display: flex; align-items: center; justify-content: center;
-          color: #8899aa;
-          text-decoration: none;
-          font-size: 1.1rem;
-          transition: all 0.2s;
-        }
-        .social-icon:hover {
-          border-color: #1a6fff;
-          color: #1a6fff;
-          transform: translateY(-2px);
         }
 
         .grid-bg {
@@ -446,49 +591,37 @@ export default function Home() {
           </div>
         </section>
 
-        {/* FACT SHEET */}
+        {/* RESUME CTA */}
         <section
-          id="facts"
-          ref={reg("facts")}
-          style={{ padding: "2.5rem 2rem", maxWidth: 1200, margin: "0 auto" }}
+          id="resume-cta"
+          ref={reg("resume-cta")}
+          style={{ padding: "2.5rem 2rem 4rem", maxWidth: 1200, margin: "0 auto", textAlign: "center" }}
         >
-          <div className={fade("facts")}>
-            <div className="section-tag">⚡ Quick Facts</div>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", fontWeight: 700, marginBottom: "1.25rem" }}>The Fact Sheet</h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-              {FACTS.map((f, i) => (
-                <div key={i} className="fact-item" style={{ transitionDelay: `${i * 80}ms` }}>
-                  <span style={{ color: "#1a6fff", fontWeight: 700, fontSize: "0.8rem", marginRight: "1rem", fontFamily: "monospace" }}>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span style={{ color: "#aabbc0", fontSize: "0.95rem" }}>{f}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CONTACT */}
-        <section
-          id="contact"
-          ref={reg("contact")}
-          style={{ padding: "3rem 2rem 4rem", maxWidth: 1200, margin: "0 auto", textAlign: "center" }}
-        >
-          <div className={fade("contact")}>
-            <div className="section-tag" style={{ justifyContent: "center" }}>Get in Touch</div>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 6vw, 4rem)", fontWeight: 900, marginBottom: "0.75rem" }}>
-              Let's talk <span style={{ color: "#1a6fff" }}>strategy.</span>
-            </h2>
-            <p style={{ color: "#556677", marginBottom: "1.75rem", fontSize: "0.95rem" }}>Open to collaborations, debates, and interesting conversations.</p>
-
-            <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginBottom: "1.75rem" }}>
-              <a href="https://linkedin.com" className="social-icon" title="LinkedIn">in</a>
-              <a href="https://www.instagram.com/sh1vaan_" className="social-icon" title="Instagram">ig</a>
-              <a href="mailto:shivaanpatwa@gmail.com" className="social-icon" title="Email">✉</a>
-            </div>
-
-            <button className="cta-btn cta-primary" style={{ fontSize: "1rem", padding: "1rem 2.5rem" }}
-              onClick={() => alert("Resume generator coming soon!")}>
+          <div className={fade("resume-cta")} style={{
+            background: "#0d1117",
+            border: "1px solid #111827",
+            borderRadius: "16px",
+            padding: "2.5rem 2rem",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "1.25rem",
+          }}>
+            <span style={{
+              fontSize: "0.72rem",
+              color: "#556677",
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              fontVariant: "small-caps",
+              fontWeight: 600,
+            }}>
+              Want the full picture?
+            </span>
+            <button
+              className="cta-btn cta-primary"
+              style={{ fontSize: "1rem", padding: "1rem 2.5rem" }}
+              onClick={generateResume}
+            >
               📄 Generate My Resume
             </button>
           </div>
