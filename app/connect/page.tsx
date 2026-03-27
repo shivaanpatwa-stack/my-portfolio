@@ -188,11 +188,6 @@ export default function ConnectPage() {
         <a href="/" style={{ textDecoration: "none" }}>
           <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", fontWeight: 700, color: "#fff", letterSpacing: "-0.02em" }}>SP.</span>
         </a>
-        <div className="desktop-nav" style={{ display: "flex", gap: "2rem", alignItems: "center" }}>
-          {NAV_LINKS.map((l) => (
-            <a key={l.label} href={l.href} className={`nav-link${l.href === "/connect" ? " cur" : ""}`}>{l.label}</a>
-          ))}
-        </div>
         <button
           onClick={() => setMenuOpen(true)}
           style={{ background: "none", border: "1px solid #1a1e2e", borderRadius: 8, color: "#8899aa", fontSize: "1.2rem", cursor: "pointer", padding: "0.4rem 0.6rem", lineHeight: 1 }}

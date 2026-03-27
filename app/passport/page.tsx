@@ -715,28 +715,28 @@ export default function PassportPage() {
           animation: confettiFall var(--dur) var(--delay) linear forwards;
         }
         @keyframes classifiedStamp {
-          from { transform: rotate(-25deg) scale(1.5); opacity: 0; }
-          to { transform: rotate(-25deg) scale(1); opacity: 1; }
+          from { transform: rotate(-15deg) scale(1.5); opacity: 0; }
+          to { transform: rotate(-15deg) scale(1); opacity: 1; }
         }
         .classified-stamp {
           position: absolute;
           top: 50%; left: 50%;
-          transform: rotate(-25deg) scale(1);
+          transform: rotate(-15deg) scale(1);
           transform-origin: center;
           translate: -50% -50%;
-          color: #e63946;
-          border: 3px solid #e63946;
-          padding: 0.3rem 0.75rem;
+          color: #cc0000;
+          border: 4px solid #cc0000;
+          padding: 0.4rem 1rem;
           font-family: 'DM Mono', monospace;
-          font-size: 1.1rem;
+          font-size: 1.4rem;
           font-weight: 700;
           letter-spacing: 0.15em;
           border-radius: 4px;
           pointer-events: none;
           animation: classifiedStamp 0.3s cubic-bezier(0.4,0,0.2,1) forwards;
           white-space: nowrap;
-          text-shadow: 0 0 8px rgba(230,57,70,0.5);
-          box-shadow: 0 0 12px rgba(230,57,70,0.3);
+          text-shadow: 0 0 10px rgba(204,0,0,0.6);
+          box-shadow: 0 0 16px rgba(204,0,0,0.4);
           z-index: 10;
         }
         @keyframes wanderlustFadeOut {
@@ -790,7 +790,8 @@ export default function PassportPage() {
             flex-wrap: wrap !important;
           }
           .passport-hero-title {
-            font-size: clamp(2.5rem, 10vw, 4rem) !important;
+            font-size: clamp(1.8rem, 8vw, 3rem) !important;
+            white-space: normal !important;
           }
           .passport-desktop-nav {
             display: none !important;
@@ -812,9 +813,8 @@ export default function PassportPage() {
             padding: 1.5rem !important;
           }
           .easter-modal {
-            align-items: flex-start !important;
+            align-items: center !important;
             padding: 1rem !important;
-            padding-top: 2rem !important;
           }
           .flag-bubble {
             width: 32px !important;
@@ -833,8 +833,7 @@ export default function PassportPage() {
             gap: 0.5rem !important;
           }
         }
-        .passport-desktop-nav { display: flex; }
-        .passport-hamburger { display: none; }
+        .passport-hamburger { display: flex; }
       `}</style>
 
       {/* NAV */}
@@ -847,15 +846,10 @@ export default function PassportPage() {
         <a href="/" style={{ textDecoration: "none" }}>
           <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.25rem", fontWeight: 700, color: "#e8eaf0", letterSpacing: "0.02em" }}>SP</span>
         </a>
-        <div className="passport-desktop-nav" style={{ gap: "2.5rem" }}>
-          {[["Finance Lab", "/finance"], ["MUN Arena", "/mun"], ["Experience", "/experience"], ["The Passport", "/passport"], ["Connect", "/connect"]].map(([label, href]) => (
-            <a key={label} href={href} className={`nav-link ${label === "The Passport" ? "cur" : ""}`}>{label}</a>
-          ))}
-        </div>
         <button
           className="passport-hamburger"
           onClick={() => setMobileMenuOpen(o => !o)}
-          style={{ background: "none", border: "none", color: "#e8eaf0", fontSize: "1.5rem", cursor: "pointer", alignItems: "center", justifyContent: "center", padding: "0.25rem" }}
+          style={{ background: "none", border: "1px solid #1a2340", borderRadius: 8, color: "#e8eaf0", fontSize: "1rem", cursor: "pointer", alignItems: "center", justifyContent: "center", padding: "0.6rem 0.75rem" }}
           aria-label="Open menu"
         >☰</button>
       </nav>
@@ -879,11 +873,12 @@ export default function PassportPage() {
             className="passport-hero-title"
             style={{
               fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "clamp(4rem, 10vw, 8rem)",
+              fontSize: "clamp(3rem, 7vw, 6rem)",
               fontWeight: 700, lineHeight: 0.9, letterSpacing: "-0.01em",
               marginBottom: "1.75rem",
               cursor: "default",
               userSelect: "none",
+              whiteSpace: "nowrap",
             }}
             onMouseDown={() => { titlePressTimer.current = setTimeout(() => triggerWanderlust(), 2000); }}
             onMouseUp={() => { if (titlePressTimer.current) { clearTimeout(titlePressTimer.current); titlePressTimer.current = null; } }}
@@ -891,8 +886,8 @@ export default function PassportPage() {
             onTouchStart={() => { titlePressTimer.current = setTimeout(() => triggerWanderlust(), 2000); }}
             onTouchEnd={() => { if (titlePressTimer.current) { clearTimeout(titlePressTimer.current); titlePressTimer.current = null; } }}
           >
-            <span style={{ display: "block", color: "#c8ccd8" }}>The</span>
-            <span style={{ display: "block", fontStyle: "italic", background: "linear-gradient(125deg, #1a6fff 0%, #6fb3ff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Passport</span>
+            <span style={{ color: "#c8ccd8" }}>The </span>
+            <span style={{ fontStyle: "italic", background: "linear-gradient(125deg, #1a6fff 0%, #6fb3ff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Passport</span>
           </h1>
           <p style={{ fontSize: "1.05rem", color: "#4b5a72", maxWidth: 440, lineHeight: 1.8, fontWeight: 300 }}>
             29 countries. 4 continents. A lifetime of global immersion.
@@ -1184,7 +1179,7 @@ export default function PassportPage() {
         {/* FOOTER */}
         <div style={{ textAlign: "center", marginTop: "1rem" }}>
           <div style={{ color: "rgba(255,255,255,0.06)", fontSize: "0.7rem", fontFamily: "monospace", marginBottom: "1.5rem", letterSpacing: "0.08em" }}>secrets hidden within...</div>
-          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "2rem", color: "#1a2233", marginBottom: "2.5rem", lineHeight: 1.4 }}>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "2rem", color: "#6b7280", marginBottom: "2.5rem", lineHeight: 1.4 }}>
             "The world is big.<br />I'm just getting started."
           </p>
           <a href="/" style={{

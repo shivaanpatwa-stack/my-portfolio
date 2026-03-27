@@ -248,6 +248,7 @@ function searchWFJ(query: string): string {
 
 // ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
 export default function FinanceLab() {
+  const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<"wfj" | "ai">("wfj");
   const [selectedArticle, setSelectedArticle] = useState<typeof ARTICLES[0] | null>(null);
   const [requestTopic, setRequestTopic] = useState("");
@@ -555,7 +556,29 @@ export default function FinanceLab() {
             align-items: flex-start;
           }
         }
+
+        .mobile-menu {
+          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(7,9,14,0.98); z-index: 999;
+          display: flex; flex-direction: column; align-items: center;
+          justify-content: flex-start; padding-top: 5rem; gap: 2rem;
+          backdrop-filter: blur(16px);
+        }
+        .mobile-nav-link {
+          font-family: 'Playfair Display', serif; font-size: 2rem;
+          color: #fff; text-decoration: none; transition: color 0.2s;
+        }
+        .mobile-nav-link:hover { color: #1a6fff; }
       `}</style>
+
+      {menuOpen && (
+        <div className="mobile-menu">
+          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "2rem", background: "none", border: "none", color: "#fff", fontSize: "1.5rem", cursor: "pointer" }}>✕</button>
+          {[["Finance Lab", "/finance"], ["MUN Arena", "/mun"], ["Experience", "/experience"], ["The Passport", "/passport"], ["Connect", "/connect"]].map(([label, href]) => (
+            <a key={label} href={href} className="mobile-nav-link" onClick={() => setMenuOpen(false)}>{label}</a>
+          ))}
+        </div>
+      )}
 
       {/* HEADER */}
       <div className="finance-header" style={{ borderBottom: "1px solid #0f1520", padding: "1.5rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -565,12 +588,13 @@ export default function FinanceLab() {
             The Finance <span style={{ color: "#1a6fff" }}>Lab</span>
           </h1>
         </div>
-        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", alignItems: "center" }}>
           {(["wfj", "ai"] as const).map(s => (
             <button key={s} className={`nav-tab ${activeSection === s ? "active" : ""}`} onClick={() => setActiveSection(s)}>
               {s === "wfj" ? "📰 WFJ" : "🤖 Sensei"}
             </button>
           ))}
+          <button onClick={() => setMenuOpen(true)} style={{ background: "none", border: "1px solid #1a1e2e", borderRadius: 8, color: "#8899aa", fontSize: "1rem", cursor: "pointer", padding: "0.6rem 0.75rem", lineHeight: 1 }} aria-label="Open menu">☰</button>
         </div>
       </div>
 

@@ -114,6 +114,7 @@ const CATEGORY_COLOR: Record<string, string> = {
 };
 
 export default function ExperienceVault() {
+  const [menuOpen, setMenuOpen] = useState(false);
   const [filter, setFilter] = useState("All");
   const [activeSkill, setActiveSkill] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<number | null>(null);
@@ -404,26 +405,51 @@ export default function ExperienceVault() {
             display: none;
           }
         }
+
+        .mobile-menu {
+          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(7,9,14,0.98); z-index: 999;
+          display: flex; flex-direction: column; align-items: center;
+          justify-content: flex-start; padding-top: 5rem; gap: 2rem;
+          backdrop-filter: blur(16px);
+        }
+        .mobile-nav-link {
+          font-family: 'Playfair Display', serif; font-size: 2rem;
+          color: #fff; text-decoration: none; transition: color 0.2s;
+        }
+        .mobile-nav-link:hover { color: #1a6fff; }
       `}</style>
 
-      {/* HEADER */}
-      <div className="exp-header" style={{ borderBottom: "1px solid #0f1520", padding: "1.5rem 2rem" }}>
-        <a href="/" style={{ color: "#445566", fontSize: "0.78rem", textDecoration: "none", letterSpacing: "0.08em" }}>
-          ← SP.
-        </a>
-        <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.6rem, 5vw, 2.4rem)", fontWeight: 900, marginTop: "0.2rem", letterSpacing: "-0.02em" }}>
-          The Experience <span style={{ color: "#1a6fff" }}>Vault</span>
-        </h1>
-        <p style={{ color: "#556677", fontSize: "0.85rem", marginTop: "0.25rem", fontStyle: "italic" }}>
-          From cultural immersion to strategic leadership. A timeline of adaptation and growth.
-        </p>
-        <div style={{ display: "flex", gap: "0.5rem", marginTop: "1.25rem", flexWrap: "wrap" }}>
-          {FILTERS.map((f) => (
-            <button key={f} className={`filter-btn ${filter === f ? "active" : ""}`} onClick={() => setFilter(f)}>
-              {f}
-            </button>
+      {menuOpen && (
+        <div className="mobile-menu">
+          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "2rem", background: "none", border: "none", color: "#fff", fontSize: "1.5rem", cursor: "pointer" }}>✕</button>
+          {[["Finance Lab", "/finance"], ["MUN Arena", "/mun"], ["Experience", "/experience"], ["The Passport", "/passport"], ["Connect", "/connect"]].map(([label, href]) => (
+            <a key={label} href={href} className="mobile-nav-link" onClick={() => setMenuOpen(false)}>{label}</a>
           ))}
         </div>
+      )}
+
+      {/* HEADER */}
+      <div className="exp-header" style={{ borderBottom: "1px solid #0f1520", padding: "1.5rem 2rem", display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+        <div>
+          <a href="/" style={{ color: "#445566", fontSize: "0.78rem", textDecoration: "none", letterSpacing: "0.08em" }}>
+            ← SP.
+          </a>
+          <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.6rem, 5vw, 2.4rem)", fontWeight: 900, marginTop: "0.2rem", letterSpacing: "-0.02em" }}>
+            The Experience <span style={{ color: "#1a6fff" }}>Vault</span>
+          </h1>
+          <p style={{ color: "#556677", fontSize: "0.85rem", marginTop: "0.25rem", fontStyle: "italic" }}>
+            From cultural immersion to strategic leadership. A timeline of adaptation and growth.
+          </p>
+          <div style={{ display: "flex", gap: "0.5rem", marginTop: "1.25rem", flexWrap: "wrap" }}>
+            {FILTERS.map((f) => (
+              <button key={f} className={`filter-btn ${filter === f ? "active" : ""}`} onClick={() => setFilter(f)}>
+                {f}
+              </button>
+            ))}
+          </div>
+        </div>
+        <button onClick={() => setMenuOpen(true)} style={{ background: "none", border: "1px solid #1a1e2e", borderRadius: 8, color: "#8899aa", fontSize: "1rem", cursor: "pointer", padding: "0.6rem 0.75rem", lineHeight: 1, flexShrink: 0, marginTop: "0.2rem" }} aria-label="Open menu">☰</button>
       </div>
 
       <div className="exp-main" style={{ maxWidth: 800, margin: "0 auto", padding: "2.5rem 2rem" }}>

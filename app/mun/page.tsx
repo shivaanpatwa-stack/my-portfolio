@@ -66,6 +66,7 @@ const AWARD_COLOR: Record<string, string> = {
 };
 
 export default function MUNArena() {
+  const [menuOpen, setMenuOpen] = useState(false);
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<"archive" | "toolkit" | "docs" | "clauseChecker">("archive");
   const [expandedTool, setExpandedTool] = useState<number | null>(null);
@@ -412,7 +413,29 @@ export default function MUNArena() {
             font-size: 0.65rem;
           }
         }
+
+        .mobile-menu {
+          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(7,9,14,0.98); z-index: 999;
+          display: flex; flex-direction: column; align-items: center;
+          justify-content: flex-start; padding-top: 5rem; gap: 2rem;
+          backdrop-filter: blur(16px);
+        }
+        .mobile-nav-link {
+          font-family: 'Playfair Display', serif; font-size: 2rem;
+          color: #fff; text-decoration: none; transition: color 0.2s;
+        }
+        .mobile-nav-link:hover { color: #1a6fff; }
       `}</style>
+
+      {menuOpen && (
+        <div className="mobile-menu">
+          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "2rem", background: "none", border: "none", color: "#fff", fontSize: "1.5rem", cursor: "pointer" }}>✕</button>
+          {[["Finance Lab", "/finance"], ["MUN Arena", "/mun"], ["Experience", "/experience"], ["The Passport", "/passport"], ["Connect", "/connect"]].map(([label, href]) => (
+            <a key={label} href={href} className="mobile-nav-link" onClick={() => setMenuOpen(false)}>{label}</a>
+          ))}
+        </div>
+      )}
 
       {/* GAVEL EASTER EGG */}
       {gavelActive && (
@@ -445,12 +468,13 @@ export default function MUNArena() {
             18 Conferences. 3 Chairs. 15 Delegations. Mastering the art of international negotiation.
           </p>
         </div>
-        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", alignItems: "center" }}>
           {(["archive", "toolkit", "docs", "clauseChecker"] as const).map(t => (
             <button key={t} className={`tab-btn ${activeTab === t ? "active" : ""}`} onClick={() => setActiveTab(t)}>
               {t === "archive" ? "📊 Archive" : t === "toolkit" ? "⚔️ Toolkit" : t === "docs" ? "📁 Docs" : "🔬 Clause Checker"}
             </button>
           ))}
+          <button onClick={() => setMenuOpen(true)} style={{ background: "none", border: "1px solid #1a1e2e", borderRadius: 8, color: "#8899aa", fontSize: "1rem", cursor: "pointer", padding: "0.6rem 0.75rem", lineHeight: 1 }} aria-label="Open menu">☰</button>
         </div>
       </div>
 

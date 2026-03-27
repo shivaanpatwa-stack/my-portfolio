@@ -405,15 +405,6 @@ export default function Home() {
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }
 
-          .hero-cta-group {
-            flex-direction: column;
-          }
-          .hero-cta-group .cta-btn {
-            width: 100%;
-            justify-content: center;
-            min-height: 44px;
-          }
-
           .now-row { gap: 0.625rem; }
 
           .stats-grid {
@@ -429,7 +420,7 @@ export default function Home() {
           }
 
           .hero-section {
-            padding: 5rem 1.25rem 2.5rem !important;
+            padding: 5rem 1.25rem 1.5rem !important;
           }
 
           .resume-cta-inner {
@@ -489,20 +480,13 @@ export default function Home() {
           }}>SP.</span>
         </a>
 
-        {/* Desktop nav */}
-        <div className="desktop-nav" style={{ display: "flex", gap: "2rem", alignItems: "center" }}>
-          {NAV_LINKS.map((l) => (
-            <a key={l.label} href={l.href} className="nav-link">{l.label}</a>
-          ))}
-        </div>
-
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <a href="mailto:shivaanpatwa@gmail.com" className="cta-btn cta-primary" style={{ fontSize: "0.8rem", padding: "0.6rem 1.2rem" }}>
+          <a href="/connect" className="cta-btn cta-primary" style={{ fontSize: "0.8rem", padding: "0.6rem 1.2rem" }}>
             Contact
           </a>
           <button
             onClick={() => setMenuOpen(true)}
-            style={{ background: "none", border: "1px solid #1a1e2e", borderRadius: 8, color: "#8899aa", fontSize: "1.2rem", cursor: "pointer", padding: "0.4rem 0.6rem", lineHeight: 1 }}
+            style={{ background: "none", border: "1px solid #1a1e2e", borderRadius: 8, color: "#8899aa", fontSize: "1rem", cursor: "pointer", padding: "0.6rem 0.75rem", lineHeight: 1 }}
             aria-label="Open menu"
           >
             ☰
@@ -523,33 +507,49 @@ export default function Home() {
       <div style={{ position: "relative", zIndex: 1 }}>
 
         {/* HERO */}
-        <section className="hero-section" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "7rem 2rem 3rem", maxWidth: 1200, margin: "0 auto" }}>
+        <section className="hero-section" style={{ display: "flex", flexDirection: "column", padding: "7rem 2rem 2rem", maxWidth: 1200, margin: "0 auto" }}>
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(3rem, 8vw, 6.5rem)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: "1.25rem" }}>
             Shivaan<br />
             <span style={{ color: "#1a6fff" }}>Patwa.</span>
           </h1>
 
-          <p style={{ fontSize: "clamp(1rem, 2.5vw, 1.25rem)", color: "#8899aa", maxWidth: 600, lineHeight: 1.7, marginBottom: "0.75rem", fontWeight: 300 }}>
+          <p style={{ fontSize: "clamp(1rem, 2.5vw, 1.25rem)", color: "#8899aa", maxWidth: 600, lineHeight: 1.7, marginBottom: "1.5rem", fontWeight: 300 }}>
             A future in finance, a history in MUN, and an obsession with global change.
           </p>
 
-          <p style={{ fontSize: "0.95rem", color: "#556677", maxWidth: 560, lineHeight: 1.8, marginBottom: "2rem" }}>
+          <div className="quote-block" style={{
+            background: "linear-gradient(135deg, #0d1117 0%, #0a0f1a 100%)",
+            border: "1px solid #1a2235",
+            borderRadius: "20px",
+            padding: "2rem 2.5rem",
+            textAlign: "center",
+            position: "relative",
+            overflow: "hidden",
+            marginBottom: "1.5rem",
+            maxWidth: 680,
+          }}>
+            <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: "80%", height: "80%", background: "radial-gradient(ellipse, rgba(26,111,255,0.05) 0%, transparent 70%)", pointerEvents: "none" }} />
+            <div style={{ position: "relative" }}>
+              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 5vw, 3.5rem)", lineHeight: 0.8, color: "#1a6fff", marginBottom: "0.5rem", opacity: 0.9 }}>"</div>
+              <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontSize: "clamp(1rem, 2.5vw, 1.35rem)", fontWeight: 700, color: "#e8eaf0", lineHeight: 1.65, maxWidth: 580, margin: "0 auto", letterSpacing: "-0.01em" }}>
+                Wealth. Unforgettable experiences. Every country on the map. And the right people to share it with. That's all I want.
+              </p>
+              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 5vw, 3.5rem)", lineHeight: 0.8, color: "#1a6fff", opacity: 0.9, textAlign: "right", maxWidth: 580, margin: "0.5rem auto 0" }}>"</div>
+              <div style={{ width: 40, height: 2, background: "#1a6fff", margin: "1rem auto 0", borderRadius: 2 }} />
+              <div style={{ marginTop: "0.5rem", fontSize: "0.8rem", color: "#334455", letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600 }}>Shivaan Patwa</div>
+            </div>
+          </div>
+
+          <p style={{ fontSize: "0.95rem", color: "#556677", maxWidth: 560, lineHeight: 1.8 }}>
             I don't just observe global systems — I analyze them, debate them, and look for the cracks. Whether I'm drafting a UN resolution or dissecting the risks of a cashless economy, I'm driven by a singular goal: understanding the forces that shape our world.
           </p>
-
-          <div className="hero-cta-group" style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-            <a href="/finance" className="cta-btn cta-primary">The Finance Lab →</a>
-            <a href="/mun" className="cta-btn cta-secondary">The MUN Arena →</a>
-            <a href="/experience" className="cta-btn cta-secondary">Experience →</a>
-            <a href="/passport" className="cta-btn cta-secondary">The Passport →</a>
-          </div>
         </section>
 
         {/* STATS */}
         <section
           id="stats"
           ref={reg("stats")}
-          style={{ padding: "2rem 2rem", maxWidth: 1200, margin: "0 auto" }}
+          style={{ padding: "1.25rem 2rem", maxWidth: 1200, margin: "0 auto" }}
         >
           <div className={`stats-grid ${fade("stats")}`} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}>
             {STATS.map((s, i) => (
@@ -562,50 +562,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* PERSONAL QUOTE */}
-        <section
-          id="quote"
-          ref={reg("quote")}
-          style={{ padding: "2.5rem 2rem", maxWidth: 1200, margin: "0 auto" }}
-        >
-          <div className={`quote-block ${fade("quote")}`} style={{
-            background: "linear-gradient(135deg, #0d1117 0%, #0a0f1a 100%)",
-            border: "1px solid #1a2235",
-            borderRadius: "20px",
-            padding: "3rem 3.5rem",
-            textAlign: "center",
-            position: "relative",
-            overflow: "hidden",
-          }}>
-            {/* subtle glow */}
-            <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: "80%", height: "80%", background: "radial-gradient(ellipse, rgba(26,111,255,0.05) 0%, transparent 70%)", pointerEvents: "none" }} />
-            <div style={{ position: "relative" }}>
-              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(3rem, 8vw, 5.5rem)", lineHeight: 0.8, color: "#1a6fff", marginBottom: "0.5rem", opacity: 0.9 }}>"</div>
-              <p style={{
-                fontFamily: "'Playfair Display', serif",
-                fontStyle: "italic",
-                fontSize: "clamp(1.15rem, 3vw, 1.6rem)",
-                fontWeight: 700,
-                color: "#e8eaf0",
-                lineHeight: 1.65,
-                maxWidth: 720,
-                margin: "0 auto",
-                letterSpacing: "-0.01em",
-              }}>
-                Wealth. Unforgettable experiences. Every country on the map. And the right people to share it with. That's all I want.
-              </p>
-              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(3rem, 8vw, 5.5rem)", lineHeight: 0.8, color: "#1a6fff", marginTop: "0.5rem", opacity: 0.9, textAlign: "right", maxWidth: 720, margin: "0.5rem auto 0" }}>"</div>
-              <div style={{ marginTop: "1.5rem", width: 40, height: 2, background: "#1a6fff", margin: "1.5rem auto 0", borderRadius: 2 }} />
-              <div style={{ marginTop: "0.75rem", fontSize: "0.8rem", color: "#334455", letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600 }}>Shivaan Patwa</div>
-            </div>
-          </div>
-        </section>
-
         {/* THE NOW */}
         <section
           id="now"
           ref={reg("now")}
-          style={{ padding: "2.5rem 2rem", maxWidth: 1200, margin: "0 auto" }}
+          style={{ padding: "1.5rem 2rem", maxWidth: 1200, margin: "0 auto" }}
         >
           <div className={fade("now")}>
             <div className="section-tag"><span className="blue-dot" /> Live Update</div>
@@ -634,7 +595,7 @@ export default function Home() {
         <section
           id="resume-cta"
           ref={reg("resume-cta")}
-          style={{ padding: "2.5rem 2rem 4rem", maxWidth: 1200, margin: "0 auto", textAlign: "center" }}
+          style={{ padding: "1.5rem 2rem 3rem", maxWidth: 1200, margin: "0 auto", textAlign: "center" }}
         >
           <div className={`resume-cta-inner ${fade("resume-cta")}`} style={{
             background: "#0d1117",
