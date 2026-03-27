@@ -1299,9 +1299,9 @@ export default function PassportPage() {
             </h3>
             <div style={{ display: "flex", flexDirection: "column", gap: "1rem", textAlign: "left", marginBottom: "2rem" }}>
               {[
-                { rank: "01", name: "Plitvice Lakes, Croatia", why: "The most beautiful natural sight I've ever seen. Nothing comes close.", flag: "🇭🇷" },
-                { rank: "02", name: "Santorini, Greece", why: "Sunset from Oia. That view is permanently burned into my memory.", flag: "🇬🇷" },
-                { rank: "03", name: "Banff, Canada", why: "The Rockies changed my understanding of scale. Absolutely humbling.", flag: "🇨🇦" },
+                { rank: "01", name: "Kenya", why: "The Masai Mara safari changed how I see the world. Seeing a leopard up close in the wild is something I'll never forget.", flag: "🇰🇪" },
+                { rank: "02", name: "Italy", why: "Rome, Venice, Milan — Italy has everything. The culture, the food, the history. Meeting CISV friends in Venice made it even more special.", flag: "🇮🇹" },
+                { rank: "03", name: "Sri Lanka", why: "Criminally underrated. First surf in Weligama, leopard safari in Yala, and the most laid-back beautiful energy of anywhere I've been.", flag: "🇱🇰" },
               ].map(item => (
                 <div key={item.rank} style={{ display: "flex", gap: "1rem", alignItems: "flex-start", background: "#0f1520", borderRadius: "14px", padding: "1.1rem" }}>
                   <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "1.1rem", fontWeight: 500, color: "#1a6fff", lineHeight: 1, flexShrink: 0, paddingTop: "0.1rem" }}>{item.rank}</span>
