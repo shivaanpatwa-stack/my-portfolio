@@ -797,7 +797,7 @@ export default function PassportPage() {
           <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.25rem", fontWeight: 700, color: "#e8eaf0", letterSpacing: "0.02em" }}>SP</span>
         </a>
         <div style={{ display: "flex", gap: "2.5rem" }}>
-          {[["Finance Lab", "/finance"], ["MUN Arena", "/mun"], ["Experience", "/experience"], ["The Passport", "/passport"]].map(([label, href]) => (
+          {[["Finance Lab", "/finance"], ["MUN Arena", "/mun"], ["Experience", "/experience"], ["The Passport", "/passport"], ["Connect", "/connect"]].map(([label, href]) => (
             <a key={label} href={href} className={`nav-link ${label === "The Passport" ? "cur" : ""}`}>{label}</a>
           ))}
         </div>

@@ -6,6 +6,7 @@ const NAV_LINKS = [
   { label: "MUN Arena", href: "/mun" },
   { label: "Experience", href: "/experience" },
   { label: "Passport", href: "/passport" },
+  { label: "Connect", href: "/connect" },
 ];
 
 const STATS = [
