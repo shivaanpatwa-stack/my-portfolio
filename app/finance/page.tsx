@@ -384,25 +384,19 @@ export default function FinanceLab() {
         }
 
         .modal-overlay {
-          position: fixed;
-          inset: 0;
-          background: rgba(7,9,14,0.92);
-          z-index: 1000;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 1rem;
-          backdrop-filter: blur(8px);
+          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+          width: 100%; height: 100%;
+          background: rgba(0,0,0,0.85);
+          z-index: 9999; display: flex;
+          align-items: center; justify-content: center;
+          padding: 1rem; backdrop-filter: blur(12px);
+          overflow-y: auto;
         }
         .modal {
-          background: #0d1117;
-          border: 1px solid #1a1e2e;
-          border-radius: 16px;
-          max-width: 720px;
-          width: 100%;
-          max-height: 85vh;
-          overflow-y: auto;
-          padding: 2.5rem;
+          position: relative; width: 100%; max-width: 600px;
+          max-height: 85vh; overflow-y: auto; margin: auto;
+          background: #0d1117; border: 1px solid #1a1e2e;
+          border-radius: 20px; padding: 2.5rem;
         }
 
         .ai-bubble-user {
@@ -500,19 +494,11 @@ export default function FinanceLab() {
             padding: 1.25rem 1rem !important;
           }
 
-          .modal-overlay {
-            padding: 0 !important;
-            align-items: flex-end !important;
-          }
           .modal {
+            max-width: 100% !important;
+            max-height: 90vh !important;
+            border-radius: 16px !important;
             padding: 1.25rem !important;
-            max-height: 92dvh !important;
-            max-height: 92vh !important;
-            width: 100vw !important;
-            border-radius: 16px 16px 0 0 !important;
-            border-left: none !important;
-            border-right: none !important;
-            border-bottom: none !important;
           }
 
           .ai-chat-box {

@@ -595,19 +595,20 @@ export default function PassportPage() {
         .filter-btn.active { background: #1a6fff; border-color: #1a6fff; color: #fff; }
 
         .modal-overlay {
-          position: fixed; inset: 0;
-          background: rgba(6,8,16,0.94);
-          z-index: 1000; display: flex;
+          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+          width: 100%; height: 100%;
+          background: rgba(0,0,0,0.85);
+          z-index: 9999; display: flex;
           align-items: center; justify-content: center;
-          padding: 1.5rem; backdrop-filter: blur(20px);
-          animation: fadeIn 0.2s ease;
+          padding: 1rem; backdrop-filter: blur(12px);
+          overflow-y: auto; animation: fadeIn 0.2s ease;
         }
         .modal-box {
+          position: relative; width: 100%; max-width: 600px;
+          max-height: 85vh; overflow-y: auto; margin: auto;
           background: #0b1017; border: 1px solid #1a2340;
-          border-radius: 26px; max-width: 600px; width: 100%;
-          max-height: 90vh; overflow-y: auto;
+          border-radius: 20px;
           animation: slideUp 0.3s cubic-bezier(0.4,0,0.2,1);
-          position: relative;
           scrollbar-width: thin;
         }
         .modal-hero-wrap { position: relative; overflow: hidden; border-radius: 22px 22px 0 0; }
@@ -684,12 +685,13 @@ export default function PassportPage() {
         .flag-bubble { animation: pinPulse 2.5s ease-in-out infinite; }
 
         .easter-modal {
-          position: fixed; inset: 0;
-          background: rgba(6,8,16,0.96);
-          z-index: 2000; display: flex;
+          position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+          width: 100%; height: 100%;
+          background: rgba(0,0,0,0.85);
+          z-index: 9999; display: flex;
           align-items: center; justify-content: center;
-          padding: 2rem; backdrop-filter: blur(24px);
-          animation: fadeIn 0.3s ease;
+          padding: 1rem; backdrop-filter: blur(12px);
+          overflow-y: auto; animation: fadeIn 0.3s ease;
         }
 
         .globe-drag-hint {
@@ -776,16 +778,6 @@ export default function PassportPage() {
           .passport-id-grid {
             grid-template-columns: 1fr !important;
           }
-          .country-modal {
-            width: 100vw !important;
-            max-width: 100vw !important;
-            height: 100vh !important;
-            max-height: 100vh !important;
-            border-radius: 0 !important;
-            margin: 0 !important;
-            top: 0 !important;
-            left: 0 !important;
-          }
           .stat-pills {
             flex-wrap: wrap !important;
           }
@@ -793,28 +785,21 @@ export default function PassportPage() {
             font-size: clamp(1.8rem, 8vw, 3rem) !important;
             white-space: normal !important;
           }
-          .passport-desktop-nav {
-            display: none !important;
-          }
           .passport-hamburger {
             display: flex !important;
           }
-          .modal-overlay {
-            align-items: flex-start !important;
-            padding: 0 !important;
-          }
           .modal-box {
-            width: 100vw !important;
-            max-width: 100vw !important;
-            max-height: 100dvh !important;
-            border-radius: 0 !important;
+            max-width: 100% !important;
+            max-height: 90vh !important;
+            border-radius: 16px !important;
           }
           .modal-body {
-            padding: 1.5rem !important;
+            padding: 1.25rem !important;
           }
-          .easter-modal {
-            align-items: center !important;
-            padding: 1rem !important;
+          .easter-modal .easter-box {
+            max-width: 100% !important;
+            border-radius: 16px !important;
+            padding: 1.25rem !important;
           }
           .flag-bubble {
             width: 32px !important;
@@ -1335,9 +1320,9 @@ export default function PassportPage() {
 
       {/* EXPLORER EGG MODAL (globe 5 clicks) */}
       {showExplorerEgg && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)", zIndex: 2000, display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem", backdropFilter: "blur(20px)", animation: "fadeIn 0.25s ease" }}
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, width: "100%", height: "100%", background: "rgba(0,0,0,0.85)", zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem", backdropFilter: "blur(12px)", overflowY: "auto", animation: "fadeIn 0.25s ease" }}
           onClick={() => setShowExplorerEgg(false)}>
-          <div style={{ background: "#0a0f1a", border: "1px solid #1a6fff33", borderRadius: 16, padding: "2rem", maxWidth: 420, width: "100%", textAlign: "center", animation: "slideUp 0.3s cubic-bezier(0.4,0,0.2,1)", position: "relative" }}
+          <div style={{ background: "#0a0f1a", border: "1px solid #1a6fff33", borderRadius: 20, padding: "2rem", maxWidth: 420, width: "100%", position: "relative", margin: "auto", overflowY: "auto", maxHeight: "85vh", textAlign: "center", animation: "slideUp 0.3s cubic-bezier(0.4,0,0.2,1)" }}
             onClick={e => e.stopPropagation()}>
             <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🌍</div>
             <h3 style={{ fontWeight: 700, color: "#fff", fontSize: "1.3rem", marginBottom: "1rem" }}>You found the explorer mode 🌍</h3>
@@ -1349,9 +1334,9 @@ export default function PassportPage() {
 
       {/* KONAMI MODAL */}
       {showKonami && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)", zIndex: 2000, display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem", backdropFilter: "blur(20px)", animation: "fadeIn 0.25s ease" }}
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, width: "100%", height: "100%", background: "rgba(0,0,0,0.85)", zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem", backdropFilter: "blur(12px)", overflowY: "auto", animation: "fadeIn 0.25s ease" }}
           onClick={() => setShowKonami(false)}>
-          <div style={{ background: "#0a0f1a", border: "1px solid rgba(26,111,255,0.2)", borderRadius: 16, padding: "2rem", maxWidth: 480, width: "100%", animation: "slideUp 0.3s cubic-bezier(0.4,0,0.2,1)", position: "relative" }}
+          <div style={{ background: "#0a0f1a", border: "1px solid rgba(26,111,255,0.2)", borderRadius: 20, padding: "2rem", maxWidth: 480, width: "100%", position: "relative", margin: "auto", overflowY: "auto", maxHeight: "85vh", animation: "slideUp 0.3s cubic-bezier(0.4,0,0.2,1)" }}
             onClick={e => e.stopPropagation()}>
             <button onClick={() => setShowKonami(false)} style={{ position: "absolute", top: "1rem", right: "1rem", width: 32, height: 32, borderRadius: 8, border: "1px solid #1a2340", background: "rgba(11,16,23,0.85)", color: "#4b5a72", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.85rem" }}>✕</button>
             <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem", textAlign: "center" }}>🗺️</div>
@@ -1380,9 +1365,10 @@ export default function PassportPage() {
       {/* EASTER EGG */}
       {easterEgg && (
         <div className="easter-modal" onClick={() => setEasterEgg(false)}>
-          <div style={{
+          <div className="easter-box" style={{
             background: "#0b1017", border: "1px solid #1a2a4a",
-            borderRadius: "28px", padding: "3rem", maxWidth: 480,
+            borderRadius: "20px", padding: "2.5rem", width: "100%", maxWidth: 480,
+            position: "relative", margin: "auto", overflowY: "auto", maxHeight: "85vh",
             textAlign: "center", animation: "slideUp 0.4s cubic-bezier(0.4,0,0.2,1)",
           }} onClick={e => e.stopPropagation()}>
             <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🗝️</div>
