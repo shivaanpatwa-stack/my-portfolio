@@ -611,10 +611,10 @@ export default function Home() {
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", fontWeight: 700, marginBottom: "1.25rem" }}>The Now</h2>
             <div className="now-card">
               {[
-                { icon: "📄", label: "Current Deep Dive", value: "Researching for the 2026 John Locke Essay", sub: '"Should we fear a cashless society?"' },
-                { icon: "📖", label: "On the Nightstand", value: "The Inheritance Games", sub: "by Jennifer Lynn Barnes" },
-                { icon: "🎵", label: "On Repeat", value: "Signs", sub: "Drake" },
-                { icon: "📍", label: "Current Location", value: "Mumbai, India", sub: "" },
+                { icon: "📚", label: "Current Deep Dive", value: "Preparing for Cambridge IGCSE exams", sub: "18th April" },
+                { icon: "✍️", label: "Currently Writing", value: "WFJ — P/E Ratio & Valuation", sub: "" },
+                { icon: "🎙️", label: "Next MUN", value: "Chairing at Ecole MUN", sub: "17th–18th April 2026" },
+                { icon: "✈️", label: "Latest Stamp", value: "Italy & Vatican City", sub: "Dec 2025" },
               ].map((row, i) => (
                 <div key={i} className="now-row">
                   <div className="now-icon">{row.icon}</div>
