@@ -125,7 +125,7 @@ const COUNTRIES = [
     color: "#2a9d8f",
     vibe: "Bhutan doesn't let just anyone in — you apply, pay, and earn the entry — and you feel that weight the moment you land. The trek to Tiger's Nest at six years old was steep, relentless, and properly hard. But standing in front of that monastery perched on the cliff, looking out over the valley — it's one of the most awe-inspiring moments I've had anywhere. Some places are worth making difficult.",
     highlights: ["Tiger's Nest trek", "Thimphu", "Paro", "Punakha"],
-    photo: "https://images.unsplash.com/photo-1580889240762-ac35d8395f6b?w=800&q=80",
+    photo: "https://images.pexels.com/photos/3408353/pexels-photo-3408353.jpeg?w=800&auto=compress",
     photoCaption: "Tiger's Nest, Bhutan",
     photoGroups: [
       { year: "2017", photos: ["/Bhutan-photo-1.jpg", "/Bhutan-photo-2.jpg", "/Bhutan-photo-3.jpg"] },
@@ -254,7 +254,7 @@ const COUNTRIES = [
     color: "#2a9d8f",
     vibe: "Dubrovnik's Game of Thrones tour reframed the whole city — suddenly every staircase and fortress wall had a scene attached to it. Cliff jumping in Hvar from a private speedboat was the kind of afternoon that only exists in summer, only in the Adriatic. Plitvice Lakes is the most beautiful natural sight I've ever seen — cascading turquoise pools through ancient forest, like the planet showing off. Croatia has a quiet confidence to its beauty that I completely didn't expect.",
     highlights: ["Dubrovnik GoT tour", "Hvar cliff jumping", "Blue Caves", "Plitvice Lakes"],
-    photo: "https://images.unsplash.com/photo-1555990538-c0f6b0acf83c?w=800&q=80",
+    photo: "https://images.pexels.com/photos/1223649/pexels-photo-1223649.jpeg?w=800&auto=compress",
     photoCaption: "Dubrovnik, Croatia",
     photos: ["/Croatia-photo-1.jpg", "/Croatia-photo-2.jpg", "/Croatia-photo-3.jpg"],
     lat: 45, lon: 16,
@@ -327,8 +327,8 @@ const COUNTRIES = [
     color: "#2a9d8f",
     vibe: "Learning to surf in Weligama was humbling and addictive in equal measure — the Indian Ocean doesn't care how many times you fall, but getting up feels extraordinary every single time. Galle Fort's Dutch colonial walls and streets were a complete surprise — layered history in a town that still feels fully alive. Yala National Park delivered another leopard sighting, which at this point I'm starting to take personally. Sri Lanka is criminally underrated: extraordinary food, stunning landscapes, warm people, and none of the crowds.",
     highlights: ["Weligama surfing", "Galle", "Yala leopard safari", "Colombo"],
-    photo: "https://images.unsplash.com/photo-1588598198321-9735fd5da207?w=800&q=80",
-    photoCaption: "Sigiriya, Sri Lanka",
+    photo: "https://images.pexels.com/photos/2474690/pexels-photo-2474690.jpeg?w=800&auto=compress",
+    photoCaption: "Sri Lanka",
     photos: ["/SriLanka-photo-1.jpg", "/SriLanka-photo-2.jpg", "/SriLanka-photo-3.jpg"],
     lat: 8, lon: 81,
   },
@@ -1134,7 +1134,7 @@ export default function PassportPage() {
             <div key={country.id} className="stamp-card" onClick={() => setSelected(country)}>
               <div className="stamp-img-wrap">
                 <img src={country.photo} alt={country.photoCaption} className="stamp-img"
-                  onError={e => { (e.target as HTMLImageElement).parentElement!.innerHTML = `<div class="placeholder-img"><span style="font-size:1.4rem">📷</span><span>Add your photo</span><span>${country.name}</span></div>`; }} />
+                  onError={e => { const img = e.target as HTMLImageElement; if (!img.dataset.errored) { img.dataset.errored = "1"; img.src = "https://images.pexels.com/photos/1051073/pexels-photo-1051073.jpeg?w=800&auto=compress"; } else { img.parentElement!.innerHTML = `<div class="placeholder-img"><span style="font-size:1.4rem">📷</span><span>${country.name}</span></div>`; } }} />
               </div>
               <div className="stamp-body">
                 <div className="stamp-badge" style={{ background: (REGION_COLORS[country.region] || "#1a6fff") + "20", color: REGION_COLORS[country.region] || "#1a6fff" }}>
@@ -1192,7 +1192,7 @@ export default function PassportPage() {
             <button className="close-btn" onClick={() => setSelected(null)}>✕</button>
             <div className="modal-hero-wrap">
               <img src={selected.photo} alt={selected.photoCaption} className="modal-hero"
-                onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
+                onError={e => { const img = e.target as HTMLImageElement; if (!img.dataset.errored) { img.dataset.errored = "1"; img.src = "https://images.pexels.com/photos/1051073/pexels-photo-1051073.jpeg?w=800&auto=compress"; } else { img.style.display = "none"; } }} />
               <div className="modal-hero-overlay" />
               <div className="modal-hero-caption">{selected.photoCaption}</div>
             </div>
@@ -1227,7 +1227,7 @@ export default function PassportPage() {
                       <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(group.photos.length, 3)}, 1fr)`, gap: "0.75rem" }}>
                         {group.photos.map((src: string, i: number) => (
                           <div key={i} style={{ borderRadius: "10px", overflow: "hidden", aspectRatio: "1", background: "#0f1520", cursor: "pointer" }}>
-                            <img src={src} alt={`${selected.name} ${group.year} photo ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} onClick={() => setLightboxSrc(src)} />
+                            <img src={src} alt={`${selected.name} ${group.year} photo ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} onClick={() => setLightboxSrc(src)} onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
                           </div>
                         ))}
                       </div>
@@ -1238,7 +1238,7 @@ export default function PassportPage() {
                 <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min((selected as any).photos.length, 3)}, 1fr)`, gap: "0.75rem", marginBottom: "1.5rem" }}>
                   {(selected as any).photos.map((src: string, i: number) => (
                     <div key={i} style={{ borderRadius: "10px", overflow: "hidden", aspectRatio: "1", background: "#0f1520", cursor: "pointer" }}>
-                      <img src={src} alt={`${selected.name} photo ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} onClick={() => setLightboxSrc(src)} />
+                      <img src={src} alt={`${selected.name} photo ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} onClick={() => setLightboxSrc(src)} onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
                     </div>
                   ))}
                 </div>
@@ -1299,6 +1299,7 @@ export default function PassportPage() {
             src={lightboxSrc}
             alt="Enlarged photo"
             onClick={e => e.stopPropagation()}
+            onError={e => { (e.target as HTMLImageElement).style.display = "none"; }}
             style={{
               maxWidth: "90vw",
               maxHeight: "90vh",
