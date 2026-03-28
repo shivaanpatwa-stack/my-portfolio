@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import ReactDOM from "react-dom";
 import Image from "next/image";
 
 const EXPERIENCES = [
