@@ -255,7 +255,7 @@ const COUNTRIES = [
     color: "#2a9d8f",
     vibe: "Dubrovnik's Game of Thrones tour reframed the whole city — suddenly every staircase and fortress wall had a scene attached to it. Cliff jumping in Hvar from a private speedboat was the kind of afternoon that only exists in summer, only in the Adriatic. Plitvice Lakes is the most beautiful natural sight I've ever seen — cascading turquoise pools through ancient forest, like the planet showing off. Croatia has a quiet confidence to its beauty that I completely didn't expect.",
     highlights: ["Dubrovnik GoT tour", "Hvar cliff jumping", "Blue Caves", "Plitvice Lakes"],
-    photo: "https://images.pexels.com/photos/1223649/pexels-photo-1223649.jpeg?w=800&auto=compress",
+    photo: "/croatia-hero.jpg",
     photoCaption: "Dubrovnik, Croatia",
     photos: ["/Croatia-photo-1.jpg", "/Croatia-photo-2.jpg", "/Croatia-photo-3.jpg"],
     lat: 45, lon: 16,
