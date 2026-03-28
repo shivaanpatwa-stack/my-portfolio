@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 
 const COUNTRIES = [
   {
@@ -374,6 +375,7 @@ export default function PassportPage() {
   const [globeTapCount, setGlobeTapCount] = useState(0);
   const [showKonami, setShowKonami] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const animRef = useRef<number | undefined>(undefined);
   const lastTime = useRef<number>(0);
@@ -398,9 +400,17 @@ export default function PassportPage() {
     setTimeout(() => { setShowWanderlust(false); setConfettiPieces([]); }, 4000);
   };
 
+  useEffect(() => { setMounted(true); }, []);
+
+  useEffect(() => {
+    const anyOpen = !!(selected || lightboxSrc || showExplorerEgg || showKonami || easterEgg);
+    document.body.style.overflow = anyOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [selected, lightboxSrc, showExplorerEgg, showKonami, easterEgg]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") { setLightboxSrc(null); setShowExplorerEgg(false); setShowWanderlust(false); setShowKonami(false); }
+      if (e.key === "Escape") { setLightboxSrc(null); setShowExplorerEgg(false); setShowWanderlust(false); setShowKonami(false); setSelected(null); setEasterEgg(false); }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -1178,7 +1188,7 @@ export default function PassportPage() {
       </main>
 
       {/* COUNTRY MODAL */}
-      {selected && (
+      {mounted && selected && ReactDOM.createPortal(
         <div onClick={() => setSelected(null)} style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}>
           <div onClick={e => e.stopPropagation()} style={{ position: "relative", background: "#0b1017", border: "1px solid #1a2340", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", flexShrink: 0 }}>
             <button className="close-btn" onClick={() => setSelected(null)}>✕</button>
@@ -1261,10 +1271,10 @@ export default function PassportPage() {
             </div>
           </div>
         </div>
-      )}
+      , document.body)}
 
       {/* LIGHTBOX */}
-      {lightboxSrc && (
+      {mounted && lightboxSrc && ReactDOM.createPortal(
         <div
           onClick={() => setLightboxSrc(null)}
           style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.92)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}
@@ -1293,7 +1303,7 @@ export default function PassportPage() {
             }}
           />
         </div>
-      )}
+      , document.body)}
 
       {/* CONFETTI */}
       {confettiPieces.map(p => (
@@ -1312,7 +1322,7 @@ export default function PassportPage() {
       )}
 
       {/* EXPLORER EGG MODAL (globe 5 clicks) */}
-      {showExplorerEgg && (
+      {mounted && showExplorerEgg && ReactDOM.createPortal(
         <div style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}
           onClick={() => setShowExplorerEgg(false)}>
           <div style={{ position: "relative", background: "#0b1017", border: "1px solid #1a2340", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", flexShrink: 0, padding: "2rem", textAlign: "center" }}
@@ -1323,10 +1333,10 @@ export default function PassportPage() {
             <button onClick={() => setShowExplorerEgg(false)} style={{ padding: "0.7rem 2rem", background: "#1a6fff", border: "none", borderRadius: 10, color: "#fff", fontWeight: 600, cursor: "pointer", fontSize: "0.88rem", fontFamily: "'DM Sans', sans-serif" }}>Close</button>
           </div>
         </div>
-      )}
+      , document.body)}
 
       {/* KONAMI MODAL */}
-      {showKonami && (
+      {mounted && showKonami && ReactDOM.createPortal(
         <div style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}
           onClick={() => setShowKonami(false)}>
           <div style={{ position: "relative", background: "#0b1017", border: "1px solid #1a2340", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", flexShrink: 0, padding: "2rem" }}
@@ -1353,10 +1363,10 @@ export default function PassportPage() {
             </div>
           </div>
         </div>
-      )}
+      , document.body)}
 
       {/* EASTER EGG */}
-      {easterEgg && (
+      {mounted && easterEgg && ReactDOM.createPortal(
         <div onClick={() => setEasterEgg(false)} style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}>
           <div style={{ position: "relative", background: "#0b1017", border: "1px solid #1a2340", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", flexShrink: 0, padding: "2.5rem", textAlign: "center" }} onClick={e => e.stopPropagation()}>
             <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🗝️</div>
@@ -1386,7 +1396,7 @@ export default function PassportPage() {
             }}>Close</button>
           </div>
         </div>
-      )}
+      , document.body)}
     </div>
   );
 }

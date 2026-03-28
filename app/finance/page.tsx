@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 
 const FORMSPREE_TOPIC_URL = "https://formspree.io/f/maqpzgba";
 
@@ -249,6 +250,7 @@ function searchWFJ(query: string): string {
 // ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
 export default function FinanceLab() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [activeSection, setActiveSection] = useState<"wfj" | "ai">("wfj");
   const [selectedArticle, setSelectedArticle] = useState<typeof ARTICLES[0] | null>(null);
   const [requestTopic, setRequestTopic] = useState("");
@@ -263,6 +265,13 @@ export default function FinanceLab() {
   const [tickerData, setTickerData] = useState<{ id: string; label: string; price: number; changePercent: number }[]>([]);
 
   const aiChatRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => { setMounted(true); }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = selectedArticle ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [selectedArticle]);
 
   // Scroll AI chat
   useEffect(() => {
@@ -706,7 +715,7 @@ export default function FinanceLab() {
       </div>
 
       {/* ARTICLE MODAL */}
-      {selectedArticle && (
+      {mounted && selectedArticle && ReactDOM.createPortal(
         <div onClick={() => setSelectedArticle(null)} style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}>
           <div onClick={e => e.stopPropagation()} style={{ position: "relative", background: "#0d1117", border: "1px solid #1a1e2e", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", flexShrink: 0, padding: "2.5rem" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.5rem" }}>
@@ -729,7 +738,7 @@ export default function FinanceLab() {
             <div style={{ color: "#8899aa", fontSize: "0.9rem", lineHeight: 1.9, whiteSpace: "pre-wrap" }}>{selectedArticle.content}</div>
           </div>
         </div>
-      )}
+      , document.body)}
     </main>
   );
 }
