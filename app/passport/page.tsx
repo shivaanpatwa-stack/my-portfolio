@@ -992,6 +992,7 @@ export default function PassportPage() {
             <div style={{ maxWidth: "100%", overflowX: "hidden" }}>
             <div
               className="globe-svg-wrap"
+              style={{ touchAction: "none", userSelect: "none" }}
               onMouseDown={e => {
                 isDragging.current = true;
                 autoSpin.current = false;
@@ -1005,6 +1006,22 @@ export default function PassportPage() {
               }}
               onMouseUp={() => { isDragging.current = false; setTimeout(() => { autoSpin.current = true; lastTime.current = 0; }, 1500); }}
               onMouseLeave={() => { if (isDragging.current) { isDragging.current = false; setTimeout(() => { autoSpin.current = true; lastTime.current = 0; }, 1500); } }}
+              onTouchStart={e => {
+                isDragging.current = true;
+                autoSpin.current = false;
+                dragStart.current = e.touches[0].clientX;
+                rotStart.current = rotY;
+              }}
+              onTouchMove={e => {
+                e.preventDefault();
+                if (!isDragging.current) return;
+                const delta = e.touches[0].clientX - dragStart.current;
+                setRotY(rotStart.current + delta * 0.4);
+              }}
+              onTouchEnd={() => {
+                isDragging.current = false;
+                setTimeout(() => { autoSpin.current = true; lastTime.current = 0; }, 1500);
+              }}
             >
               {/* Atmosphere halo behind globe */}
               <div style={{
