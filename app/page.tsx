@@ -194,7 +194,20 @@ export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [visible, setVisible] = useState<Record<string, boolean>>({});
   const [menuOpen, setMenuOpen] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const refs = useRef<Record<string, HTMLElement | null>>({});
+
+  useEffect(() => {
+    const saved = localStorage.getItem("sp-theme") as "dark" | "light" | null;
+    if (saved) setTheme(saved);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("light-theme", theme === "light");
+    localStorage.setItem("sp-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => t === "dark" ? "light" : "dark");
 
   useEffect(() => {
     const onScroll = () => setScrollY(window.scrollY);
@@ -227,11 +240,12 @@ export default function Home() {
   return (
     <main
       style={{
-        background: "#080a0f",
-        color: "#e8eaf0",
+        background: "var(--bg)",
+        color: "var(--text)",
         fontFamily: "'DM Sans', sans-serif",
         minHeight: "100vh",
         overflowX: "hidden",
+        transition: "background 0.3s, color 0.3s",
       }}
     >
       <style>{`
@@ -239,12 +253,49 @@ export default function Home() {
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
+        :root {
+          --bg: #080a0f;
+          --bg-card: #0d1117;
+          --bg-card2: #0a0f1a;
+          --bg-icon: #0f1a2e;
+          --text: #e8eaf0;
+          --text-sec: #8899aa;
+          --text-muted: #556677;
+          --text-dim: #334455;
+          --border: #111827;
+          --border-2: #1a1e2e;
+          --border-3: #1a2235;
+          --nav-bg: rgba(8,10,15,0.92);
+          --quote-bg: linear-gradient(135deg, #0d1117 0%, #0a0f1a 100%);
+          --grid-line: rgba(26,111,255,0.03);
+          --theme-icon: '☀️';
+          --card-shadow: none;
+        }
+
+        :root.light-theme {
+          --bg: #f8f9ff;
+          --bg-card: #ffffff;
+          --bg-card2: #eef2ff;
+          --bg-icon: #e8eeff;
+          --text: #0d1117;
+          --text-sec: #4b5563;
+          --text-muted: #6b7280;
+          --text-dim: #9ca3af;
+          --border: #e5e7eb;
+          --border-2: #d1d5db;
+          --border-3: #d1d5db;
+          --nav-bg: rgba(248,249,255,0.96);
+          --quote-bg: linear-gradient(135deg, #ffffff 0%, #eef2ff 100%);
+          --grid-line: rgba(26,111,255,0.04);
+          --card-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+        }
+
         ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #080a0f; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: #1a6fff; border-radius: 2px; }
 
         .nav-link {
-          color: #8899aa;
+          color: var(--text-sec);
           text-decoration: none;
           font-size: 0.85rem;
           font-weight: 500;
@@ -261,15 +312,16 @@ export default function Home() {
           background: #1a6fff;
           transition: width 0.3s;
         }
-        .nav-link:hover { color: #fff; }
+        .nav-link:hover { color: var(--text); }
         .nav-link:hover::after { width: 100%; }
 
         .stat-card {
-          border: 1px solid #111827;
+          border: 1px solid var(--border);
           border-radius: 12px;
           padding: 1.25rem;
-          background: #0d1117;
-          transition: border-color 0.3s, transform 0.3s;
+          background: var(--bg-card);
+          box-shadow: var(--card-shadow);
+          transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
         }
         .stat-card:hover {
           border-color: #1a6fff44;
@@ -301,18 +353,19 @@ export default function Home() {
         }
         .cta-secondary {
           background: transparent;
-          color: #8899aa;
-          border: 1px solid #1a1e2e;
+          color: var(--text-sec);
+          border: 1px solid var(--border-2);
         }
         .cta-secondary:hover {
           border-color: #1a6fff44;
-          color: #fff;
+          color: var(--text);
           transform: translateY(-2px);
         }
 
         .now-card {
-          background: #0d1117;
-          border: 1px solid #111827;
+          background: var(--bg-card);
+          border: 1px solid var(--border);
+          box-shadow: var(--card-shadow);
           border-radius: 16px;
           padding: 1.25rem 1.5rem;
         }
@@ -322,14 +375,14 @@ export default function Home() {
           align-items: flex-start;
           gap: 0.875rem;
           padding: 0.75rem 0;
-          border-bottom: 1px solid #111827;
+          border-bottom: 1px solid var(--border);
         }
         .now-row:last-child { border-bottom: none; }
 
         .now-icon {
           width: 36px; height: 36px;
           border-radius: 8px;
-          background: #0f1a2e;
+          background: var(--bg-icon);
           display: flex; align-items: center; justify-content: center;
           font-size: 1rem;
           flex-shrink: 0;
@@ -364,8 +417,8 @@ export default function Home() {
           position: fixed;
           inset: 0;
           background-image:
-            linear-gradient(rgba(26,111,255,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(26,111,255,0.03) 1px, transparent 1px);
+            linear-gradient(var(--grid-line) 1px, transparent 1px),
+            linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
           background-size: 60px 60px;
           pointer-events: none;
           z-index: 0;
@@ -379,6 +432,26 @@ export default function Home() {
           background: radial-gradient(ellipse, rgba(26,111,255,0.08) 0%, transparent 70%);
           pointer-events: none;
           z-index: 0;
+        }
+
+        .theme-btn {
+          background: none;
+          border: 1px solid var(--border-2);
+          border-radius: 8px;
+          color: var(--text-sec);
+          font-size: 1rem;
+          cursor: pointer;
+          padding: 0.6rem 0.75rem;
+          line-height: 1;
+          transition: border-color 0.2s, background 0.2s, transform 0.15s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .theme-btn:hover {
+          border-color: #1a6fff66;
+          background: rgba(26,111,255,0.08);
+          transform: rotate(15deg) scale(1.1);
         }
 
         .mobile-menu {
@@ -464,8 +537,8 @@ export default function Home() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          borderBottom: scrollY > 40 ? "1px solid #111827" : "1px solid transparent",
-          background: scrollY > 40 ? "rgba(8,10,15,0.92)" : "transparent",
+          borderBottom: scrollY > 40 ? "1px solid var(--border)" : "1px solid transparent",
+          background: scrollY > 40 ? "var(--nav-bg)" : "transparent",
           backdropFilter: scrollY > 40 ? "blur(12px)" : "none",
           transition: "all 0.3s",
         }}
@@ -475,7 +548,7 @@ export default function Home() {
             fontFamily: "'Playfair Display', serif",
             fontSize: "1.1rem",
             fontWeight: 700,
-            color: "#fff",
+            color: "var(--text)",
             letterSpacing: "-0.02em",
           }}>SP.</span>
         </a>
@@ -485,8 +558,16 @@ export default function Home() {
             Contact
           </a>
           <button
+            onClick={toggleTheme}
+            className="theme-btn"
+            aria-label="Toggle theme"
+            title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {theme === "dark" ? "☀️" : "🌙"}
+          </button>
+          <button
             onClick={() => setMenuOpen(true)}
-            style={{ background: "none", border: "1px solid #1a1e2e", borderRadius: 8, color: "#8899aa", fontSize: "1rem", cursor: "pointer", padding: "0.6rem 0.75rem", lineHeight: 1 }}
+            style={{ background: "none", border: "1px solid var(--border-2)", borderRadius: 8, color: "var(--text-sec)", fontSize: "1rem", cursor: "pointer", padding: "0.6rem 0.75rem", lineHeight: 1 }}
             aria-label="Open menu"
           >
             ☰
@@ -513,13 +594,13 @@ export default function Home() {
             <span style={{ color: "#1a6fff" }}>Patwa.</span>
           </h1>
 
-          <p style={{ fontSize: "clamp(1rem, 2.5vw, 1.25rem)", color: "#8899aa", maxWidth: 600, lineHeight: 1.7, marginBottom: "1.5rem", fontWeight: 300 }}>
+          <p style={{ fontSize: "clamp(1rem, 2.5vw, 1.25rem)", color: "var(--text-sec)", maxWidth: 600, lineHeight: 1.7, marginBottom: "1.5rem", fontWeight: 300 }}>
             A future in finance, a history in MUN, and an obsession with global change.
           </p>
 
           <div className="quote-block" style={{
-            background: "linear-gradient(135deg, #0d1117 0%, #0a0f1a 100%)",
-            border: "1px solid #1a2235",
+            background: "var(--quote-bg)",
+            border: "1px solid var(--border-3)",
             borderRadius: "20px",
             padding: "2rem 2.5rem",
             textAlign: "center",
@@ -531,16 +612,16 @@ export default function Home() {
             <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: "80%", height: "80%", background: "radial-gradient(ellipse, rgba(26,111,255,0.05) 0%, transparent 70%)", pointerEvents: "none" }} />
             <div style={{ position: "relative" }}>
               <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 5vw, 3.5rem)", lineHeight: 0.8, color: "#1a6fff", marginBottom: "0.5rem", opacity: 0.9 }}>"</div>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontSize: "clamp(1rem, 2.5vw, 1.35rem)", fontWeight: 700, color: "#e8eaf0", lineHeight: 1.65, maxWidth: 580, margin: "0 auto", letterSpacing: "-0.01em" }}>
+              <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontSize: "clamp(1rem, 2.5vw, 1.35rem)", fontWeight: 700, color: "var(--text)", lineHeight: 1.65, maxWidth: 580, margin: "0 auto", letterSpacing: "-0.01em" }}>
                 Wealth. Unforgettable experiences. Every country on the map. And the right people to share it with. That's all I want.
               </p>
               <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 5vw, 3.5rem)", lineHeight: 0.8, color: "#1a6fff", opacity: 0.9, textAlign: "right", maxWidth: 580, margin: "0.5rem auto 0" }}>"</div>
               <div style={{ width: 40, height: 2, background: "#1a6fff", margin: "1rem auto 0", borderRadius: 2 }} />
-              <div style={{ marginTop: "0.5rem", fontSize: "0.8rem", color: "#334455", letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600 }}>Shivaan Patwa</div>
+              <div style={{ marginTop: "0.5rem", fontSize: "0.8rem", color: "var(--text-dim)", letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600 }}>Shivaan Patwa</div>
             </div>
           </div>
 
-          <p style={{ fontSize: "0.95rem", color: "#556677", maxWidth: 560, lineHeight: 1.8 }}>
+          <p style={{ fontSize: "0.95rem", color: "var(--text-muted)", maxWidth: 560, lineHeight: 1.8 }}>
             I don't just observe global systems — I analyze them, debate them, and look for the cracks. Whether I'm drafting a UN resolution or dissecting the risks of a cashless economy, I'm driven by a singular goal: understanding the forces that shape our world.
           </p>
         </section>
@@ -555,8 +636,8 @@ export default function Home() {
             {STATS.map((s, i) => (
               <div key={i} className="stat-card" style={{ transitionDelay: `${i * 80}ms` }}>
                 <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.75rem", fontWeight: 900, color: "#1a6fff", lineHeight: 1 }}>{s.value}</div>
-                <div style={{ fontWeight: 600, fontSize: "0.9rem", marginTop: "0.4rem", color: "#e8eaf0" }}>{s.label}</div>
-                <div style={{ fontSize: "0.73rem", color: "#556677", marginTop: "0.2rem" }}>{s.sub}</div>
+                <div style={{ fontWeight: 600, fontSize: "0.9rem", marginTop: "0.4rem", color: "var(--text)" }}>{s.label}</div>
+                <div style={{ fontSize: "0.73rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>{s.sub}</div>
               </div>
             ))}
           </div>
@@ -573,16 +654,16 @@ export default function Home() {
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", fontWeight: 700, marginBottom: "1.25rem" }}>The Now</h2>
             <div className="now-card">
               {[
-                { icon: "📚", label: "Current Deep Dive", value: "Preparing for Cambridge IGCSE exams", sub: "18th April" },
-                { icon: "✍️", label: "Currently Writing", value: "WFJ — P/E Ratio & Valuation", sub: "" },
+                { icon: "📚", label: "Current Deep Dive", value: "Cambridge IGCSE Exam Prep", sub: "Ongoing · Exams 18th Apr" },
+                { icon: "✍️", label: "Currently Writing", value: "WFJ — Next article coming soon", sub: "" },
                 { icon: "🎙️", label: "Next MUN", value: "Chairing at Ecole MUN", sub: "17th–18th April 2026" },
                 { icon: "✈️", label: "Latest Stamp", value: "Italy & Vatican City", sub: "Dec 2025" },
               ].map((row, i) => (
                 <div key={i} className="now-row">
                   <div className="now-icon">{row.icon}</div>
                   <div>
-                    <div style={{ fontSize: "0.72rem", color: "#556677", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.25rem" }}>{row.label}</div>
-                    <div style={{ fontWeight: 600, color: "#e8eaf0" }}>{row.value}</div>
+                    <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.25rem" }}>{row.label}</div>
+                    <div style={{ fontWeight: 600, color: "var(--text)" }}>{row.value}</div>
                     {row.sub && <div style={{ fontSize: "0.82rem", color: "#1a6fff", marginTop: "0.15rem" }}>{row.sub}</div>}
                   </div>
                 </div>
@@ -598,8 +679,9 @@ export default function Home() {
           style={{ padding: "1.5rem 2rem 3rem", maxWidth: 1200, margin: "0 auto", textAlign: "center" }}
         >
           <div className={`resume-cta-inner ${fade("resume-cta")}`} style={{
-            background: "#0d1117",
-            border: "1px solid #111827",
+            background: "var(--bg-card)",
+            border: "1px solid var(--border)",
+            boxShadow: "var(--card-shadow)",
             borderRadius: "16px",
             padding: "2.5rem 2rem",
             display: "flex",
@@ -609,7 +691,7 @@ export default function Home() {
           }}>
             <span style={{
               fontSize: "0.72rem",
-              color: "#556677",
+              color: "var(--text-muted)",
               letterSpacing: "0.12em",
               textTransform: "uppercase",
               fontVariant: "small-caps",
@@ -628,7 +710,7 @@ export default function Home() {
         </section>
 
         {/* FOOTER */}
-        <footer style={{ borderTop: "1px solid #111827", padding: "1.5rem 2rem", textAlign: "center", color: "#334455", fontSize: "0.8rem" }}>
+        <footer style={{ borderTop: "1px solid var(--border)", padding: "1.5rem 2rem", textAlign: "center", color: "var(--text-dim)", fontSize: "0.8rem" }}>
           © 2026 Shivaan Patwa. All rights reserved.
         </footer>
       </div>
