@@ -757,28 +757,29 @@ export default function PassportPage() {
           animation: confettiFall var(--dur) var(--delay) linear forwards;
         }
         @keyframes classifiedStamp {
-          from { transform: rotate(-15deg) scale(1.5); opacity: 0; }
-          to { transform: rotate(-15deg) scale(1); opacity: 1; }
+          from { transform: rotate(-8deg) scale(1.5); opacity: 0; }
+          to { transform: rotate(-8deg) scale(1); opacity: 0.88; }
         }
         .classified-stamp {
           position: absolute;
           top: 50%; left: 50%;
-          transform: rotate(-15deg) scale(1);
+          transform: rotate(-8deg) scale(1);
           transform-origin: center;
           translate: -50% -50%;
           color: #cc0000;
-          border: 4px solid #cc0000;
-          padding: 0.4rem 1rem;
+          border: 3px double #cc0000;
+          padding: 0.45rem 1.1rem;
           font-family: 'DM Mono', monospace;
           font-size: 1.4rem;
           font-weight: 700;
-          letter-spacing: 0.15em;
-          border-radius: 4px;
+          letter-spacing: 0.32em;
+          border-radius: 3px;
           pointer-events: none;
           animation: classifiedStamp 0.3s cubic-bezier(0.4,0,0.2,1) forwards;
           white-space: nowrap;
-          text-shadow: 0 0 10px rgba(204,0,0,0.6);
-          box-shadow: 0 0 16px rgba(204,0,0,0.4);
+          text-shadow: 1px 1px 0 rgba(204,0,0,0.35), 0 0 8px rgba(204,0,0,0.5), -1px 0 2px rgba(204,0,0,0.2);
+          box-shadow: inset 0 0 0 2px rgba(204,0,0,0.15), 0 0 12px rgba(204,0,0,0.25);
+          opacity: 0.88;
           z-index: 10;
         }
         @keyframes wanderlustFadeOut {
@@ -1205,17 +1206,19 @@ export default function PassportPage() {
         <div style={{ textAlign: "center", marginTop: "3rem", marginBottom: "2rem" }}>
           <div style={{
             display: "inline-block",
-            opacity: 1,
-            transform: "rotate(-2deg)",
-            border: "2px solid #cc0000",
-            borderRadius: "4px",
+            opacity: 0.88,
+            transform: "rotate(-8deg)",
+            border: "3px double #cc0000",
+            borderRadius: "3px",
             padding: "0.6rem 1.4rem",
             fontFamily: "'DM Mono', monospace",
             fontSize: "0.75rem",
             color: "#cc0000",
-            letterSpacing: "0.15em",
+            letterSpacing: "0.32em",
             textTransform: "uppercase",
             lineHeight: 1.6,
+            textShadow: "1px 1px 0 rgba(204,0,0,0.3), 0 0 6px rgba(204,0,0,0.4), -1px 0 2px rgba(204,0,0,0.15)",
+            boxShadow: "inset 0 0 0 2px rgba(204,0,0,0.12)",
             userSelect: "none",
           }}>
             CLASSIFIED // This passport contains hidden secrets. Explore carefully.
