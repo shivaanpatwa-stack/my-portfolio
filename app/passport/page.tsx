@@ -138,9 +138,10 @@ const COUNTRIES = [
     color: "#6d597a",
     vibe: "A day trip that punches way above its weight. The Barbary macaques are completely fearless — they will snatch food directly from your hands without hesitation, no warning given. One jumped on my shoulder and tried to steal my bag. Climbing The Rock gives you a view of two continents at once: Europe behind you, Africa across the water. One of the most unique geographical spots on the planet and genuinely one of the most fun days of any trip.",
     highlights: ["The Rock", "Barbary macaques", "Mountain views"],
-    photo: "https://images.pexels.com/photos/15285914/pexels-photo-15285914.jpeg?w=800&auto=compress",
+    photo: "https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg?auto=compress&w=800",
+    photoFallback: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Rock_of_Gibraltar_from_the_air.jpg/800px-Rock_of_Gibraltar_from_the_air.jpg",
     photoCaption: "Gibraltar",
-    photos: ["/Gibraltar-photo-1.JPG", "https://images.pexels.com/photos/15285914/pexels-photo-15285914.jpeg?w=800&auto=compress"],
+    photos: ["/Gibraltar-photo-1.JPG", "https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg?auto=compress&w=800"],
     lat: 36, lon: -5,
   },
   {
@@ -265,8 +266,9 @@ const COUNTRIES = [
     color: "#6d597a",
     vibe: "Postojna Caves was like descending into a completely different world — vast chambers, stalactites that took millennia to form, and a little train that takes you deep into the karst. Lake Bled is almost absurdly picturesque: a castle on a cliff, an island in the middle of a lake, the Julian Alps as a backdrop. Slovenia is tiny but it feels layered, like it's been hiding something excellent. It was the quiet surprise of the trip.",
     highlights: ["Postojna Caves", "Lake Bled", "Ljubljana", "Julian Alps"],
-    photo: "https://images.pexels.com/photos/3601425/pexels-photo-3601425.jpeg?w=800&auto=compress",
-    photoCaption: "Lake Bled, Slovenia",
+    photo: "https://images.pexels.com/photos/6461793/pexels-photo-6461793.jpeg?auto=compress&w=800",
+    photoFallback: "https://images.unsplash.com/photo-1558618047-f4e90312c10e?w=800&q=80",
+    photoCaption: "Postojna Caves, Slovenia",
     photos: ["/Slovenia-photo-1.JPG", "/Slovenia-photo-2.JPG", "https://images.unsplash.com/photo-1580137189272-c9379f8864fd?w=400&q=80"],
     lat: 46, lon: 15,
   },
@@ -1248,7 +1250,27 @@ export default function PassportPage() {
             <button className="close-btn" onClick={() => setSelected(null)}>✕</button>
             <div className="modal-hero-wrap">
               <img src={selected.photo} alt={selected.photoCaption} className="modal-hero"
-                onError={e => { const img = e.target as HTMLImageElement; if (!img.dataset.errored) { img.dataset.errored = "1"; img.src = "https://images.pexels.com/photos/1051073/pexels-photo-1051073.jpeg?w=800&auto=compress"; } else { img.style.display = "none"; } }} />
+                onError={e => {
+                  const img = e.target as HTMLImageElement;
+                  const fallback = (selected as any).photoFallback;
+                  if (!img.dataset.tried1 && fallback) {
+                    img.dataset.tried1 = "1";
+                    img.src = fallback;
+                  } else if (!img.dataset.tried2) {
+                    img.dataset.tried2 = "1";
+                    img.style.display = "none";
+                    const wrap = img.parentElement;
+                    if (wrap) {
+                      wrap.style.background = `linear-gradient(135deg, ${selected.color}60 0%, #080a0f 100%)`;
+                      const placeholder = wrap.querySelector(".hero-placeholder") as HTMLElement | null;
+                      if (placeholder) placeholder.style.display = "flex";
+                    }
+                  }
+                }} />
+              <div className="hero-placeholder" style={{ display: "none", position: "absolute", inset: 0, alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "0.5rem", zIndex: 1 }}>
+                <span style={{ fontSize: "3.5rem" }}>{selected.flag}</span>
+                <span style={{ color: "var(--text)", fontFamily: "'Cormorant Garamond', serif", fontSize: "1.6rem", fontWeight: 600 }}>{selected.name}</span>
+              </div>
               <div className="modal-hero-overlay" />
               <div className="modal-hero-caption">{selected.photoCaption}</div>
             </div>
