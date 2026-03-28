@@ -5,9 +5,11 @@
 :root {
   /* Dark theme (default) */
   --bg: #07090e;
-  --bg-elevated: #0d1117;
-  --bg-elevated2: #0f1520;
-  --bg-icon: #0f1a2e;
+  --bg-elevated: #0d1117;     /* standard card bg */
+  --bg-elevated2: #0f1520;    /* section / chip / inset bg */
+  --bg-card-alt: #0b1017;     /* slightly deeper card (passport modals) */
+  --bg-accent-tint: #0d1421;  /* blue-accent-tinted card row */
+  --bg-icon: #0f1a2e;         /* icon badge bg */
   --text: #e0e7f0;
   --text-sec: #8899aa;
   --text-muted: #556677;
@@ -15,6 +17,7 @@
   --border: #111827;
   --border-2: #1a1e2e;
   --border-3: #1a2235;
+  --border-card: #1a2340;     /* passport card / modal borders */
   --nav-bg: rgba(7,9,14,0.92);
   --quote-bg: linear-gradient(135deg, #0d1117 0%, #0a0f1a 100%);
   --grid-line: rgba(26,111,255,0.03);
@@ -25,7 +28,9 @@
   /* Light theme overrides */
   --bg: #f8f9ff;
   --bg-elevated: #ffffff;
-  --bg-elevated2: #eef2ff;
+  --bg-elevated2: #f1f5f9;
+  --bg-card-alt: #f8f9ff;
+  --bg-accent-tint: #eef2ff;
   --bg-icon: #e8eeff;
   --text: #0d1117;
   --text-sec: #4b5563;
@@ -34,6 +39,7 @@
   --border: #e5e7eb;
   --border-2: #d1d5db;
   --border-3: #d1d5db;
+  --border-card: #e2e8f0;
   --nav-bg: rgba(248,249,255,0.96);
   --quote-bg: linear-gradient(135deg, #ffffff 0%, #eef2ff 100%);
   --grid-line: rgba(26,111,255,0.05);

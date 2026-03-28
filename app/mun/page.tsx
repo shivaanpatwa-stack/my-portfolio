@@ -193,7 +193,7 @@ export default function MUNArena() {
           background: transparent;
           color: var(--text-muted);
         }
-        .tab-btn:hover { color: var(--text); border-color: #1a1e2e; }
+        .tab-btn:hover { color: var(--text); border-color: var(--border-2); }
         .tab-btn.active { background: var(--bg-elevated2); color: #1a6fff; border-color: #1a6fff44; }
 
         .conf-row {
@@ -202,12 +202,12 @@ export default function MUNArena() {
           gap: 0.75rem;
           align-items: center;
           padding: 0.875rem 1.25rem;
-          border-bottom: 1px solid #0d1117;
+          border-bottom: 1px solid var(--bg-elevated);
           cursor: pointer;
           transition: background 0.15s;
           border-radius: 6px;
         }
-        .conf-row:hover { background: #0d1117; }
+        .conf-row:hover { background: var(--bg-elevated); }
 
         .award-badge {
           display: inline-flex;
@@ -221,8 +221,8 @@ export default function MUNArena() {
         }
 
         .tool-card {
-          background: #0d1117;
-          border: 1px solid #111827;
+          background: var(--bg-elevated);
+          border: 1px solid var(--border);
           border-radius: 12px;
           padding: 1.5rem;
           cursor: pointer;
@@ -231,8 +231,8 @@ export default function MUNArena() {
         .tool-card:hover { border-color: #1a6fff44; transform: translateY(-2px); }
 
         .doc-card {
-          background: #0d1117;
-          border: 1px solid #111827;
+          background: var(--bg-elevated);
+          border: 1px solid var(--border);
           border-radius: 10px;
           padding: 1.25rem;
           transition: border-color 0.2s;
@@ -240,8 +240,8 @@ export default function MUNArena() {
         .doc-card:hover { border-color: #1a6fff33; }
 
         .input-field {
-          background: #0d1117;
-          border: 1px solid #1a1e2e;
+          background: var(--bg-elevated);
+          border: 1px solid var(--border-2);
           border-radius: 8px;
           color: #dde4ee;
           padding: 0.75rem 1rem;
@@ -278,16 +278,16 @@ export default function MUNArena() {
         }
 
         .stat-pill {
-          background: #0d1117;
-          border: 1px solid #111827;
+          background: var(--bg-elevated);
+          border: 1px solid var(--border);
           border-radius: 10px;
           padding: 1rem 1.25rem;
           text-align: center;
         }
 
         .ticker-bar {
-          background: #0a0d14;
-          border-bottom: 1px solid #0f1520;
+          background: var(--bg-elevated2);
+          border-bottom: 1px solid var(--bg-elevated2);
           padding: 0.6rem 1.5rem;
           display: flex;
           align-items: center;
@@ -352,7 +352,7 @@ export default function MUNArena() {
         }
 
         .chair-card {
-          background: #0d1117;
+          background: var(--bg-elevated);
           border: 1px solid #1a6fff22;
           border-radius: 12px;
           padding: 1.25rem;
@@ -574,7 +574,7 @@ export default function MUNArena() {
                     <div style={{ fontSize: "0.65rem", color: "#fff", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.5rem" }}>{c.role}</div>
                     <div style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "0.25rem" }}>{c.conference}</div>
                     <div style={{ fontSize: "0.83rem", color: "#fff", marginBottom: "0.75rem" }}>{c.committee}</div>
-                    <span style={{ background: "#0f1a2e", color: "#fff", border: "1px solid #1a6fff33", borderRadius: "20px", padding: "0.15rem 0.6rem", fontSize: "0.68rem", fontWeight: 700 }}>
+                    <span style={{ background: "var(--bg-icon)", color: "#fff", border: "1px solid #1a6fff33", borderRadius: "20px", padding: "0.15rem 0.6rem", fontSize: "0.68rem", fontWeight: 700 }}>
                       Upcoming
                     </span>
                   </div>
@@ -583,7 +583,7 @@ export default function MUNArena() {
             </div>
 
             {/* Resource Request */}
-            <div style={{ marginTop: "2.5rem", background: "#0d1117", border: "1px solid #111827", borderRadius: "14px", padding: "1.75rem" }}>
+            <div style={{ marginTop: "2.5rem", background: "var(--bg-elevated)", border: "1px solid var(--border)", borderRadius: "14px", padding: "1.75rem" }}>
               <span className="section-tag">Community</span>
               <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "0.4rem" }}>Request a Template or Advice</h3>
               <p style={{ color: "#556677", fontSize: "0.82rem", marginBottom: "1rem" }}>Younger delegates — ask for specific committee templates or preparation advice.</p>
@@ -627,7 +627,7 @@ export default function MUNArena() {
                     <span style={{ color: "#1a6fff", fontSize: "1.2rem", transition: "transform 0.2s", transform: expandedTool === i ? "rotate(90deg)" : "rotate(0deg)" }}>→</span>
                   </div>
                   {expandedTool === i && (
-                    <div style={{ marginTop: "1.25rem", paddingTop: "1.25rem", borderTop: "1px solid #111827", color: "#8899aa", fontSize: "0.87rem", lineHeight: 1.85, whiteSpace: "pre-wrap" }}>
+                    <div style={{ marginTop: "1.25rem", paddingTop: "1.25rem", borderTop: "1px solid var(--border)", color: "#8899aa", fontSize: "0.87rem", lineHeight: 1.85, whiteSpace: "pre-wrap" }}>
                       {t.content}
                     </div>
                   )}
@@ -672,7 +672,7 @@ export default function MUNArena() {
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.6rem", fontWeight: 700, marginBottom: "0.4rem" }}>Clause Analyser</h2>
             <p style={{ color: "#556677", fontSize: "0.83rem", marginBottom: "1.5rem" }}>Type an operative clause below and get instant feedback on its strength.</p>
 
-            <div style={{ background: "#0d1117", border: "1px solid #111827", borderRadius: "14px", padding: "1.75rem", marginBottom: "1.25rem" }}>
+            <div style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)", borderRadius: "14px", padding: "1.75rem", marginBottom: "1.25rem" }}>
               <textarea
                 className="input-field"
                 rows={4}
@@ -684,10 +684,10 @@ export default function MUNArena() {
             </div>
 
             {checklist.length > 0 && (
-              <div style={{ background: "#0d1117", border: "1px solid #111827", borderRadius: "14px", padding: "1.75rem" }}>
+              <div style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)", borderRadius: "14px", padding: "1.75rem" }}>
                 <div style={{ fontSize: "0.7rem", color: "#1a6fff", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "1rem" }}>Clause Checklist</div>
                 {checklist.map((item, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.6rem 0", borderBottom: i < checklist.length - 1 ? "1px solid #0f1520" : "none" }}>
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.6rem 0", borderBottom: i < checklist.length - 1 ? "1px solid var(--border)" : "none" }}>
                     <span style={{ fontSize: "1rem" }}>{item.pass ? "✅" : "❌"}</span>
                     <span style={{ fontSize: "0.87rem", color: item.pass ? "#aabbc8" : "#556677" }}>{item.label}</span>
                   </div>

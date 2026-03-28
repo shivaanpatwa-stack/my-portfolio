@@ -282,7 +282,7 @@ export default function ConnectPage() {
       {copied && (
         <div style={{
           position: "fixed", bottom: "2rem", left: "50%", transform: "translateX(-50%)",
-          background: "#0d1117", border: "1px solid rgba(26,111,255,0.4)",
+          background: "var(--bg-elevated)", border: "1px solid rgba(26,111,255,0.4)",
           borderRadius: "10px", padding: "0.75rem 1.5rem",
           color: "var(--text)", fontSize: "0.85rem", fontWeight: 500,
           zIndex: 9999, boxShadow: "0 8px 32px rgba(0,0,0,0.4)",

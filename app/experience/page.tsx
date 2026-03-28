@@ -177,7 +177,7 @@ export default function ExperienceVault() {
           font-weight: 600;
           letter-spacing: 0.06em;
           cursor: pointer;
-          border: 1px solid #1a1e2e;
+          border: 1px solid var(--border-2);
           background: transparent;
           color: var(--text-muted);
           transition: all 0.2s;
@@ -207,8 +207,8 @@ export default function ExperienceVault() {
         .timeline-dot.highlighted { box-shadow: 0 0 0 6px #1a6fff55; }
 
         .exp-card {
-          background: #0d1117;
-          border: 1px solid #111827;
+          background: var(--bg-elevated);
+          border: 1px solid var(--border);
           border-radius: 14px;
           padding: 1.5rem;
           margin-bottom: 1.5rem;
@@ -238,9 +238,9 @@ export default function ExperienceVault() {
           font-size: 0.7rem;
           font-weight: 600;
           letter-spacing: 0.06em;
-          background: #0f1520;
+          background: var(--bg-elevated2);
           color: #445566;
-          border: 1px solid #1a1e2e;
+          border: 1px solid var(--border-2);
         }
 
         .skill-grid-btn {
@@ -249,20 +249,20 @@ export default function ExperienceVault() {
           font-size: 0.78rem;
           font-weight: 500;
           cursor: pointer;
-          border: 1px solid #1a1e2e;
-          background: #0d1117;
+          border: 1px solid var(--border-2);
+          background: var(--bg-elevated);
           color: #556677;
           transition: all 0.2s;
           font-family: 'DM Sans', sans-serif;
         }
         .skill-grid-btn:hover { border-color: #1a6fff44; color: #aabbc8; }
-        .skill-grid-btn.active { background: #0f1a2e; color: #1a6fff; border-color: #1a6fff66; }
+        .skill-grid-btn.active { background: var(--bg-icon); color: #1a6fff; border-color: #1a6fff66; }
 
         .photo-placeholder {
           width: 100%;
           aspect-ratio: 16/9;
-          background: #0a0d14;
-          border: 1px dashed #1a1e2e;
+          background: var(--bg-elevated2);
+          border: 1px dashed var(--border-2);
           border-radius: 10px;
           display: flex;
           flex-direction: column;
@@ -275,7 +275,7 @@ export default function ExperienceVault() {
         }
 
         .origin-card {
-          background: linear-gradient(135deg, #0d1117 0%, #0f1a2e 100%);
+          background: linear-gradient(135deg, var(--bg-elevated) 0%, var(--bg-icon) 100%);
           border: 1px solid #1a6fff33;
           border-radius: 16px;
           padding: 2rem;
@@ -305,7 +305,7 @@ export default function ExperienceVault() {
         .detail-expand {
           margin-top: 1rem;
           padding-top: 1rem;
-          border-top: 1px solid #111827;
+          border-top: 1px solid var(--border);
           animation: fadeIn 0.2s ease;
         }
         @keyframes fadeIn {
@@ -318,7 +318,7 @@ export default function ExperienceVault() {
           position: relative;
           width: 100%;
           aspect-ratio: 16/9;
-          background: #0a0d14;
+          background: var(--bg-elevated2);
           border-radius: 10px;
           overflow: hidden;
         }
@@ -349,7 +349,7 @@ export default function ExperienceVault() {
         .carousel-dot {
           width: 6px; height: 6px;
           border-radius: 50%;
-          background: #1a1e2e;
+          background: var(--border-2);
           cursor: pointer;
           border: none;
           padding: 0;
@@ -366,7 +366,7 @@ export default function ExperienceVault() {
           font-size: 0.8rem;
           font-weight: 600;
           color: #8899aa;
-          border: 1px solid #1a1e2e;
+          border: 1px solid var(--border-2);
           background: transparent;
           text-decoration: none;
           transition: all 0.2s;
@@ -557,7 +557,7 @@ export default function ExperienceVault() {
                                 style={{
                                   objectFit: (exp.id === 1 && idx === 2) || exp.id === 4 ? "contain" : "cover",
                                   objectPosition: exp.id === 4 ? "center top" : "center",
-                                  background: (exp.id === 1 && idx === 2) || exp.id === 4 ? "#0a0d14" : "transparent",
+                                  background: (exp.id === 1 && idx === 2) || exp.id === 4 ? "var(--bg-elevated2)" : "transparent",
                                 }}
                                 sizes="(max-width: 768px) 100vw, 700px"
                               />
