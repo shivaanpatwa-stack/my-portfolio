@@ -61,13 +61,13 @@ const COUNTRIES = [
   {
     id: "switzerland", name: "Switzerland", flag: "🇨🇭", region: "Europe", year: "2015, 2024", badge: "Alpine Rush",
     color: "#e9c46a",
-    vibe: "First snow — Grindelwald, 2015 — a four-year-old from Mumbai completely speechless at the Alps for the first time. Nine years later I came back to ski in Zermatt, with the Matterhorn watching over the slopes like it had been waiting. The Olympic Museum in Lausanne was an unexpected highlight — it made Olympic sport feel deeply personal in a way I didn't expect. Switzerland gets better every time you understand it a little more.",
+    vibe: "First taste of fondue in Grindelwald — rich, warm, and completely addictive. The chocolate here is on another level entirely, the kind you bring back in bulk and still regret not buying more. Swiss trains are an experience in themselves — some have play areas built in for kids, and the views through the Alps are cinematic. Nine years later, back in Zermatt skiing with the Matterhorn watching over the slopes like it had been waiting. Switzerland hits different every single time.",
     highlights: ["Grindelwald", "Interlaken", "Zermatt skiing", "Olympic Museum"],
     photo: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80",
     photoCaption: "Swiss Alps",
     photoGroups: [
-      { year: "2015", photos: ["/Switzerland-photo-3-2015.JPG", "/Switzerland-photo-4-2015.JPG"] },
       { year: "2024", photos: ["/Switzerland-photo-1-2024.JPG", "/Switzerland-photo-2-2024.JPG"] },
+      { year: "2015", photos: ["/Switzerland-photo-3-2015.JPG", "/Switzerland-photo-4-2015.JPG"] },
     ],
     lat: 47, lon: 8,
   },
@@ -88,7 +88,7 @@ const COUNTRIES = [
     color: "#e76f51",
     vibe: "Disney Hong Kong was everything a five-year-old could hope for, but what surprised me more was how much I loved the city itself — the density, the layers, the contrast between old and new at every turn. The skyline across Victoria Harbour is one of the great views on the planet. Family reunions here have their own warmth: good food, loud tables, everyone talking at once. It's a city that gets under your skin.",
     highlights: ["Disney Hong Kong", "Family reunion", "City exploration"],
-    photo: "https://images.unsplash.com/photo-1536599424071-0b215a388ba7?w=800&q=80",
+    photo: "https://images.pexels.com/photos/1757547/pexels-photo-1757547.jpeg?w=800&auto=compress",
     photoCaption: "Hong Kong",
     photoGroups: [
       { year: "2016", photos: ["/Honkkong-photo-1.JPG", "/Honkkong-photo-2.JPG", "/Honkkong-photo-3.JPG"] },
@@ -136,11 +136,11 @@ const COUNTRIES = [
   {
     id: "gibraltar", name: "Gibraltar", flag: "🇬🇮", region: "Europe", year: "2017", badge: "The Rock",
     color: "#6d597a",
-    vibe: "A day trip that punches way above its weight. The Barbary macaques are completely fearless — one jumped on my shoulder at age six and tried to steal my bag, which is a memory that sticks. Climbing The Rock gives you a view of two continents at once: Europe behind you, Africa across the water. One of the most unique geographical spots on the planet.",
+    vibe: "A day trip that punches way above its weight. The Barbary macaques are completely fearless — they will snatch food directly from your hands without hesitation, no warning given. One jumped on my shoulder and tried to steal my bag. Climbing The Rock gives you a view of two continents at once: Europe behind you, Africa across the water. One of the most unique geographical spots on the planet and genuinely one of the most fun days of any trip.",
     highlights: ["The Rock", "Barbary macaques", "Mountain views"],
-    photo: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
+    photo: "https://images.pexels.com/photos/13027047/pexels-photo-13027047.jpeg?w=800&auto=compress",
     photoCaption: "Gibraltar",
-    photos: ["/Gibraltar-photo-1.JPG", "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80", "https://images.unsplash.com/photo-1597598494791-e4f7ba35c4c1?w=400&q=80"],
+    photos: ["/Gibraltar-photo-1.JPG", "https://images.pexels.com/photos/13027047/pexels-photo-13027047.jpeg?w=800&auto=compress"],
     lat: 36, lon: -5,
   },
   {
