@@ -183,14 +183,14 @@ export default function ExperienceVault() {
           transition: all 0.2s;
           font-family: 'DM Sans', sans-serif;
         }
-        .filter-btn:hover { color: var(--text); border-color: #334455; }
+        .filter-btn:hover { color: var(--text); border-color: var(--border-2); }
         .filter-btn.active { background: #1a6fff; color: #fff; border-color: #1a6fff; }
 
         .timeline-line {
           position: absolute;
           left: 5px; top: 0; bottom: 0;
           width: 2px;
-          background: linear-gradient(to bottom, #1a6fff44, #1a1e2e00);
+          background: linear-gradient(to bottom, #1a6fff44, transparent);
         }
 
         .timeline-dot {
@@ -199,7 +199,7 @@ export default function ExperienceVault() {
           width: 12px; height: 12px;
           border-radius: 50%;
           background: #1a6fff;
-          border: 2px solid #07090e;
+          border: 2px solid var(--bg-primary);
           box-shadow: 0 0 0 3px #1a6fff33;
           z-index: 2;
           transition: box-shadow 0.3s;
@@ -239,7 +239,7 @@ export default function ExperienceVault() {
           font-weight: 600;
           letter-spacing: 0.06em;
           background: var(--bg-elevated2);
-          color: #445566;
+          color: var(--text-muted);
           border: 1px solid var(--border-2);
         }
 
@@ -251,11 +251,11 @@ export default function ExperienceVault() {
           cursor: pointer;
           border: 1px solid var(--border-2);
           background: var(--bg-elevated);
-          color: #556677;
+          color: var(--text-muted);
           transition: all 0.2s;
           font-family: 'DM Sans', sans-serif;
         }
-        .skill-grid-btn:hover { border-color: #1a6fff44; color: #aabbc8; }
+        .skill-grid-btn:hover { border-color: #1a6fff44; color: var(--text-sec); }
         .skill-grid-btn.active { background: var(--bg-icon); color: #1a6fff; border-color: #1a6fff66; }
 
         .photo-placeholder {
@@ -269,7 +269,7 @@ export default function ExperienceVault() {
           align-items: center;
           justify-content: center;
           gap: 0.5rem;
-          color: #334455;
+          color: var(--text-muted);
           font-size: 0.78rem;
           margin-top: 1rem;
         }
@@ -373,7 +373,7 @@ export default function ExperienceVault() {
           font-family: 'DM Sans', sans-serif;
           cursor: pointer;
         }
-        .album-btn:hover { border-color: #1a6fff44; color: #dde4ee; }
+        .album-btn:hover { border-color: #1a6fff44; color: var(--text); }
 
         @media (max-width: 768px) {
           .exp-header {
@@ -422,21 +422,21 @@ export default function ExperienceVault() {
 
         .mobile-menu {
           position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(7,9,14,0.98); z-index: 999;
+          background: var(--bg-primary); z-index: 999;
           display: flex; flex-direction: column; align-items: center;
           justify-content: flex-start; padding-top: 5rem; gap: 2rem;
           backdrop-filter: blur(16px);
         }
         .mobile-nav-link {
           font-family: 'Playfair Display', serif; font-size: 2rem;
-          color: #fff; text-decoration: none; transition: color 0.2s;
+          color: var(--text); text-decoration: none; transition: color 0.2s;
         }
         .mobile-nav-link:hover { color: #1a6fff; }
       `}</style>
 
       {menuOpen && (
         <div className="mobile-menu">
-          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "2rem", background: "none", border: "none", color: "#fff", fontSize: "1.5rem", cursor: "pointer" }}>✕</button>
+          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "2rem", background: "none", border: "none", color: "var(--text)", fontSize: "1.5rem", cursor: "pointer" }}>✕</button>
           {[["Finance Lab", "/finance"], ["MUN Arena", "/mun"], ["Experience", "/experience"], ["The Passport", "/passport"], ["Connect", "/connect"]].map(([label, href]) => (
             <a key={label} href={href} className="mobile-nav-link" onClick={() => setMenuOpen(false)}>{label}</a>
           ))}
@@ -511,14 +511,14 @@ export default function ExperienceVault() {
                         </span>
                       )}
                     </div>
-                    <span style={{ color: "#334455", transition: "transform 0.2s", transform: isExpanded ? "rotate(90deg)" : "none", display: "inline-block" }}>
+                    <span style={{ color: "var(--text-muted)", transition: "transform 0.2s", transform: isExpanded ? "rotate(90deg)" : "none", display: "inline-block" }}>
                       →
                     </span>
                   </div>
 
                   <h3 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: "1.15rem", marginBottom: "0.25rem" }}>{exp.title}</h3>
-                  <div style={{ fontSize: "0.8rem", color: "#556677", marginBottom: "0.875rem" }}>{exp.role}</div>
-                  <p style={{ fontSize: "0.875rem", color: "#8899aa", lineHeight: 1.7, marginBottom: "0.875rem" }}>{exp.summary}</p>
+                  <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginBottom: "0.875rem" }}>{exp.role}</div>
+                  <p style={{ fontSize: "0.875rem", color: "var(--text-sec)", lineHeight: 1.7, marginBottom: "0.875rem" }}>{exp.summary}</p>
 
                   <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
                     {exp.skills.map((s) => (
@@ -533,7 +533,7 @@ export default function ExperienceVault() {
                       <div style={{ fontSize: "0.68rem", color: "#1a6fff", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.5rem" }}>
                         Key Insight
                       </div>
-                      <p style={{ fontSize: "0.875rem", color: "#aabbc8", lineHeight: 1.8, marginBottom: "1rem" }}>{exp.insight}</p>
+                      <p style={{ fontSize: "0.875rem", color: "var(--text-sec)", lineHeight: 1.8, marginBottom: "1rem" }}>{exp.insight}</p>
                       {(() => {
                         const carousel = CAROUSEL_DATA[exp.id];
                         if (!carousel) {
@@ -541,7 +541,7 @@ export default function ExperienceVault() {
                             <div className="photo-placeholder">
                               <span style={{ fontSize: "1.5rem" }}>📷</span>
                               <span>Photo placeholder — AirDrop to Mac, drop in /public folder</span>
-                              <span style={{ fontSize: "0.68rem", color: "#223344" }}>Recommended: 1200×675px</span>
+                              <span style={{ fontSize: "0.68rem", color: "var(--text-muted)" }}>Recommended: 1200×675px</span>
                             </div>
                           );
                         }
@@ -607,10 +607,10 @@ export default function ExperienceVault() {
         <div style={{ marginBottom: "3rem", paddingLeft: "2.5rem" }}>
           <div className="origin-card">
             <span className="section-tag">Origin Story</span>
-            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem", fontWeight: 700, lineHeight: 1.6, color: "#dde4ee", position: "relative", zIndex: 1 }}>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem", fontWeight: 700, lineHeight: 1.6, color: "var(--text)", position: "relative", zIndex: 1 }}>
               "Bootstrapped a stone-trading project to fund my first stock market entries — then used the returns to buy my PS5."
             </p>
-            <p style={{ fontSize: "0.78rem", color: "#445566", marginTop: "0.75rem" }}>The moment finance stopped being theoretical.</p>
+            <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", marginTop: "0.75rem" }}>The moment finance stopped being theoretical.</p>
           </div>
         </div>
 
@@ -618,7 +618,7 @@ export default function ExperienceVault() {
         <div>
           <span className="section-tag">Skill Stack</span>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.4rem" }}>What I've Built</h2>
-          <p style={{ color: "#556677", fontSize: "0.82rem", marginBottom: "1.5rem" }}>
+          <p style={{ color: "var(--text-muted)", fontSize: "0.82rem", marginBottom: "1.5rem" }}>
             Click a skill to highlight related experiences.
             {activeSkill && (
               <span
@@ -631,7 +631,7 @@ export default function ExperienceVault() {
           </p>
           {["Strategic", "Interpersonal"].map((cat) => (
             <div key={cat} style={{ marginBottom: "1.5rem" }}>
-              <div style={{ fontSize: "0.68rem", color: "#334455", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.75rem" }}>{cat}</div>
+              <div style={{ fontSize: "0.68rem", color: "var(--text-muted)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.75rem" }}>{cat}</div>
               <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
                 {SKILLS.filter((s) => s.category === cat).map((s) => (
                   <button

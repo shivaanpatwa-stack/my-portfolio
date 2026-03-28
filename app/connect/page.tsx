@@ -77,7 +77,7 @@ export default function ConnectPage() {
         ::-webkit-scrollbar-thumb { background: #1a6fff; border-radius: 2px; }
 
         .nav-link {
-          color: #8899aa;
+          color: var(--text-sec);
           text-decoration: none;
           font-size: 0.85rem;
           font-weight: 500;
@@ -94,9 +94,9 @@ export default function ConnectPage() {
           background: #1a6fff;
           transition: width 0.3s;
         }
-        .nav-link:hover { color: #fff; }
+        .nav-link:hover { color: var(--text); }
         .nav-link:hover::after { width: 100%; }
-        .nav-link.cur { color: #fff; }
+        .nav-link.cur { color: var(--text); }
         .nav-link.cur::after { width: 100%; }
 
         .contact-card {
@@ -119,7 +119,7 @@ export default function ConnectPage() {
         .mobile-menu {
           position: fixed;
           top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(8,10,15,0.98);
+          background: var(--bg-primary);
           z-index: 999;
           display: flex;
           flex-direction: column;
@@ -131,7 +131,7 @@ export default function ConnectPage() {
         .mobile-nav-link {
           font-family: 'Cormorant Garamond', serif;
           font-size: 2rem;
-          color: #fff;
+          color: var(--text);
           text-decoration: none;
           transition: color 0.2s;
         }
@@ -210,7 +210,7 @@ export default function ConnectPage() {
 
       {menuOpen && (
         <div className="mobile-menu">
-          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "2rem", background: "none", border: "none", color: "#fff", fontSize: "1.5rem", cursor: "pointer" }}>✕</button>
+          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "2rem", background: "none", border: "none", color: "var(--text)", fontSize: "1.5rem", cursor: "pointer" }}>✕</button>
           {NAV_LINKS.map((l) => (
             <a key={l.label} href={l.href} className="mobile-nav-link" onClick={() => setMenuOpen(false)}>{l.label}</a>
           ))}
@@ -259,7 +259,7 @@ export default function ConnectPage() {
           {CONTACTS.map((c) => (
             <button key={c.platform} className="contact-card" onClick={() => handleContact(c)}>
               <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>{c.icon}</div>
-              <div style={{ fontSize: "0.65rem", fontFamily: "'DM Mono', monospace", letterSpacing: "0.15em", textTransform: "uppercase", color: "#3a5080", marginBottom: "0.4rem" }}>
+              <div style={{ fontSize: "0.65rem", fontFamily: "'DM Mono', monospace", letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: "0.4rem" }}>
                 {c.platform}
               </div>
               <div style={{ fontSize: "1rem", fontWeight: 600, color: "var(--text)", marginBottom: "1rem", wordBreak: "break-all" }}>

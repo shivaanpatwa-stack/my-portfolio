@@ -243,7 +243,7 @@ export default function MUNArena() {
           background: var(--bg-elevated);
           border: 1px solid var(--border-2);
           border-radius: 8px;
-          color: #dde4ee;
+          color: var(--text);
           padding: 0.75rem 1rem;
           font-size: 0.9rem;
           font-family: 'DM Sans', sans-serif;
@@ -339,7 +339,7 @@ export default function MUNArena() {
         }
 
         .briefing-note {
-          background: #070a10;
+          background: var(--bg-secondary);
           border-left: 2px solid #1a6fff;
           padding: 1rem 1.25rem;
           margin-top: 0.5rem;
@@ -358,7 +358,7 @@ export default function MUNArena() {
           padding: 1.25rem;
           position: relative;
           overflow: hidden;
-          color: #fff;
+          color: var(--text);
         }
         .chair-card::before {
           content: '';
@@ -430,21 +430,21 @@ export default function MUNArena() {
 
         .mobile-menu {
           position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(7,9,14,0.98); z-index: 999;
+          background: var(--bg-primary); z-index: 999;
           display: flex; flex-direction: column; align-items: center;
           justify-content: flex-start; padding-top: 5rem; gap: 2rem;
           backdrop-filter: blur(16px);
         }
         .mobile-nav-link {
           font-family: 'Playfair Display', serif; font-size: 2rem;
-          color: #fff; text-decoration: none; transition: color 0.2s;
+          color: var(--text); text-decoration: none; transition: color 0.2s;
         }
         .mobile-nav-link:hover { color: #1a6fff; }
       `}</style>
 
       {menuOpen && (
         <div className="mobile-menu">
-          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "2rem", background: "none", border: "none", color: "#fff", fontSize: "1.5rem", cursor: "pointer" }}>✕</button>
+          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "2rem", background: "none", border: "none", color: "var(--text)", fontSize: "1.5rem", cursor: "pointer" }}>✕</button>
           {[["Finance Lab", "/finance"], ["MUN Arena", "/mun"], ["Experience", "/experience"], ["The Passport", "/passport"], ["Connect", "/connect"]].map(([label, href]) => (
             <a key={label} href={href} className="mobile-nav-link" onClick={() => setMenuOpen(false)}>{label}</a>
           ))}
@@ -464,11 +464,11 @@ export default function MUNArena() {
       {/* LIVE TICKER */}
       <div className="ticker-bar">
         <span style={{ color: "#1a6fff", fontWeight: 700, whiteSpace: "nowrap", fontSize: "0.7rem", letterSpacing: "0.12em" }}>⚡ LIVE STATUS</span>
-        <span style={{ color: "#556677", whiteSpace: "nowrap" }}>Last Gavel: <span style={{ color: "#1a6fff" }}>SpringMUN — Outstanding Delegate, UNHRC</span></span>
-        <span style={{ color: "#334455" }}>|</span>
-        <span style={{ color: "#556677", whiteSpace: "nowrap" }}>Current Focus: <span style={{ color: "#ffffff" }}>Chairing DISEC @ École MUN</span></span>
-        <span style={{ color: "#334455" }}>|</span>
-        <span style={{ color: "#445566", whiteSpace: "nowrap", fontSize: "0.68rem" }}>Press G × 3 for a surprise</span>
+        <span style={{ color: "var(--text-muted)", whiteSpace: "nowrap" }}>Last Gavel: <span style={{ color: "#1a6fff" }}>SpringMUN — Outstanding Delegate, UNHRC</span></span>
+        <span style={{ color: "var(--text-dim)" }}>|</span>
+        <span style={{ color: "var(--text-muted)", whiteSpace: "nowrap" }}>Current Focus: <span style={{ color: "var(--text)" }}>Chairing DISEC @ École MUN</span></span>
+        <span style={{ color: "var(--text-dim)" }}>|</span>
+        <span style={{ color: "var(--text-muted)", whiteSpace: "nowrap", fontSize: "0.68rem" }}>Press G × 3 for a surprise</span>
       </div>
 
       {/* HEADER */}
@@ -506,7 +506,7 @@ export default function MUNArena() {
           ].map((s, i) => (
             <div key={i} className="stat-pill">
               <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "2rem", fontWeight: 900, color: "#1a6fff", lineHeight: 1 }}>{s.value}</div>
-              <div style={{ fontSize: "0.72rem", color: "#556677", marginTop: "0.3rem", letterSpacing: "0.08em", textTransform: "uppercase" }}>{s.label}</div>
+              <div style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "0.3rem", letterSpacing: "0.08em", textTransform: "uppercase" }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -516,22 +516,22 @@ export default function MUNArena() {
           <div>
             <span className="section-tag">Conference Archive</span>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.6rem", fontWeight: 700, marginBottom: "0.4rem" }}>The Track Record</h2>
-            <p style={{ color: "#556677", fontSize: "0.83rem", marginBottom: "1.5rem" }}>Click any row to expand the briefing note.</p>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.83rem", marginBottom: "1.5rem" }}>Click any row to expand the briefing note.</p>
 
             {/* Table header */}
             <div className="conf-header" style={{ display: "grid", gridTemplateColumns: "60px 1fr 1fr 1fr 140px", gap: "0.75rem", padding: "0.5rem 1.25rem", marginBottom: "0.25rem" }}>
               {["Yr", "Conference", "Committee", "Country", "Award"].map(h => (
-                <div key={h} style={{ fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#334455" }}>{h}</div>
+                <div key={h} style={{ fontSize: "0.65rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--text-muted)" }}>{h}</div>
               ))}
             </div>
 
             {DELEGATE_CONFERENCES.map((c, i) => (
               <div key={i}>
                 <div className="conf-row" onClick={() => setExpandedRow(expandedRow === i ? null : i)}>
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.78rem", color: "#445566" }}>G{c.grade}</div>
+                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.78rem", color: "var(--text-muted)" }}>G{c.grade}</div>
                   <div style={{ fontWeight: 600, fontSize: "0.88rem" }}>{c.conference}</div>
-                  <div style={{ fontSize: "0.83rem", color: "#8899aa" }}>{c.committee}</div>
-                  <div style={{ fontSize: "0.83rem", color: "#aabbc8" }}>{c.country}</div>
+                  <div style={{ fontSize: "0.83rem", color: "var(--text-sec)" }}>{c.committee}</div>
+                  <div style={{ fontSize: "0.83rem", color: "var(--text)" }}>{c.country}</div>
                   <div>
                     <span className="award-badge" style={{
                       background: `${AWARD_COLOR[c.award]}${c.award === "Best Delegate" || c.award === "Outstanding Delegate" ? "30" : "18"}`,
@@ -548,16 +548,16 @@ export default function MUNArena() {
                   <div className="briefing-note" style={{ margin: "0 0.5rem 0.5rem" }}>
                     <div style={{ fontSize: "0.68rem", color: "#1a6fff", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.75rem" }}>Briefing Note — {c.conference}</div>
                     <div style={{ marginBottom: "0.75rem" }}>
-                      <div style={{ fontSize: "0.7rem", color: "#445566", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.25rem" }}>Agenda</div>
-                      <div style={{ fontSize: "0.85rem", color: "#aabbc8" }}>{c.agenda}</div>
+                      <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.25rem" }}>Agenda</div>
+                      <div style={{ fontSize: "0.85rem", color: "var(--text)" }}>{c.agenda}</div>
                     </div>
                     <div style={{ marginBottom: "0.75rem" }}>
-                      <div style={{ fontSize: "0.7rem", color: "#445566", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.25rem" }}>Core Challenge</div>
-                      <div style={{ fontSize: "0.85rem", color: "#8899aa" }}>{c.challenge}</div>
+                      <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.25rem" }}>Core Challenge</div>
+                      <div style={{ fontSize: "0.85rem", color: "var(--text-sec)" }}>{c.challenge}</div>
                     </div>
                     <div>
-                      <div style={{ fontSize: "0.7rem", color: "#445566", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.25rem" }}>Strategy</div>
-                      <div style={{ fontSize: "0.85rem", color: "#dde4ee" }}>{c.strategy}</div>
+                      <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.25rem" }}>Strategy</div>
+                      <div style={{ fontSize: "0.85rem", color: "var(--text)" }}>{c.strategy}</div>
                     </div>
                   </div>
                 )}
@@ -571,10 +571,10 @@ export default function MUNArena() {
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "0.75rem" }}>
                 {CHAIR_CONFERENCES.map((c, i) => (
                   <div key={i} className="chair-card">
-                    <div style={{ fontSize: "0.65rem", color: "#fff", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.5rem" }}>{c.role}</div>
+                    <div style={{ fontSize: "0.65rem", color: "var(--text-sec)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.5rem" }}>{c.role}</div>
                     <div style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "0.25rem" }}>{c.conference}</div>
-                    <div style={{ fontSize: "0.83rem", color: "#fff", marginBottom: "0.75rem" }}>{c.committee}</div>
-                    <span style={{ background: "var(--bg-icon)", color: "#fff", border: "1px solid #1a6fff33", borderRadius: "20px", padding: "0.15rem 0.6rem", fontSize: "0.68rem", fontWeight: 700 }}>
+                    <div style={{ fontSize: "0.83rem", color: "var(--text-sec)", marginBottom: "0.75rem" }}>{c.committee}</div>
+                    <span style={{ background: "var(--bg-icon)", color: "var(--text)", border: "1px solid #1a6fff33", borderRadius: "20px", padding: "0.15rem 0.6rem", fontSize: "0.68rem", fontWeight: 700 }}>
                       Upcoming
                     </span>
                   </div>
@@ -586,7 +586,7 @@ export default function MUNArena() {
             <div style={{ marginTop: "2.5rem", background: "var(--bg-elevated)", border: "1px solid var(--border)", borderRadius: "14px", padding: "1.75rem" }}>
               <span className="section-tag">Community</span>
               <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "0.4rem" }}>Request a Template or Advice</h3>
-              <p style={{ color: "#556677", fontSize: "0.82rem", marginBottom: "1rem" }}>Younger delegates — ask for specific committee templates or preparation advice.</p>
+              <p style={{ color: "var(--text-muted)", fontSize: "0.82rem", marginBottom: "1rem" }}>Younger delegates — ask for specific committee templates or preparation advice.</p>
               <div className="resource-row" style={{ display: "flex", gap: "0.75rem" }}>
                 <input
                   className="input-field"
@@ -611,7 +611,7 @@ export default function MUNArena() {
           <div>
             <span className="section-tag">Strategy Toolkit</span>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.6rem", fontWeight: 700, marginBottom: "0.4rem" }}>The MUN Cheat Sheet</h2>
-            <p style={{ color: "#556677", fontSize: "0.83rem", marginBottom: "1.5rem" }}>Distilled from 18 conferences. Click each section to expand.</p>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.83rem", marginBottom: "1.5rem" }}>Distilled from 18 conferences. Click each section to expand.</p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
               {TOOLKIT.map((t, i) => (
@@ -621,13 +621,13 @@ export default function MUNArena() {
                       <span style={{ fontSize: "1.5rem" }}>{t.icon}</span>
                       <div>
                         <div style={{ fontWeight: 700, fontSize: "1rem" }}>{t.title}</div>
-                        <div style={{ fontSize: "0.8rem", color: "#556677" }}>{t.desc}</div>
+                        <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>{t.desc}</div>
                       </div>
                     </div>
                     <span style={{ color: "#1a6fff", fontSize: "1.2rem", transition: "transform 0.2s", transform: expandedTool === i ? "rotate(90deg)" : "rotate(0deg)" }}>→</span>
                   </div>
                   {expandedTool === i && (
-                    <div style={{ marginTop: "1.25rem", paddingTop: "1.25rem", borderTop: "1px solid var(--border)", color: "#8899aa", fontSize: "0.87rem", lineHeight: 1.85, whiteSpace: "pre-wrap" }}>
+                    <div style={{ marginTop: "1.25rem", paddingTop: "1.25rem", borderTop: "1px solid var(--border)", color: "var(--text-sec)", fontSize: "0.87rem", lineHeight: 1.85, whiteSpace: "pre-wrap" }}>
                       {t.content}
                     </div>
                   )}
@@ -642,7 +642,7 @@ export default function MUNArena() {
           <div>
             <span className="section-tag">Document Library</span>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.6rem", fontWeight: 700, marginBottom: "0.4rem" }}>Written Work</h2>
-            <p style={{ color: "#556677", fontSize: "0.83rem", marginBottom: "1.5rem", lineHeight: 1.6 }}>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.83rem", marginBottom: "1.5rem", lineHeight: 1.6 }}>
               A compilation of my best MUN documents — position papers, resolutions and working papers.
             </p>
 
@@ -670,7 +670,7 @@ export default function MUNArena() {
           <div>
             <span className="section-tag">Resolution Sandbox</span>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.6rem", fontWeight: 700, marginBottom: "0.4rem" }}>Clause Analyser</h2>
-            <p style={{ color: "#556677", fontSize: "0.83rem", marginBottom: "1.5rem" }}>Type an operative clause below and get instant feedback on its strength.</p>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.83rem", marginBottom: "1.5rem" }}>Type an operative clause below and get instant feedback on its strength.</p>
 
             <div style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)", borderRadius: "14px", padding: "1.75rem", marginBottom: "1.25rem" }}>
               <textarea
@@ -689,11 +689,11 @@ export default function MUNArena() {
                 {checklist.map((item, i) => (
                   <div key={i} style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.6rem 0", borderBottom: i < checklist.length - 1 ? "1px solid var(--border)" : "none" }}>
                     <span style={{ fontSize: "1rem" }}>{item.pass ? "✅" : "❌"}</span>
-                    <span style={{ fontSize: "0.87rem", color: item.pass ? "#aabbc8" : "#556677" }}>{item.label}</span>
+                    <span style={{ fontSize: "0.87rem", color: item.pass ? "var(--text-sec)" : "var(--text-muted)" }}>{item.label}</span>
                   </div>
                 ))}
-                <div style={{ marginTop: "1rem", padding: "0.75rem", background: "#070a10", borderRadius: "8px" }}>
-                  <span style={{ fontSize: "0.8rem", color: "#556677" }}>
+                <div style={{ marginTop: "1rem", padding: "0.75rem", background: "var(--bg-secondary)", borderRadius: "8px" }}>
+                  <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
                     Score: <span style={{ color: "#1a6fff", fontWeight: 700 }}>{checklist.filter(c => c.pass).length}/{checklist.length}</span>
                     {checklist.filter(c => c.pass).length === checklist.length ? " — Bulletproof clause! 🔨" :
                       checklist.filter(c => c.pass).length >= 3 ? " — Strong, minor improvements needed." :

@@ -22,6 +22,13 @@
   --quote-bg: linear-gradient(135deg, #0d1117 0%, #0a0f1a 100%);
   --grid-line: rgba(26,111,255,0.03);
   --card-shadow: none;
+  /* Semantic aliases */
+  --bg-primary: #07090e;
+  --bg-secondary: #0d1117;
+  --card-bg: #0d1117;
+  --text-primary: #e0e7f0;
+  --text-secondary: #8899aa;
+  --border-color: #1a2235;
 }
 
 :root.light-theme {
@@ -44,6 +51,13 @@
   --quote-bg: linear-gradient(135deg, #ffffff 0%, #eef2ff 100%);
   --grid-line: rgba(26,111,255,0.05);
   --card-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  /* Semantic aliases */
+  --bg-primary: #f8f9ff;
+  --bg-secondary: #f1f5f9;
+  --card-bg: #ffffff;
+  --text-primary: #0d1117;
+  --text-secondary: #4b5563;
+  --border-color: #e2e8f0;
 }
 
 /* ── Base ────────────────────────────────────────────────────────────────── */

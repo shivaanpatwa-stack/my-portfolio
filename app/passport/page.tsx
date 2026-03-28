@@ -476,7 +476,7 @@ export default function PassportPage() {
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=DM+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         ::-webkit-scrollbar { width: 3px; }
-        ::-webkit-scrollbar-track { background: #060810; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
         ::-webkit-scrollbar-thumb { background: #1a6fff33; border-radius: 4px; }
 
         .id-card {
@@ -535,7 +535,7 @@ export default function PassportPage() {
           width: 44px;
           height: 44px;
           border-radius: 50% 50% 50% 0;
-          background: rgba(13,17,35,0.92);
+          background: var(--bg-secondary);
           border: 1.5px solid rgba(26,111,255,0.5);
           font-size: 24px;
           box-shadow: 0 4px 16px rgba(0,0,0,0.5), 0 0 0 1px rgba(26,111,255,0.2);
@@ -556,14 +556,14 @@ export default function PassportPage() {
           bottom: calc(100% + 10px);
           left: 50%;
           transform: translateX(-50%);
-          background: rgba(9,13,25,0.96);
-          border: 1px solid #1a2a4a;
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-2);
           border-radius: 10px;
           padding: 0.6rem 0.9rem;
           white-space: nowrap;
           font-size: 0.72rem;
           font-weight: 500;
-          color: #e8eaf0;
+          color: var(--text);
           pointer-events: none;
           backdrop-filter: blur(8px);
           z-index: 20;
@@ -575,7 +575,7 @@ export default function PassportPage() {
           top: 100%; left: 50%;
           transform: translateX(-50%);
           border: 5px solid transparent;
-          border-top-color: rgba(9,13,25,0.96);
+          border-top-color: var(--bg-secondary);
         }
 
         .stamp-grid {
@@ -585,7 +585,7 @@ export default function PassportPage() {
         }
         .stamp-card {
           background: var(--bg-elevated);
-          border: 1px solid #111825;
+          border: 1px solid var(--border);
           border-radius: 18px;
           cursor: pointer;
           transition: all 0.28s cubic-bezier(0.4,0,0.2,1);
@@ -609,8 +609,8 @@ export default function PassportPage() {
           background: linear-gradient(135deg, var(--border) 0%, var(--bg-elevated) 100%);
           display: flex; flex-direction: column;
           align-items: center; justify-content: center;
-          gap: 0.3rem; color: #2a3349;
-          border-bottom: 1px dashed #1a2030;
+          gap: 0.3rem; color: var(--text-muted);
+          border-bottom: 1px dashed var(--border-2);
           font-size: 0.65rem;
           font-family: 'DM Mono', monospace;
           letter-spacing: 0.05em;
@@ -625,13 +625,13 @@ export default function PassportPage() {
 
         .filter-btn {
           padding: 0.42rem 1.05rem;
-          border-radius: 30px; border: 1px solid #141a28;
-          background: transparent; color: #4b5a72;
+          border-radius: 30px; border: 1px solid var(--border-2);
+          background: transparent; color: var(--text-sec);
           font-size: 0.75rem; font-weight: 500;
           cursor: pointer; transition: all 0.2s;
           font-family: 'DM Sans', sans-serif; letter-spacing: 0.02em;
         }
-        .filter-btn:hover { border-color: rgba(26,111,255,0.3); color: #e8eaf0; }
+        .filter-btn:hover { border-color: rgba(26,111,255,0.3); color: var(--text); }
         .filter-btn.active { background: #1a6fff; border-color: #1a6fff; color: #fff; }
 
         .modal-overlay {
@@ -679,14 +679,14 @@ export default function PassportPage() {
 
         .highlight-pill {
           display: inline-flex; align-items: center; gap: 0.4rem;
-          background: #111825; border: 1px solid #181e30;
+          background: var(--bg-elevated2); border: 1px solid var(--border-2);
           border-radius: 8px; padding: 0.36rem 0.8rem;
-          font-size: 0.85rem; color: #8896a8; line-height: 1.4;
+          font-size: 0.85rem; color: var(--text-sec); line-height: 1.4;
         }
         .stat-pill {
           display: flex; flex-direction: column; align-items: center;
           padding: 1.25rem 1.5rem;
-          background: var(--bg-elevated); border: 1px solid #111825;
+          background: var(--bg-elevated); border: 1px solid var(--border);
           border-radius: 18px; flex: 1; min-width: 100px; gap: 0.2rem;
           transition: border-color 0.2s;
         }
@@ -694,24 +694,24 @@ export default function PassportPage() {
         .close-btn {
           position: absolute; top: 1.1rem; right: 1.1rem;
           width: 34px; height: 34px; border-radius: 10px;
-          border: 1px solid var(--border-card); background: rgba(11,16,23,0.85);
-          color: #4b5a72; cursor: pointer;
+          border: 1px solid var(--border-card); background: var(--bg-secondary);
+          color: var(--text-sec); cursor: pointer;
           display: flex; align-items: center; justify-content: center;
           font-size: 0.85rem; transition: all 0.2s; z-index: 5;
         }
-        .close-btn:hover { background: #111825; color: #e8eaf0; }
+        .close-btn:hover { background: var(--bg-elevated2); color: var(--text); }
         .modal-label {
           font-size: 0.75rem; font-weight: 600; letter-spacing: 0.13em;
-          text-transform: uppercase; color: #2a3349; margin-bottom: 0.75rem;
+          text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem;
           font-family: 'DM Mono', monospace;
         }
         .section-label {
           font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em;
           text-transform: uppercase; color: #1a6fff; margin-bottom: 0.75rem;
         }
-        .nav-link { color: #5a6a82; text-decoration: none; font-size: 0.83rem; font-weight: 500; transition: color 0.2s; }
-        .nav-link:hover { color: #e8eaf0; }
-        .nav-link.cur { color: #e8eaf0; }
+        .nav-link { color: var(--text-sec); text-decoration: none; font-size: 0.83rem; font-weight: 500; transition: color 0.2s; }
+        .nav-link:hover { color: var(--text); }
+        .nav-link.cur { color: var(--text); }
         .dob-click { cursor: pointer; border-bottom: 1px dashed #1a6fff44; transition: color 0.2s; display: inline; }
         .dob-click:hover { color: #1a6fff; }
 
@@ -737,7 +737,7 @@ export default function PassportPage() {
         .globe-drag-hint {
           position: absolute; bottom: 1.5rem; left: 50%;
           transform: translateX(-50%);
-          font-size: 0.65rem; color: #1f2d42;
+          font-size: 0.65rem; color: var(--text-muted);
           font-family: 'DM Mono', monospace;
           letter-spacing: 0.08em; white-space: nowrap;
         }
@@ -791,7 +791,7 @@ export default function PassportPage() {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          background: #0d1421;
+          background: var(--bg-secondary);
           border: 1.5px solid #e9c46a;
           border-radius: 14px;
           padding: 0.85rem 2rem;
@@ -885,10 +885,10 @@ export default function PassportPage() {
 
       {/* MOBILE MENU OVERLAY */}
       {mobileMenuOpen && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(6,8,16,0.97)", zIndex: 200, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start", paddingTop: "5rem", gap: "2rem", backdropFilter: "blur(16px)" }}>
-          <button onClick={() => setMobileMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "1.5rem", background: "none", border: "none", color: "#e8eaf0", fontSize: "1.8rem", cursor: "pointer" }}>✕</button>
+        <div style={{ position: "fixed", inset: 0, background: "var(--bg-primary)", zIndex: 200, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start", paddingTop: "5rem", gap: "2rem", backdropFilter: "blur(16px)" }}>
+          <button onClick={() => setMobileMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "1.5rem", background: "none", border: "none", color: "var(--text)", fontSize: "1.8rem", cursor: "pointer" }}>✕</button>
           {[["Finance Lab", "/finance"], ["MUN Arena", "/mun"], ["Experience", "/experience"], ["The Passport", "/passport"], ["Connect", "/connect"]].map(([label, href]) => (
-            <a key={label} href={href} onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: "none", fontSize: "1.4rem", fontWeight: 500, color: label === "The Passport" ? "#e8eaf0" : "#5a6a82", fontFamily: "'DM Sans', sans-serif" }}>{label}</a>
+            <a key={label} href={href} onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: "none", fontSize: "1.4rem", fontWeight: 500, color: label === "The Passport" ? "var(--text)" : "var(--text-sec)", fontFamily: "'DM Sans', sans-serif" }}>{label}</a>
           ))}
         </div>
       )}
@@ -915,10 +915,10 @@ export default function PassportPage() {
             onTouchStart={() => { titlePressTimer.current = setTimeout(() => triggerWanderlust(), 2000); }}
             onTouchEnd={() => { if (titlePressTimer.current) { clearTimeout(titlePressTimer.current); titlePressTimer.current = null; } }}
           >
-            <span style={{ color: "#c8ccd8" }}>The </span>
+            <span style={{ color: "var(--text)" }}>The </span>
             <span style={{ fontStyle: "italic", background: "linear-gradient(125deg, #1a6fff 0%, #6fb3ff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Passport</span>
           </h1>
-          <p style={{ fontSize: "1.05rem", color: "#4b5a72", maxWidth: 440, lineHeight: 1.8, fontWeight: 300 }}>
+          <p style={{ fontSize: "1.05rem", color: "var(--text-sec)", maxWidth: 440, lineHeight: 1.8, fontWeight: 300 }}>
             29 countries. 4 continents. A lifetime of global immersion.
           </p>
         </div>
@@ -967,15 +967,15 @@ export default function PassportPage() {
                   ["CONTINENTS", "4 of 7"],
                 ].map(([label, val]) => (
                   <div key={label as string}>
-                    <div style={{ fontSize: "0.6rem", letterSpacing: "0.13em", color: "#2a3349", fontWeight: 600, marginBottom: "0.35rem", fontFamily: "'DM Mono', monospace" }}>{label as string}</div>
-                    <div style={{ fontSize: "0.87rem", fontWeight: 500, color: "#c8ccd8" }}>{val}</div>
+                    <div style={{ fontSize: "0.6rem", letterSpacing: "0.13em", color: "var(--text-muted)", fontWeight: 600, marginBottom: "0.35rem", fontFamily: "'DM Mono', monospace" }}>{label as string}</div>
+                    <div style={{ fontSize: "0.87rem", fontWeight: 500, color: "var(--text)" }}>{val}</div>
                   </div>
                 ))}
               </div>
             </div>
             <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "flex-end" }}>
               <div style={{ fontSize: "3rem" }}>🛂</div>
-              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.52rem", color: "#141e30", lineHeight: 2.2, userSelect: "none", letterSpacing: "0.04em", textAlign: "right" }}>
+              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.52rem", color: "var(--text-dim)", lineHeight: 2.2, userSelect: "none", letterSpacing: "0.04em", textAlign: "right" }}>
                 P&lt;INDPATWA&lt;&lt;SHIVAAN&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;<br />
                 SP20110013&lt;6IND1308136M2812301&lt;&lt;&lt;&lt;&lt;2
               </div>
@@ -994,7 +994,7 @@ export default function PassportPage() {
             <div key={s.label} className="stat-pill">
               <div style={{ fontSize: "1.3rem" }}>{s.icon}</div>
               <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2.25rem", fontWeight: 700, color: "#1a6fff", lineHeight: 1 }}>{s.val}</div>
-              <div style={{ fontSize: "0.7rem", color: "#4b5a72", fontWeight: 500 }}>{s.label}</div>
+              <div style={{ fontSize: "0.7rem", color: "var(--text-sec)", fontWeight: 500 }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -1155,7 +1155,7 @@ export default function PassportPage() {
                         <div className="pin-tooltip">
                           <span style={{ marginRight: "0.35rem" }}>{country.flag}</span>
                           {country.name}
-                          <span style={{ marginLeft: "0.5rem", color: "#3a4a62", fontFamily: "'DM Mono', monospace" }}>{country.year}</span>
+                          <span style={{ marginLeft: "0.5rem", color: "var(--text-muted)", fontFamily: "'DM Mono', monospace" }}>{country.year}</span>
                         </div>
                       )}
                       <div className="flag-bubble">
@@ -1174,7 +1174,7 @@ export default function PassportPage() {
 
         {/* FILTERS */}
         <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "2rem", alignItems: "center" }}>
-          <span style={{ fontSize: "0.7rem", color: "#2a3349", fontWeight: 500, marginRight: "0.4rem", fontFamily: "'DM Mono', monospace", letterSpacing: "0.08em" }}>REGION</span>
+          <span style={{ fontSize: "0.7rem", color: "var(--text-muted)", fontWeight: 500, marginRight: "0.4rem", fontFamily: "'DM Mono', monospace", letterSpacing: "0.08em" }}>REGION</span>
           {REGIONS.map(r => (
             <button key={r} className={`filter-btn ${filter === r ? "active" : ""}`} onClick={() => setFilter(r)}>{r}</button>
           ))}
@@ -1194,8 +1194,8 @@ export default function PassportPage() {
                   {country.badge}
                 </div>
                 <div style={{ fontSize: "1.5rem", marginBottom: "0.3rem" }}>{country.flag}</div>
-                <div style={{ fontWeight: 600, fontSize: "0.86rem", color: "#d0d4e0", marginBottom: "0.2rem" }}>{country.name}</div>
-                <div style={{ fontSize: "0.66rem", color: "#2a3349", fontFamily: "'DM Mono', monospace" }}>{country.year}</div>
+                <div style={{ fontWeight: 600, fontSize: "0.86rem", color: "var(--text)", marginBottom: "0.2rem" }}>{country.name}</div>
+                <div style={{ fontSize: "0.66rem", color: "var(--text-muted)", fontFamily: "'DM Mono', monospace" }}>{country.year}</div>
               </div>
             </div>
           ))}
@@ -1224,15 +1224,15 @@ export default function PassportPage() {
 
         {/* FOOTER */}
         <div style={{ textAlign: "center", marginTop: "1rem" }}>
-          <div style={{ color: "#6b7280", fontSize: "0.7rem", fontFamily: "monospace", marginBottom: "1.5rem", letterSpacing: "0.08em" }}>secrets hidden within...</div>
-          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "2rem", color: "#9ca3af", marginBottom: "2.5rem", lineHeight: 1.4 }}>
+          <div style={{ color: "var(--text-muted)", fontSize: "0.7rem", fontFamily: "monospace", marginBottom: "1.5rem", letterSpacing: "0.08em" }}>secrets hidden within...</div>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "2rem", color: "var(--text-sec)", marginBottom: "2.5rem", lineHeight: 1.4 }}>
             "The world is big.<br />I'm just getting started."
           </p>
           <a href="/" style={{
             display: "inline-flex", alignItems: "center", gap: "0.5rem",
             padding: "0.8rem 2rem", background: "transparent",
-            border: "1px solid #6b7280", borderRadius: "12px",
-            color: "#6b7280", textDecoration: "none",
+            border: "1px solid var(--border-2)", borderRadius: "12px",
+            color: "var(--text-muted)", textDecoration: "none",
             fontSize: "0.83rem", fontWeight: 500, transition: "all 0.2s",
           }}>← Back to Home</a>
         </div>
@@ -1240,7 +1240,7 @@ export default function PassportPage() {
 
       {/* COUNTRY MODAL */}
       {mounted && selected && ReactDOM.createPortal(
-        <div onClick={() => setSelected(null)} style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}>
+        <div onClick={() => setSelected(null)} style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}>
           <div onClick={e => e.stopPropagation()} style={{ position: "relative", background: "var(--bg-card-alt)", border: "1px solid var(--border-card)", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", flexShrink: 0 }}>
             <button className="close-btn" onClick={() => setSelected(null)}>✕</button>
             <div className="modal-hero-wrap">
@@ -1264,10 +1264,10 @@ export default function PassportPage() {
                       ✈ {selected.year}
                     </div>
                   </div>
-                  <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2.4rem", fontWeight: 700, color: "#e8eaf0", marginBottom: "0.35rem", lineHeight: 1.1 }}>
+                  <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "2.4rem", fontWeight: 700, color: "var(--text)", marginBottom: "0.35rem", lineHeight: 1.1 }}>
                     {selected.flag} {selected.name}
                   </h2>
-                  <div style={{ fontSize: "0.78rem", fontFamily: "'DM Mono', monospace", color: "#3a4a62", letterSpacing: "0.05em" }}>{selected.region}</div>
+                  <div style={{ fontSize: "0.78rem", fontFamily: "'DM Mono', monospace", color: "var(--text-muted)", letterSpacing: "0.05em" }}>{selected.region}</div>
                 </div>
               </div>
 
@@ -1276,7 +1276,7 @@ export default function PassportPage() {
                 <div style={{ marginBottom: "1.5rem" }}>
                   {(selected as any).photoGroups.map((group: { year: string; photos: string[] }) => (
                     <div key={group.year} style={{ marginBottom: "1rem" }}>
-                      <div style={{ fontSize: "0.72rem", fontFamily: "'DM Mono', monospace", color: "#3a4a62", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.5rem" }}>{group.year}</div>
+                      <div style={{ fontSize: "0.72rem", fontFamily: "'DM Mono', monospace", color: "var(--text-muted)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.5rem" }}>{group.year}</div>
                       <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(group.photos.length, 3)}, 1fr)`, gap: "0.75rem" }}>
                         {group.photos.map((src: string, i: number) => (
                           <div key={i} style={{ borderRadius: "10px", overflow: "hidden", aspectRatio: "1", background: "var(--bg-elevated2)", cursor: "pointer" }}>
@@ -1298,14 +1298,14 @@ export default function PassportPage() {
               ) : (
                 <div className="your-photo-placeholder">
                   <span style={{ fontSize: "2rem" }}>📷</span>
-                  <span style={{ fontSize: "0.78rem", fontWeight: 600, color: "#2a3349", fontFamily: "'DM Mono', monospace", letterSpacing: "0.06em" }}>YOUR PHOTO</span>
-                  <span style={{ fontSize: "0.7rem", color: "#1a2233" }}>Add your personal photo from {selected.name} here</span>
+                  <span style={{ fontSize: "0.78rem", fontWeight: 600, color: "var(--text-muted)", fontFamily: "'DM Mono', monospace", letterSpacing: "0.06em" }}>YOUR PHOTO</span>
+                  <span style={{ fontSize: "0.7rem", color: "var(--text-muted)" }}>Add your personal photo from {selected.name} here</span>
                 </div>
               )}
 
               <div style={{ background: "var(--bg-elevated2)", borderRadius: "14px", padding: "1.5rem 1.75rem", marginBottom: "1.5rem", borderLeft: `3px solid ${REGION_COLORS[selected.region] || "#1a6fff"}` }}>
                 <div className="modal-label">VIBE CHECK</div>
-                <p style={{ fontSize: "1rem", color: "#c0c8d8", lineHeight: 2.0 }}>{selected.vibe}</p>
+                <p style={{ fontSize: "1rem", color: "var(--text)", lineHeight: 2.0 }}>{selected.vibe}</p>
               </div>
 
               <div>
@@ -1335,7 +1335,7 @@ export default function PassportPage() {
             style={{
               position: "absolute", top: "1.25rem", right: "1.5rem",
               background: "rgba(11,16,23,0.85)", border: "1px solid var(--border-card)",
-              borderRadius: "10px", color: "#e8eaf0",
+              borderRadius: "10px", color: "var(--text)",
               width: 38, height: 38, fontSize: "1.1rem",
               cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
               zIndex: 10000,
@@ -1374,13 +1374,13 @@ export default function PassportPage() {
 
       {/* EXPLORER EGG MODAL (globe 5 clicks) */}
       {mounted && showExplorerEgg && ReactDOM.createPortal(
-        <div style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}
+        <div style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}
           onClick={() => setShowExplorerEgg(false)}>
           <div style={{ position: "relative", background: "var(--bg-card-alt)", border: "1px solid var(--border-card)", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", flexShrink: 0, padding: "2rem", textAlign: "center" }}
             onClick={e => e.stopPropagation()}>
             <div style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>🌍</div>
-            <h3 style={{ fontWeight: 700, color: "#fff", fontSize: "1.3rem", marginBottom: "1rem" }}>You found the explorer mode 🌍</h3>
-            <p style={{ color: "#8899aa", fontSize: "0.95rem", lineHeight: 1.75, marginBottom: "1.75rem" }}>Most people see the world through a screen. Shivaan sees it through a boarding pass.</p>
+            <h3 style={{ fontWeight: 700, color: "var(--text)", fontSize: "1.3rem", marginBottom: "1rem" }}>You found the explorer mode 🌍</h3>
+            <p style={{ color: "var(--text-sec)", fontSize: "0.95rem", lineHeight: 1.75, marginBottom: "1.75rem" }}>Most people see the world through a screen. Shivaan sees it through a boarding pass.</p>
             <button onClick={() => setShowExplorerEgg(false)} style={{ padding: "0.7rem 2rem", background: "#1a6fff", border: "none", borderRadius: 10, color: "#fff", fontWeight: 600, cursor: "pointer", fontSize: "0.88rem", fontFamily: "'DM Sans', sans-serif" }}>Close</button>
           </div>
         </div>
@@ -1388,14 +1388,14 @@ export default function PassportPage() {
 
       {/* KONAMI MODAL */}
       {mounted && showKonami && ReactDOM.createPortal(
-        <div style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}
+        <div style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}
           onClick={() => setShowKonami(false)}>
           <div style={{ position: "relative", background: "var(--bg-card-alt)", border: "1px solid var(--border-card)", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", flexShrink: 0, padding: "2rem" }}
             onClick={e => e.stopPropagation()}>
-            <button onClick={() => setShowKonami(false)} style={{ position: "absolute", top: "1rem", right: "1rem", width: 32, height: 32, borderRadius: 8, border: "1px solid var(--border-card)", background: "rgba(11,16,23,0.85)", color: "#4b5a72", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.85rem" }}>✕</button>
+            <button onClick={() => setShowKonami(false)} style={{ position: "absolute", top: "1rem", right: "1rem", width: 32, height: 32, borderRadius: 8, border: "1px solid var(--border-card)", background: "var(--bg-secondary)", color: "var(--text-sec)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.85rem" }}>✕</button>
             <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem", textAlign: "center" }}>🗺️</div>
-            <h3 style={{ fontWeight: 700, color: "#fff", fontSize: "1.3rem", marginBottom: "0.4rem", textAlign: "center" }}>Dream Destinations 🗺️</h3>
-            <p style={{ color: "#8899aa", fontSize: "0.85rem", textAlign: "center", marginBottom: "1.5rem" }}>Places still on the list...</p>
+            <h3 style={{ fontWeight: 700, color: "var(--text)", fontSize: "1.3rem", marginBottom: "0.4rem", textAlign: "center" }}>Dream Destinations 🗺️</h3>
+            <p style={{ color: "var(--text-sec)", fontSize: "0.85rem", textAlign: "center", marginBottom: "1.5rem" }}>Places still on the list...</p>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem" }}>
               {[
                 { flag: "🇯🇵", name: "Japan", reason: "Cherry blossoms and ancient temples" },
@@ -1406,8 +1406,8 @@ export default function PassportPage() {
                 <div key={dest.name} style={{ display: "flex", gap: "1rem", alignItems: "center", background: "var(--bg-accent-tint)", border: "1px solid rgba(26,111,255,0.12)", borderRadius: 12, padding: "0.9rem 1.1rem" }}>
                   <span style={{ fontSize: "1.8rem", flexShrink: 0 }}>{dest.flag}</span>
                   <div>
-                    <div style={{ fontWeight: 600, color: "#e8eaf0", fontSize: "0.9rem", marginBottom: "0.2rem" }}>{dest.name}</div>
-                    <div style={{ color: "#8899aa", fontSize: "0.78rem", lineHeight: 1.5 }}>{dest.reason}</div>
+                    <div style={{ fontWeight: 600, color: "var(--text)", fontSize: "0.9rem", marginBottom: "0.2rem" }}>{dest.name}</div>
+                    <div style={{ color: "var(--text-sec)", fontSize: "0.78rem", lineHeight: 1.5 }}>{dest.reason}</div>
                   </div>
                 </div>
               ))}
@@ -1418,11 +1418,11 @@ export default function PassportPage() {
 
       {/* EASTER EGG */}
       {mounted && easterEgg && ReactDOM.createPortal(
-        <div onClick={() => setEasterEgg(false)} style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}>
+        <div onClick={() => setEasterEgg(false)} style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}>
           <div style={{ position: "relative", background: "var(--bg-card-alt)", border: "1px solid var(--border-card)", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", flexShrink: 0, padding: "2.5rem", textAlign: "center" }} onClick={e => e.stopPropagation()}>
             <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🗝️</div>
             <div className="section-label" style={{ textAlign: "center", marginBottom: "0.75rem" }}>Hidden Map Unlocked</div>
-            <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1.9rem", fontWeight: 700, marginBottom: "1.75rem", color: "#e8eaf0" }}>
+            <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1.9rem", fontWeight: 700, marginBottom: "1.75rem", color: "var(--text)" }}>
               My Top 3 Places on Earth
             </h3>
             <div style={{ display: "flex", flexDirection: "column", gap: "1rem", textAlign: "left", marginBottom: "2rem" }}>
@@ -1434,8 +1434,8 @@ export default function PassportPage() {
                 <div key={item.rank} style={{ display: "flex", gap: "1rem", alignItems: "flex-start", background: "var(--bg-elevated2)", borderRadius: "14px", padding: "1.1rem" }}>
                   <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "1.1rem", fontWeight: 500, color: "#1a6fff", lineHeight: 1, flexShrink: 0, paddingTop: "0.1rem" }}>{item.rank}</span>
                   <div>
-                    <div style={{ fontWeight: 600, fontSize: "0.9rem", color: "#e8eaf0", marginBottom: "0.3rem" }}>{item.flag} {item.name}</div>
-                    <div style={{ fontSize: "0.78rem", color: "#4b5a72", lineHeight: 1.65 }}>{item.why}</div>
+                    <div style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text)", marginBottom: "0.3rem" }}>{item.flag} {item.name}</div>
+                    <div style={{ fontSize: "0.78rem", color: "var(--text-sec)", lineHeight: 1.65 }}>{item.why}</div>
                   </div>
                 </div>
               ))}

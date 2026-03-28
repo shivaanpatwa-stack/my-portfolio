@@ -254,40 +254,13 @@ export default function Home() {
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-          --bg: #080a0f;
-          --bg-card: #0d1117;
-          --bg-card2: #0a0f1a;
-          --bg-icon: #0f1a2e;
-          --text: #e8eaf0;
-          --text-sec: #8899aa;
-          --text-muted: #556677;
-          --text-dim: #334455;
-          --border: #111827;
-          --border-2: #1a1e2e;
-          --border-3: #1a2235;
-          --nav-bg: rgba(8,10,15,0.92);
-          --quote-bg: linear-gradient(135deg, #0d1117 0%, #0a0f1a 100%);
-          --grid-line: rgba(26,111,255,0.03);
-          --theme-icon: '☀️';
-          --card-shadow: none;
+          --bg-card: var(--bg-elevated);
+          --bg-card2: var(--bg-elevated2);
         }
 
         :root.light-theme {
-          --bg: #f8f9ff;
-          --bg-card: #ffffff;
-          --bg-card2: #eef2ff;
-          --bg-icon: #e8eeff;
-          --text: #0d1117;
-          --text-sec: #4b5563;
-          --text-muted: #6b7280;
-          --text-dim: #9ca3af;
-          --border: #e5e7eb;
-          --border-2: #d1d5db;
-          --border-3: #d1d5db;
-          --nav-bg: rgba(248,249,255,0.96);
-          --quote-bg: linear-gradient(135deg, #ffffff 0%, #eef2ff 100%);
-          --grid-line: rgba(26,111,255,0.04);
-          --card-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+          --bg-card: var(--bg-elevated);
+          --bg-card2: var(--bg-elevated2);
         }
 
         ::-webkit-scrollbar { width: 4px; }
@@ -457,7 +430,7 @@ export default function Home() {
         .mobile-menu {
           position: fixed;
           top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(8,10,15,0.98);
+          background: var(--bg-primary);
           z-index: 999;
           display: flex;
           flex-direction: column;
@@ -469,7 +442,7 @@ export default function Home() {
         .mobile-nav-link {
           font-family: 'Playfair Display', serif;
           font-size: 2rem;
-          color: #fff;
+          color: var(--text);
           text-decoration: none;
           transition: color 0.2s;
         }
@@ -578,7 +551,7 @@ export default function Home() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="mobile-menu">
-          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "2rem", background: "none", border: "none", color: "#fff", fontSize: "1.5rem", cursor: "pointer" }}>✕</button>
+          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "2rem", background: "none", border: "none", color: "var(--text)", fontSize: "1.5rem", cursor: "pointer" }}>✕</button>
           {NAV_LINKS.map((l) => (
             <a key={l.label} href={l.href} className="mobile-nav-link" onClick={() => setMenuOpen(false)}>{l.label}</a>
           ))}

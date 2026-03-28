@@ -451,7 +451,7 @@ export default function FinanceLab() {
         .ai-bubble-ai {
           background: var(--bg-elevated);
           border: 1px solid var(--border-2);
-          color: #aabbc8;
+          color: var(--text-sec);
           border-radius: 12px 12px 12px 2px;
           padding: 0.75rem 1rem;
           font-size: 0.88rem;
@@ -483,8 +483,8 @@ export default function FinanceLab() {
           font-size: 0.72rem;
           letter-spacing: 0.02em;
         }
-        .ticker-label { color: #445566; font-weight: 500; letter-spacing: 0.08em; }
-        .ticker-price { color: #c8d4e0; font-weight: 400; }
+        .ticker-label { color: var(--text-muted); font-weight: 500; letter-spacing: 0.08em; }
+        .ticker-price { color: var(--text-sec); font-weight: 400; }
         .ticker-up { color: #00c853; }
         .ticker-dn { color: #ff3d3d; }
 
@@ -492,7 +492,7 @@ export default function FinanceLab() {
           background: var(--bg-elevated);
           border: 1px solid var(--border-2);
           border-radius: 8px;
-          color: #dde4ee;
+          color: var(--text);
           padding: 0.75rem 1rem;
           font-size: 0.9rem;
           font-family: 'DM Sans', sans-serif;
@@ -512,8 +512,8 @@ export default function FinanceLab() {
         }
         .cta-primary { background: #1a6fff; color: #fff; }
         .cta-primary:hover { background: #2d7dff; transform: translateY(-1px); }
-        .cta-secondary { background: var(--bg-elevated); color: #8899aa; border: 1px solid var(--border-2); }
-        .cta-secondary:hover { border-color: #1a6fff44; color: #dde4ee; }
+        .cta-secondary { background: var(--bg-elevated); color: var(--text-sec); border: 1px solid var(--border-2); }
+        .cta-secondary:hover { border-color: #1a6fff44; color: var(--text); }
 
         .section-tag {
           font-size: 0.7rem;
@@ -584,21 +584,21 @@ export default function FinanceLab() {
 
         .mobile-menu {
           position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(7,9,14,0.98); z-index: 999;
+          background: var(--bg-primary); z-index: 999;
           display: flex; flex-direction: column; align-items: center;
           justify-content: flex-start; padding-top: 5rem; gap: 2rem;
           backdrop-filter: blur(16px);
         }
         .mobile-nav-link {
           font-family: 'Playfair Display', serif; font-size: 2rem;
-          color: #fff; text-decoration: none; transition: color 0.2s;
+          color: var(--text); text-decoration: none; transition: color 0.2s;
         }
         .mobile-nav-link:hover { color: #1a6fff; }
       `}</style>
 
       {menuOpen && (
         <div className="mobile-menu">
-          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "2rem", background: "none", border: "none", color: "#fff", fontSize: "1.5rem", cursor: "pointer" }}>✕</button>
+          <button onClick={() => setMenuOpen(false)} style={{ position: "absolute", top: "1.5rem", right: "2rem", background: "none", border: "none", color: "var(--text)", fontSize: "1.5rem", cursor: "pointer" }}>✕</button>
           {[["Finance Lab", "/finance"], ["MUN Arena", "/mun"], ["Experience", "/experience"], ["The Passport", "/passport"], ["Connect", "/connect"]].map(([label, href]) => (
             <a key={label} href={href} className="mobile-nav-link" onClick={() => setMenuOpen(false)}>{label}</a>
           ))}
@@ -626,7 +626,7 @@ export default function FinanceLab() {
       </div>
 
       {/* MARKET TICKER */}
-      <div style={{ borderBottom: "1px solid var(--bg-elevated)", background: "#050709", overflow: "hidden", height: 36, display: "flex", alignItems: "center" }}>
+      <div style={{ borderBottom: "1px solid var(--bg-elevated)", background: "var(--bg-primary)", overflow: "hidden", height: 36, display: "flex", alignItems: "center" }}>
         {tickerData.length > 0 ? (
           <div className="ticker-track">
             {[...tickerData, ...tickerData].map((item, i) => (
@@ -640,7 +640,7 @@ export default function FinanceLab() {
             ))}
           </div>
         ) : (
-          <span style={{ color: "#2a3a4a", fontSize: "0.7rem", fontFamily: "'DM Mono', monospace", padding: "0 1.5rem", letterSpacing: "0.08em" }}>
+          <span style={{ color: "var(--text-muted)", fontSize: "0.7rem", fontFamily: "'DM Mono', monospace", padding: "0 1.5rem", letterSpacing: "0.08em" }}>
             FETCHING MARKET DATA...
           </span>
         )}
@@ -655,7 +655,7 @@ export default function FinanceLab() {
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.8rem", fontWeight: 700, marginBottom: "0.5rem" }}>
               {ARTICLES.length} Articles Published
             </h2>
-            <p style={{ color: "#556677", fontSize: "0.88rem", marginBottom: "2rem" }}>Click any article to read in full.</p>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.88rem", marginBottom: "2rem" }}>Click any article to read in full.</p>
 
             <div style={{ marginBottom: "3rem" }}>
               {ARTICLES.map((a) => (
@@ -663,7 +663,7 @@ export default function FinanceLab() {
                   <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.75rem", color: "#1a6fff", minWidth: 60 }}>{a.week}</div>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontWeight: 600, fontSize: "0.95rem", marginBottom: "0.25rem" }}>{a.title}</div>
-                    <div style={{ fontSize: "0.78rem", color: "#556677", marginBottom: "0.4rem" }}>{a.date}</div>
+                    <div style={{ fontSize: "0.78rem", color: "var(--text-muted)", marginBottom: "0.4rem" }}>{a.date}</div>
                     <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
                       {a.tags.map(t => <span key={t} className="tag">{t}</span>)}
                     </div>
@@ -677,7 +677,7 @@ export default function FinanceLab() {
             <div style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)", borderRadius: "16px", padding: "2rem" }}>
               <span className="section-tag">Community</span>
               <h3 style={{ fontWeight: 700, fontSize: "1.1rem", marginBottom: "0.5rem" }}>Request a Topic</h3>
-              <p style={{ color: "#556677", fontSize: "0.85rem", marginBottom: "1.25rem" }}>What finance topic do you want Shivaan to cover next?</p>
+              <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: "1.25rem" }}>What finance topic do you want Shivaan to cover next?</p>
               <div className="form-row" style={{ display: "flex", gap: "0.75rem" }}>
                 <input
                   className="input-field"
@@ -710,7 +710,7 @@ export default function FinanceLab() {
           <div>
             <span className="section-tag">AI Assistant</span>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.8rem", fontWeight: 700, marginBottom: "0.25rem" }}>Finance Sensei</h2>
-            <p style={{ color: "#556677", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
               Trained exclusively on Shivaan's WFJ articles. Ask about anything covered in the journal.
             </p>
 
@@ -748,26 +748,26 @@ export default function FinanceLab() {
 
       {/* ARTICLE MODAL */}
       {mounted && selectedArticle && ReactDOM.createPortal(
-        <div onClick={() => setSelectedArticle(null)} style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(6,8,16,0.94)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}>
+        <div onClick={() => setSelectedArticle(null)} style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}>
           <div onClick={e => e.stopPropagation()} style={{ position: "relative", background: "var(--bg-elevated)", border: "1px solid var(--border-2)", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", flexShrink: 0, padding: "2.5rem" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.5rem" }}>
               <div>
                 <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.75rem", color: "#1a6fff", marginBottom: "0.5rem" }}>{selectedArticle.week} · {selectedArticle.date}</div>
                 <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", fontWeight: 700, lineHeight: 1.3 }}>{selectedArticle.title}</h2>
               </div>
-              <button onClick={() => setSelectedArticle(null)} style={{ background: "none", border: "1px solid var(--border-2)", color: "#8899aa", cursor: "pointer", borderRadius: "8px", padding: "0.4rem 0.75rem", fontSize: "0.9rem" }}>✕</button>
+              <button onClick={() => setSelectedArticle(null)} style={{ background: "none", border: "1px solid var(--border-2)", color: "var(--text-sec)", cursor: "pointer", borderRadius: "8px", padding: "0.4rem 0.75rem", fontSize: "0.9rem" }}>✕</button>
             </div>
 
-            <div style={{ background: "#070a10", border: "1px solid #1a6fff22", borderRadius: "10px", padding: "1rem 1.25rem", marginBottom: "1.5rem" }}>
+            <div style={{ background: "var(--bg-secondary)", border: "1px solid #1a6fff22", borderRadius: "10px", padding: "1rem 1.25rem", marginBottom: "1.5rem" }}>
               <div style={{ fontSize: "0.7rem", color: "#1a6fff", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.4rem" }}>TL;DR</div>
-              <p style={{ color: "#aabbc8", fontSize: "0.9rem", lineHeight: 1.6, fontStyle: "italic" }}>{selectedArticle.tldr}</p>
+              <p style={{ color: "var(--text-sec)", fontSize: "0.9rem", lineHeight: 1.6, fontStyle: "italic" }}>{selectedArticle.tldr}</p>
             </div>
 
             <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap", marginBottom: "1.5rem" }}>
               {selectedArticle.tags.map(t => <span key={t} className="tag">{t}</span>)}
             </div>
 
-            <div style={{ color: "#8899aa", fontSize: "0.9rem", lineHeight: 1.9, whiteSpace: "pre-wrap" }}>{selectedArticle.content}</div>
+            <div style={{ color: "var(--text-sec)", fontSize: "0.9rem", lineHeight: 1.9, whiteSpace: "pre-wrap" }}>{selectedArticle.content}</div>
           </div>
         </div>
       , document.body)}
