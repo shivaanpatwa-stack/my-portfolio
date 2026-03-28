@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 
 // ─── CONFERENCE DATA ──────────────────────────────────────────────────────────
 const DELEGATE_CONFERENCES = [
@@ -67,6 +68,7 @@ const AWARD_COLOR: Record<string, string> = {
 
 export default function MUNArena() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<"archive" | "toolkit" | "docs" | "clauseChecker">("archive");
   const [expandedTool, setExpandedTool] = useState<number | null>(null);
@@ -105,6 +107,18 @@ export default function MUNArena() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("sp-theme") as "dark" | "light" | null;
+    if (saved) setTheme(saved);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("light-theme", theme === "light");
+    localStorage.setItem("sp-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => t === "dark" ? "light" : "dark");
 
   const analyseClause = () => {
     const text = clauseText.trim();
@@ -159,7 +173,7 @@ export default function MUNArena() {
   const outstanding = DELEGATE_CONFERENCES.filter(c => c.award === "Outstanding Delegate" || c.award === "Best Delegate").length;
 
   return (
-    <main style={{ background: "#07090e", color: "#dde4ee", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", overflowX: "hidden" }}>
+    <main style={{ background: "var(--bg)", color: "var(--text)", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&family=DM+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -177,10 +191,10 @@ export default function MUNArena() {
           border: 1px solid transparent;
           transition: all 0.2s;
           background: transparent;
-          color: #445566;
+          color: var(--text-muted);
         }
-        .tab-btn:hover { color: #dde4ee; border-color: #1a1e2e; }
-        .tab-btn.active { background: #0f1520; color: #1a6fff; border-color: #1a6fff44; }
+        .tab-btn:hover { color: var(--text); border-color: #1a1e2e; }
+        .tab-btn.active { background: var(--bg-elevated2); color: #1a6fff; border-color: #1a6fff44; }
 
         .conf-row {
           display: grid;
@@ -458,13 +472,13 @@ export default function MUNArena() {
       </div>
 
       {/* HEADER */}
-      <div className="mun-header" style={{ borderBottom: "1px solid #0f1520", padding: "1.5rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+      <div className="mun-header" style={{ borderBottom: "1px solid var(--border)", padding: "1.5rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
         <div>
-          <a href="/" style={{ color: "#445566", fontSize: "0.78rem", textDecoration: "none", letterSpacing: "0.08em" }}>← SP.</a>
+          <a href="/" style={{ color: "var(--text-muted)", fontSize: "0.78rem", textDecoration: "none", letterSpacing: "0.08em" }}>← SP.</a>
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.6rem, 5vw, 2.4rem)", fontWeight: 900, marginTop: "0.2rem", letterSpacing: "-0.02em" }}>
             The MUN <span style={{ color: "#1a6fff" }}>Arena</span>
           </h1>
-          <p style={{ color: "#556677", fontSize: "0.85rem", marginTop: "0.25rem", fontStyle: "italic" }}>
+          <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginTop: "0.25rem", fontStyle: "italic" }}>
             18 Conferences. 3 Chairs. 15 Delegations. Mastering the art of international negotiation.
           </p>
         </div>
@@ -474,7 +488,9 @@ export default function MUNArena() {
               {t === "archive" ? "📊 Archive" : t === "toolkit" ? "⚔️ Toolkit" : t === "docs" ? "📁 Docs" : "🔬 Clause Checker"}
             </button>
           ))}
-          <button onClick={() => setMenuOpen(true)} style={{ background: "none", border: "1px solid #1a1e2e", borderRadius: 8, color: "#8899aa", fontSize: "1rem", cursor: "pointer", padding: "0.6rem 0.75rem", lineHeight: 1 }} aria-label="Open menu">☰</button>
+          <a href="/connect" style={{ display: "inline-flex", alignItems: "center", padding: "0.6rem 1.4rem", background: "#1a6fff", color: "#fff", textDecoration: "none", borderRadius: "8px", fontWeight: 600, fontSize: "0.9rem", flexShrink: 0 }}>Contact</a>
+          <button onClick={toggleTheme} aria-label="Toggle theme" style={{ background: "none", border: "1px solid var(--border-2)", borderRadius: "8px", color: "var(--text-sec)", cursor: "pointer", width: "42px", height: "42px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", flexShrink: 0, transition: "all 0.2s" }}>{theme === "dark" ? "☀️" : "🌙"}</button>
+          <button onClick={() => setMenuOpen(true)} style={{ background: "none", border: "1px solid var(--border-2)", borderRadius: "8px", color: "var(--text-sec)", cursor: "pointer", width: "44px", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", flexShrink: 0 }} aria-label="Open menu">☰</button>
         </div>
       </div>
 

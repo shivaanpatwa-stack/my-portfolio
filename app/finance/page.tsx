@@ -250,6 +250,7 @@ function searchWFJ(query: string): string {
 // ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
 export default function FinanceLab() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [mounted, setMounted] = useState(false);
   const [activeSection, setActiveSection] = useState<"wfj" | "ai">("wfj");
   const [selectedArticle, setSelectedArticle] = useState<typeof ARTICLES[0] | null>(null);
@@ -308,6 +309,18 @@ export default function FinanceLab() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const saved = localStorage.getItem("sp-theme") as "dark" | "light" | null;
+    if (saved) setTheme(saved);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("light-theme", theme === "light");
+    localStorage.setItem("sp-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => t === "dark" ? "light" : "dark");
+
   const formatTickerPrice = (price: number, id: string) => {
     const num = price.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     return ["^GSPC", "^IXIC", "^NSEI"].includes(id) ? num : `$${num}`;
@@ -362,7 +375,7 @@ export default function FinanceLab() {
   };
 
   return (
-    <main style={{ background: "#07090e", color: "#dde4ee", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif" }}>
+    <main style={{ background: "var(--bg)", color: "var(--text)", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&family=DM+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -380,10 +393,10 @@ export default function FinanceLab() {
           border: 1px solid transparent;
           transition: all 0.2s;
           background: transparent;
-          color: #556677;
+          color: var(--text-muted);
         }
-        .nav-tab:hover { color: #dde4ee; border-color: #1a1e2e; }
-        .nav-tab.active { background: #0f1520; color: #1a6fff; border-color: #1a6fff44; }
+        .nav-tab:hover { color: var(--text); border-color: #1a1e2e; }
+        .nav-tab.active { background: var(--bg-elevated2); color: #1a6fff; border-color: #1a6fff44; }
 
         .article-row {
           display: flex;
@@ -593,9 +606,9 @@ export default function FinanceLab() {
       )}
 
       {/* HEADER */}
-      <div className="finance-header" style={{ borderBottom: "1px solid #0f1520", padding: "1.5rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div className="finance-header" style={{ borderBottom: "1px solid var(--border)", padding: "1.5rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div>
-          <a href="/" style={{ color: "#556677", fontSize: "0.8rem", textDecoration: "none", letterSpacing: "0.08em" }}>← SP.</a>
+          <a href="/" style={{ color: "var(--text-muted)", fontSize: "0.8rem", textDecoration: "none", letterSpacing: "0.08em" }}>← SP.</a>
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.5rem, 4vw, 2.2rem)", fontWeight: 900, marginTop: "0.25rem" }}>
             The Finance <span style={{ color: "#1a6fff" }}>Lab</span>
           </h1>
@@ -606,7 +619,9 @@ export default function FinanceLab() {
               {s === "wfj" ? "📰 WFJ" : "🤖 Sensei"}
             </button>
           ))}
-          <button onClick={() => setMenuOpen(true)} style={{ background: "none", border: "1px solid #1a1e2e", borderRadius: 8, color: "#8899aa", fontSize: "1rem", cursor: "pointer", padding: "0.6rem 0.75rem", lineHeight: 1 }} aria-label="Open menu">☰</button>
+          <a href="/connect" style={{ display: "inline-flex", alignItems: "center", padding: "0.6rem 1.4rem", background: "#1a6fff", color: "#fff", textDecoration: "none", borderRadius: "8px", fontWeight: 600, fontSize: "0.9rem", flexShrink: 0 }}>Contact</a>
+          <button onClick={toggleTheme} aria-label="Toggle theme" style={{ background: "none", border: "1px solid var(--border-2)", borderRadius: "8px", color: "var(--text-sec)", cursor: "pointer", width: "42px", height: "42px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", flexShrink: 0, transition: "all 0.2s" }}>{theme === "dark" ? "☀️" : "🌙"}</button>
+          <button onClick={() => setMenuOpen(true)} style={{ background: "none", border: "1px solid var(--border-2)", borderRadius: "8px", color: "var(--text-sec)", cursor: "pointer", width: "44px", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", flexShrink: 0 }} aria-label="Open menu">☰</button>
         </div>
       </div>
 

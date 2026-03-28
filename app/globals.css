@@ -1,9 +1,46 @@
 @import "tailwindcss";
 
+/* ── Theme CSS Variables ─────────────────────────────────────────────────── */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Dark theme (default) */
+  --bg: #07090e;
+  --bg-elevated: #0d1117;
+  --bg-elevated2: #0f1520;
+  --bg-icon: #0f1a2e;
+  --text: #e0e7f0;
+  --text-sec: #8899aa;
+  --text-muted: #556677;
+  --text-dim: #2a3349;
+  --border: #111827;
+  --border-2: #1a1e2e;
+  --border-3: #1a2235;
+  --nav-bg: rgba(7,9,14,0.92);
+  --quote-bg: linear-gradient(135deg, #0d1117 0%, #0a0f1a 100%);
+  --grid-line: rgba(26,111,255,0.03);
+  --card-shadow: none;
 }
+
+:root.light-theme {
+  /* Light theme overrides */
+  --bg: #f8f9ff;
+  --bg-elevated: #ffffff;
+  --bg-elevated2: #eef2ff;
+  --bg-icon: #e8eeff;
+  --text: #0d1117;
+  --text-sec: #4b5563;
+  --text-muted: #6b7280;
+  --text-dim: #9ca3af;
+  --border: #e5e7eb;
+  --border-2: #d1d5db;
+  --border-3: #d1d5db;
+  --nav-bg: rgba(248,249,255,0.96);
+  --quote-bg: linear-gradient(135deg, #ffffff 0%, #eef2ff 100%);
+  --grid-line: rgba(26,111,255,0.05);
+  --card-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+}
+
+/* ── Base ────────────────────────────────────────────────────────────────── */
 
 @theme inline {
   --color-background: var(--background);
@@ -12,15 +49,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+* { box-sizing: border-box; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  transition: background 0.3s;
 }

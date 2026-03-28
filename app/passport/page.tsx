@@ -376,6 +376,7 @@ export default function PassportPage() {
   const [showKonami, setShowKonami] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   const animRef = useRef<number | undefined>(undefined);
   const lastTime = useRef<number>(0);
@@ -401,6 +402,18 @@ export default function PassportPage() {
   };
 
   useEffect(() => { setMounted(true); }, []);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("sp-theme") as "dark" | "light" | null;
+    if (saved) setTheme(saved);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("light-theme", theme === "light");
+    localStorage.setItem("sp-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => t === "dark" ? "light" : "dark");
 
   useEffect(() => {
     const anyOpen = !!(selected || lightboxSrc || showExplorerEgg || showKonami || easterEgg);
@@ -458,7 +471,7 @@ export default function PassportPage() {
     .sort((a, b) => a.z - b.z);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#060810", color: "#e8eaf0", fontFamily: "'DM Sans', sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: "var(--bg)", color: "var(--text)", fontFamily: "'DM Sans', sans-serif", transition: "background 0.3s, color 0.3s" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=DM+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -851,19 +864,23 @@ export default function PassportPage() {
       {/* NAV */}
       <nav style={{
         padding: "1.2rem 2.5rem", display: "flex", alignItems: "center",
-        justifyContent: "space-between", borderBottom: "1px solid #0f1520",
-        position: "sticky", top: 0, background: "rgba(6,8,16,0.92)",
+        justifyContent: "space-between", borderBottom: "1px solid var(--border)",
+        position: "sticky", top: 0, background: "var(--nav-bg)",
         backdropFilter: "blur(14px)", zIndex: 100,
       }}>
         <a href="/" style={{ textDecoration: "none" }}>
-          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.25rem", fontWeight: 700, color: "#e8eaf0", letterSpacing: "0.02em" }}>SP</span>
+          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.25rem", fontWeight: 700, color: "var(--text)", letterSpacing: "0.02em" }}>SP</span>
         </a>
-        <button
-          className="passport-hamburger"
-          onClick={() => setMobileMenuOpen(o => !o)}
-          style={{ background: "none", border: "1px solid #1a2340", borderRadius: 8, color: "#e8eaf0", fontSize: "1rem", cursor: "pointer", alignItems: "center", justifyContent: "center", padding: "0.6rem 0.75rem" }}
-          aria-label="Open menu"
-        >☰</button>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <a href="/connect" style={{ display: "inline-flex", alignItems: "center", padding: "0.6rem 1.4rem", background: "#1a6fff", color: "#fff", textDecoration: "none", borderRadius: "8px", fontWeight: 600, fontSize: "0.9rem", flexShrink: 0 }}>Contact</a>
+          <button onClick={toggleTheme} aria-label="Toggle theme" style={{ background: "none", border: "1px solid var(--border-2)", borderRadius: "8px", color: "var(--text-sec)", cursor: "pointer", width: "42px", height: "42px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", flexShrink: 0, transition: "all 0.2s" }}>{theme === "dark" ? "☀️" : "🌙"}</button>
+          <button
+            className="passport-hamburger"
+            onClick={() => setMobileMenuOpen(o => !o)}
+            style={{ background: "none", border: "1px solid var(--border-2)", borderRadius: "8px", color: "var(--text-sec)", cursor: "pointer", width: "44px", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", flexShrink: 0 }}
+            aria-label="Open menu"
+          >☰</button>
+        </div>
       </nav>
 
       {/* MOBILE MENU OVERLAY */}

@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 import Image from "next/image";
 
 const EXPERIENCES = [
@@ -115,6 +116,7 @@ const CATEGORY_COLOR: Record<string, string> = {
 
 export default function ExperienceVault() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [filter, setFilter] = useState("All");
   const [activeSkill, setActiveSkill] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<number | null>(null);
@@ -136,6 +138,18 @@ export default function ExperienceVault() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const saved = localStorage.getItem("sp-theme") as "dark" | "light" | null;
+    if (saved) setTheme(saved);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("light-theme", theme === "light");
+    localStorage.setItem("sp-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => t === "dark" ? "light" : "dark");
+
   const filtered = EXPERIENCES.filter((e) => filter === "All" || e.category === filter);
 
   const highlightedIds = activeSkill ? SKILLS.find((s) => s.label === activeSkill)?.ids || [] : [];
@@ -143,8 +157,8 @@ export default function ExperienceVault() {
   return (
     <main
       style={{
-        background: "#07090e",
-        color: "#dde4ee",
+        background: "var(--bg)",
+        color: "var(--text)",
         minHeight: "100vh",
         fontFamily: "'DM Sans', sans-serif",
         overflowX: "hidden",
@@ -165,11 +179,11 @@ export default function ExperienceVault() {
           cursor: pointer;
           border: 1px solid #1a1e2e;
           background: transparent;
-          color: #445566;
+          color: var(--text-muted);
           transition: all 0.2s;
           font-family: 'DM Sans', sans-serif;
         }
-        .filter-btn:hover { color: #dde4ee; border-color: #334455; }
+        .filter-btn:hover { color: var(--text); border-color: #334455; }
         .filter-btn.active { background: #1a6fff; color: #fff; border-color: #1a6fff; }
 
         .timeline-line {
@@ -430,15 +444,15 @@ export default function ExperienceVault() {
       )}
 
       {/* HEADER */}
-      <div className="exp-header" style={{ borderBottom: "1px solid #0f1520", padding: "1.5rem 2rem", display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+      <div className="exp-header" style={{ borderBottom: "1px solid var(--border)", padding: "1.5rem 2rem", display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
         <div>
-          <a href="/" style={{ color: "#445566", fontSize: "0.78rem", textDecoration: "none", letterSpacing: "0.08em" }}>
+          <a href="/" style={{ color: "var(--text-muted)", fontSize: "0.78rem", textDecoration: "none", letterSpacing: "0.08em" }}>
             ← SP.
           </a>
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.6rem, 5vw, 2.4rem)", fontWeight: 900, marginTop: "0.2rem", letterSpacing: "-0.02em" }}>
             The Experience <span style={{ color: "#1a6fff" }}>Vault</span>
           </h1>
-          <p style={{ color: "#556677", fontSize: "0.85rem", marginTop: "0.25rem", fontStyle: "italic" }}>
+          <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginTop: "0.25rem", fontStyle: "italic" }}>
             From cultural immersion to strategic leadership. A timeline of adaptation and growth.
           </p>
           <div style={{ display: "flex", gap: "0.5rem", marginTop: "1.25rem", flexWrap: "wrap" }}>
@@ -449,7 +463,11 @@ export default function ExperienceVault() {
             ))}
           </div>
         </div>
-        <button onClick={() => setMenuOpen(true)} style={{ background: "none", border: "1px solid #1a1e2e", borderRadius: 8, color: "#8899aa", fontSize: "1rem", cursor: "pointer", padding: "0.6rem 0.75rem", lineHeight: 1, flexShrink: 0, marginTop: "0.2rem" }} aria-label="Open menu">☰</button>
+        <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start", flexShrink: 0 }}>
+          <a href="/connect" style={{ display: "inline-flex", alignItems: "center", padding: "0.6rem 1.4rem", background: "#1a6fff", color: "#fff", textDecoration: "none", borderRadius: "8px", fontWeight: 600, fontSize: "0.9rem" }}>Contact</a>
+          <button onClick={toggleTheme} aria-label="Toggle theme" style={{ background: "none", border: "1px solid var(--border-2)", borderRadius: "8px", color: "var(--text-sec)", cursor: "pointer", width: "42px", height: "42px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", transition: "all 0.2s" }}>{theme === "dark" ? "☀️" : "🌙"}</button>
+          <button onClick={() => setMenuOpen(true)} style={{ background: "none", border: "1px solid var(--border-2)", borderRadius: "8px", color: "var(--text-sec)", cursor: "pointer", width: "44px", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem" }} aria-label="Open menu">☰</button>
+        </div>
       </div>
 
       <div className="exp-main" style={{ maxWidth: 800, margin: "0 auto", padding: "2.5rem 2rem" }}>

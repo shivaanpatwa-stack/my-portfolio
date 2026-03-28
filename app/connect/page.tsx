@@ -37,6 +37,19 @@ export default function ConnectPage() {
   const [scrollY, setScrollY] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  useEffect(() => {
+    const saved = localStorage.getItem("sp-theme") as "dark" | "light" | null;
+    if (saved) setTheme(saved);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("light-theme", theme === "light");
+    localStorage.setItem("sp-theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => t === "dark" ? "light" : "dark");
 
   useEffect(() => {
     const onScroll = () => setScrollY(window.scrollY);
@@ -53,14 +66,14 @@ export default function ConnectPage() {
   };
 
   return (
-    <main style={{ background: "#080a0f", color: "#e8eaf0", fontFamily: "'DM Sans', sans-serif", minHeight: "100vh" }}>
+    <main style={{ background: "var(--bg)", color: "var(--text)", fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", transition: "background 0.3s, color 0.3s" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@1,400;1,600;1,700&family=DM+Mono:wght@400;500&display=swap');
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #080a0f; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: #1a6fff; border-radius: 2px; }
 
         .nav-link {
@@ -87,8 +100,9 @@ export default function ConnectPage() {
         .nav-link.cur::after { width: 100%; }
 
         .contact-card {
-          background: #0d1117;
-          border: 1px solid #1a2235;
+          background: var(--bg-elevated);
+          border: 1px solid var(--border-3);
+          box-shadow: var(--card-shadow);
           border-radius: 18px;
           padding: 2rem 2.25rem;
           cursor: pointer;
@@ -180,19 +194,18 @@ export default function ConnectPage() {
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
         padding: "1rem 2rem",
         display: "flex", alignItems: "center", justifyContent: "space-between",
-        borderBottom: scrollY > 40 ? "1px solid #111827" : "1px solid transparent",
-        background: scrollY > 40 ? "rgba(8,10,15,0.92)" : "transparent",
+        borderBottom: scrollY > 40 ? "1px solid var(--border)" : "1px solid transparent",
+        background: scrollY > 40 ? "var(--nav-bg)" : "transparent",
         backdropFilter: scrollY > 40 ? "blur(12px)" : "none",
         transition: "all 0.3s",
       }}>
         <a href="/" style={{ textDecoration: "none" }}>
-          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", fontWeight: 700, color: "#fff", letterSpacing: "-0.02em" }}>SP.</span>
+          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", fontWeight: 700, color: "var(--text)", letterSpacing: "-0.02em" }}>SP.</span>
         </a>
-        <button
-          onClick={() => setMenuOpen(true)}
-          style={{ background: "none", border: "1px solid #1a1e2e", borderRadius: 8, color: "#8899aa", fontSize: "1.2rem", cursor: "pointer", padding: "0.4rem 0.6rem", lineHeight: 1 }}
-          aria-label="Open menu"
-        >☰</button>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <button onClick={toggleTheme} aria-label="Toggle theme" style={{ background: "none", border: "1px solid var(--border-2)", borderRadius: "8px", color: "var(--text-sec)", cursor: "pointer", width: "42px", height: "42px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", flexShrink: 0, transition: "all 0.2s" }}>{theme === "dark" ? "☀️" : "🌙"}</button>
+          <button onClick={() => setMenuOpen(true)} style={{ background: "none", border: "1px solid var(--border-2)", borderRadius: "8px", color: "var(--text-sec)", cursor: "pointer", width: "44px", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", flexShrink: 0 }} aria-label="Open menu">☰</button>
+        </div>
       </nav>
 
       {menuOpen && (
@@ -218,7 +231,7 @@ export default function ConnectPage() {
             fontSize: "clamp(3.5rem, 9vw, 7rem)",
             fontWeight: 700,
             lineHeight: 1,
-            color: "#fff",
+            color: "var(--text)",
             letterSpacing: "-0.02em",
             marginBottom: "1.25rem",
           }}>
@@ -226,7 +239,7 @@ export default function ConnectPage() {
           </h1>
           <p style={{
             fontSize: "clamp(1rem, 2.5vw, 1.2rem)",
-            color: "#8899aa",
+            color: "var(--text-sec)",
             maxWidth: 560,
             lineHeight: 1.75,
             fontWeight: 300,
@@ -249,7 +262,7 @@ export default function ConnectPage() {
               <div style={{ fontSize: "0.65rem", fontFamily: "'DM Mono', monospace", letterSpacing: "0.15em", textTransform: "uppercase", color: "#3a5080", marginBottom: "0.4rem" }}>
                 {c.platform}
               </div>
-              <div style={{ fontSize: "1rem", fontWeight: 600, color: "#e8eaf0", marginBottom: "1rem", wordBreak: "break-all" }}>
+              <div style={{ fontSize: "1rem", fontWeight: 600, color: "var(--text)", marginBottom: "1rem", wordBreak: "break-all" }}>
                 {c.handle}
               </div>
               <div style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", fontSize: "0.78rem", color: "#1a6fff", fontWeight: 500 }}>
@@ -260,7 +273,7 @@ export default function ConnectPage() {
         </div>
 
         {/* FOOTER NOTE */}
-        <div style={{ borderTop: "1px solid #111827", paddingTop: "2rem", textAlign: "center", color: "#2a3349", fontSize: "0.8rem", fontFamily: "'DM Mono', monospace", letterSpacing: "0.05em" }}>
+        <div style={{ borderTop: "1px solid var(--border)", paddingTop: "2rem", textAlign: "center", color: "var(--text-dim)", fontSize: "0.8rem", fontFamily: "'DM Mono', monospace", letterSpacing: "0.05em" }}>
           © 2026 Shivaan Patwa
         </div>
       </div>
@@ -271,7 +284,7 @@ export default function ConnectPage() {
           position: "fixed", bottom: "2rem", left: "50%", transform: "translateX(-50%)",
           background: "#0d1117", border: "1px solid rgba(26,111,255,0.4)",
           borderRadius: "10px", padding: "0.75rem 1.5rem",
-          color: "#e8eaf0", fontSize: "0.85rem", fontWeight: 500,
+          color: "var(--text)", fontSize: "0.85rem", fontWeight: 500,
           zIndex: 9999, boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
         }}>
           ✓ {copied}
