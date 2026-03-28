@@ -269,8 +269,25 @@ export default function FinanceLab() {
   useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
-    document.body.style.overflow = selectedArticle ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    if (selectedArticle) {
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+    } else {
+      const top = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      if (top) window.scrollTo(0, -parseInt(top));
+    }
+    return () => {
+      const top = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      if (top) window.scrollTo(0, -parseInt(top));
+    };
   }, [selectedArticle]);
 
   // Scroll AI chat

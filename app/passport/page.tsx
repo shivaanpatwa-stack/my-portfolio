@@ -404,8 +404,25 @@ export default function PassportPage() {
 
   useEffect(() => {
     const anyOpen = !!(selected || lightboxSrc || showExplorerEgg || showKonami || easterEgg);
-    document.body.style.overflow = anyOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    if (anyOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+    } else {
+      const top = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      if (top) window.scrollTo(0, -parseInt(top));
+    }
+    return () => {
+      const top = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      if (top) window.scrollTo(0, -parseInt(top));
+    };
   }, [selected, lightboxSrc, showExplorerEgg, showKonami, easterEgg]);
 
   useEffect(() => {
