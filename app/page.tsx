@@ -251,14 +251,14 @@ export default function Home() {
     resize();
     window.addEventListener("resize", resize);
 
-    const COUNT = typeof window !== "undefined" && window.innerWidth < 768 ? 28 : 55;
+    const COUNT = typeof window !== "undefined" && window.innerWidth < 768 ? 40 : 80;
     for (let i = 0; i < COUNT; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         vx: (Math.random() - 0.5) * 0.22,
         vy: (Math.random() - 0.5) * 0.22,
-        r: Math.random() * 1.3 + 0.4,
+        r: Math.random() * 1.5 + 2,
       });
     }
 
@@ -270,10 +270,10 @@ export default function Home() {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 115) {
+          if (dist < 130) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(26,111,255,${0.11 * (1 - dist / 115)})`;
-            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = `rgba(26,111,255,${0.15 * (1 - dist / 130)})`;
+            ctx.lineWidth = 0.8;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
             ctx.stroke();
@@ -284,7 +284,7 @@ export default function Home() {
       for (const p of particles) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(26,111,255,0.4)";
+        ctx.fillStyle = "rgba(26,111,255,0.65)";
         ctx.fill();
         p.x += p.vx;
         p.y += p.vy;
@@ -327,10 +327,11 @@ export default function Home() {
     refs.current[id] = el;
   };
 
-  const fade = (id: string, delay = 0) =>
-    `transition-all duration-700 ease-out ${delay ? `delay-[${delay}ms]` : ""} ${
-      visible[id] ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-    }`;
+  const fadeStyle = (id: string, delay = 0) => ({
+    opacity: visible[id] ? 1 : 0,
+    transform: visible[id] ? "translateY(0)" : "translateY(30px)",
+    transition: `opacity 0.7s ease-out ${delay}ms, transform 0.7s ease-out ${delay}ms`,
+  });
 
   return (
     <main
@@ -368,7 +369,7 @@ export default function Home() {
           inset: 0;
           pointer-events: none;
           z-index: 1;
-          opacity: 0.028;
+          opacity: 0.04;
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
           background-repeat: repeat;
           background-size: 200px 200px;
@@ -383,8 +384,8 @@ export default function Home() {
 
         /* Patwa shimmer */
         @keyframes shimmerText {
-          0%   { background-position: -200% center; }
-          100% { background-position: 200% center; }
+          0%   { background-position: 200% center; }
+          100% { background-position: -200% center; }
         }
 
         /* Button shimmer sweep */
@@ -415,21 +416,21 @@ export default function Home() {
         .hero-gradient-mesh {
           position: absolute;
           inset: 0;
-          background: linear-gradient(-45deg, #080a0f, #0c1428, #060810, #091020, #080a0f);
+          background: linear-gradient(-45deg, #080a0f, #0d2255, #080a0f, #102a50, #0d1a3a);
           background-size: 500% 500%;
-          animation: meshShift 18s ease infinite;
+          animation: meshShift 12s ease infinite;
           border-radius: 24px;
           z-index: 0;
-          opacity: 0.65;
+          opacity: 0.9;
         }
 
         .patwa-shimmer {
-          background: linear-gradient(90deg, #1a6fff 20%, #80b8ff 48%, #1a6fff 80%);
-          background-size: 200% auto;
+          background: linear-gradient(90deg, #1a6fff 0%, #1a6fff 20%, #60a5fa 38%, #ffffff 50%, #60a5fa 62%, #1a6fff 80%, #1a6fff 100%);
+          background-size: 300% auto;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          animation: shimmerText 3.5s linear infinite;
+          animation: shimmerText 2.8s linear infinite;
         }
 
         .hero-line-1 { animation: heroFadeUp 0.85s 0.05s ease-out both; }
@@ -548,17 +549,19 @@ export default function Home() {
           display: flex;
           align-items: flex-start;
           gap: 0.875rem;
-          padding: 0.75rem 0.5rem;
+          padding: 0.75rem 0.75rem 0.75rem 0.75rem;
           border-bottom: 1px solid var(--border);
+          border-left: 3px solid transparent;
           border-radius: 8px;
           margin: 0 -0.5rem;
-          transition: background 0.2s, transform 0.2s;
+          transition: background 0.2s, border-left-color 0.2s, padding-left 0.2s;
           cursor: default;
         }
         .now-row:last-child { border-bottom: none; }
         .now-row:hover {
-          background: rgba(26,111,255,0.07);
-          transform: translateX(5px);
+          background: rgba(26,111,255,0.09);
+          border-left-color: #1a6fff;
+          padding-left: 1.1rem;
         }
 
         .now-icon {
@@ -884,8 +887,8 @@ export default function Home() {
           style={{ padding: "1.25rem 2rem", maxWidth: 1200, margin: "0 auto" }}
         >
           <div
-            className={`stats-grid ${fade("stats")}`}
-            style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}
+            className="stats-grid"
+            style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem", ...fadeStyle("stats") }}
           >
             {STATS.map((s, i) => (
               <div key={i} className="stat-card" style={{ transitionDelay: `${i * 90}ms` }}>
@@ -905,7 +908,7 @@ export default function Home() {
           ref={reg("now")}
           style={{ padding: "1.5rem 2rem", maxWidth: 1200, margin: "0 auto" }}
         >
-          <div className={fade("now")}>
+          <div style={fadeStyle("now")}>
             <div className="section-tag">
               <span className="green-dot" /> Live Update
             </div>
@@ -936,7 +939,7 @@ export default function Home() {
           ref={reg("resume-cta")}
           style={{ padding: "1.5rem 2rem 3rem", maxWidth: 1200, margin: "0 auto", textAlign: "center" }}
         >
-          <div className={`resume-cta-inner ${fade("resume-cta")}`} style={{
+          <div className="resume-cta-inner" style={{
             background: "var(--bg-card)",
             border: "1px solid var(--border)",
             boxShadow: "var(--card-shadow)",
@@ -946,6 +949,7 @@ export default function Home() {
             flexDirection: "column",
             alignItems: "center",
             gap: "1.25rem",
+            ...fadeStyle("resume-cta"),
           }}>
             <span style={{
               fontSize: "0.72rem",
