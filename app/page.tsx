@@ -17,6 +17,9 @@ const STATS = [
   { value: "1", label: "Vision", sub: "for a Digital Future" },
 ];
 
+const STAT_TARGETS = [18, 29, 10, 1];
+const STAT_SUFFIXES = ["", "", "+", ""];
+
 function generateResume() {
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
   const pageW = 210;
@@ -196,6 +199,9 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const refs = useRef<Record<string, HTMLElement | null>>({});
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [statCounts, setStatCounts] = useState([0, 0, 0, 0]);
+  const statsAnimated = useRef(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("sp-theme") as "dark" | "light" | null;
@@ -227,6 +233,95 @@ export default function Home() {
     Object.values(refs.current).forEach((el) => el && observer.observe(el));
     return () => observer.disconnect();
   }, []);
+
+  // Particle / constellation canvas
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animId: number;
+    const particles: { x: number; y: number; vx: number; vy: number; r: number }[] = [];
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    const COUNT = typeof window !== "undefined" && window.innerWidth < 768 ? 28 : 55;
+    for (let i = 0; i < COUNT; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.22,
+        vy: (Math.random() - 0.5) * 0.22,
+        r: Math.random() * 1.3 + 0.4,
+      });
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 115) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(26,111,255,${0.11 * (1 - dist / 115)})`;
+            ctx.lineWidth = 0.5;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      for (const p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(26,111,255,0.4)";
+        ctx.fill();
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+      }
+
+      animId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(animId);
+    };
+  }, []);
+
+  // Count-up animation for stats
+  useEffect(() => {
+    if (!visible["stats"] || statsAnimated.current) return;
+    statsAnimated.current = true;
+
+    const duration = 1700;
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      setStatCounts(STAT_TARGETS.map(t => Math.floor(t * ease)));
+      if (progress < 1) requestAnimationFrame(tick);
+      else setStatCounts([...STAT_TARGETS]);
+    };
+
+    requestAnimationFrame(tick);
+  }, [visible]);
 
   const reg = (id: string) => (el: HTMLElement | null) => {
     refs.current[id] = el;
@@ -267,6 +362,81 @@ export default function Home() {
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: #1a6fff; border-radius: 2px; }
 
+        /* Noise texture overlay */
+        .noise-overlay {
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
+          z-index: 1;
+          opacity: 0.028;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+          background-repeat: repeat;
+          background-size: 200px 200px;
+        }
+
+        /* Gradient mesh animation */
+        @keyframes meshShift {
+          0%   { background-position: 0% 50%; }
+          50%  { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+
+        /* Patwa shimmer */
+        @keyframes shimmerText {
+          0%   { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+
+        /* Button shimmer sweep */
+        @keyframes btnShimmerSweep {
+          0%   { left: -80%; }
+          100% { left: 140%; }
+        }
+
+        /* Green pulsing dot */
+        @keyframes greenPulse {
+          0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.65); }
+          70%  { box-shadow: 0 0 0 7px rgba(34,197,94,0); }
+          100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+        }
+
+        /* Hero content fade-in */
+        @keyframes heroFadeUp {
+          from { opacity: 0; transform: translateY(22px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Quote fade-in */
+        @keyframes quoteFadeIn {
+          from { opacity: 0; transform: translateY(18px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-gradient-mesh {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(-45deg, #080a0f, #0c1428, #060810, #091020, #080a0f);
+          background-size: 500% 500%;
+          animation: meshShift 18s ease infinite;
+          border-radius: 24px;
+          z-index: 0;
+          opacity: 0.65;
+        }
+
+        .patwa-shimmer {
+          background: linear-gradient(90deg, #1a6fff 20%, #80b8ff 48%, #1a6fff 80%);
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: shimmerText 3.5s linear infinite;
+        }
+
+        .hero-line-1 { animation: heroFadeUp 0.85s 0.05s ease-out both; }
+        .hero-subtitle { animation: heroFadeUp 0.85s 0.25s ease-out both; }
+        .quote-animated { animation: quoteFadeIn 1.1s 0.45s ease-out both; }
+        .hero-body { animation: heroFadeUp 0.85s 0.65s ease-out both; }
+
         .nav-link {
           color: var(--text-sec);
           text-decoration: none;
@@ -291,14 +461,28 @@ export default function Home() {
         .stat-card {
           border: 1px solid var(--border);
           border-radius: 12px;
-          padding: 1.25rem;
+          padding: 1.5rem 1.25rem;
           background: var(--bg-card);
           box-shadow: var(--card-shadow);
           transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
         }
         .stat-card:hover {
-          border-color: #1a6fff44;
-          transform: translateY(-4px);
+          border-color: rgba(26,111,255,0.45);
+          transform: translateY(-6px);
+          box-shadow: 0 14px 40px rgba(26,111,255,0.18), var(--card-shadow);
+        }
+
+        .stat-number {
+          font-family: 'Playfair Display', serif;
+          font-size: 3.75rem;
+          font-weight: 900;
+          color: #1a6fff;
+          line-height: 1;
+          letter-spacing: -0.02em;
+          transition: transform 0.2s;
+        }
+        .stat-card:hover .stat-number {
+          transform: scale(1.05);
         }
 
         .cta-btn {
@@ -314,15 +498,32 @@ export default function Home() {
           transition: all 0.2s;
           border: none;
           text-decoration: none;
+          position: relative;
+          overflow: hidden;
         }
         .cta-primary {
           background: #1a6fff;
           color: #fff;
         }
+        .cta-primary::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -80%;
+          width: 55%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
+          transform: skewX(-20deg);
+          opacity: 0;
+        }
         .cta-primary:hover {
           background: #2d7dff;
           transform: translateY(-2px);
-          box-shadow: 0 8px 24px #1a6fff44;
+          box-shadow: 0 8px 28px rgba(26,111,255,0.45);
+        }
+        .cta-primary:hover::before {
+          animation: btnShimmerSweep 0.65s ease forwards;
+          opacity: 1;
         }
         .cta-secondary {
           background: transparent;
@@ -340,17 +541,25 @@ export default function Home() {
           border: 1px solid var(--border);
           box-shadow: var(--card-shadow);
           border-radius: 16px;
-          padding: 1.25rem 1.5rem;
+          padding: 0.5rem 1.5rem;
         }
 
         .now-row {
           display: flex;
           align-items: flex-start;
           gap: 0.875rem;
-          padding: 0.75rem 0;
+          padding: 0.75rem 0.5rem;
           border-bottom: 1px solid var(--border);
+          border-radius: 8px;
+          margin: 0 -0.5rem;
+          transition: background 0.2s, transform 0.2s;
+          cursor: default;
         }
         .now-row:last-child { border-bottom: none; }
+        .now-row:hover {
+          background: rgba(26,111,255,0.07);
+          transform: translateX(5px);
+        }
 
         .now-icon {
           width: 36px; height: 36px;
@@ -367,6 +576,15 @@ export default function Home() {
           background: #1a6fff;
           animation: pulse 2s infinite;
           display: inline-block;
+        }
+
+        .green-dot {
+          width: 8px; height: 8px;
+          border-radius: 50%;
+          background: #22c55e;
+          display: inline-block;
+          flex-shrink: 0;
+          animation: greenPulse 2s infinite;
         }
 
         @keyframes pulse {
@@ -448,57 +666,39 @@ export default function Home() {
         }
         .mobile-nav-link:hover { color: #1a6fff; }
 
+        .quote-big-mark {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(3.5rem, 8vw, 5.5rem);
+          line-height: 0.7;
+          color: #1a6fff;
+          opacity: 0.85;
+          display: block;
+        }
+
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }
-
           .now-row { gap: 0.625rem; }
-
-          .stats-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-
-          .quote-block {
-            padding: 1.75rem 1.25rem !important;
-          }
-
-          .now-widget {
-            width: 100% !important;
-          }
-
-          .hero-section {
-            padding: 5rem 1.25rem 1.5rem !important;
-          }
-
-          .resume-cta-inner {
-            padding: 1.75rem 1.25rem !important;
-          }
-
-          .cta-btn {
-            min-height: 44px;
-          }
+          .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .quote-block { padding: 1.75rem 1.25rem !important; }
+          .now-widget { width: 100% !important; }
+          .hero-section { padding: 5rem 1.25rem 1.5rem !important; }
+          .resume-cta-inner { padding: 1.75rem 1.25rem !important; }
+          .cta-btn { min-height: 44px; }
+          .stat-number { font-size: 2.75rem !important; }
         }
 
         @media (max-width: 480px) {
           nav { padding: 0.75rem 1rem !important; }
-
-          .stats-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-
-          .stat-card {
-            padding: 1rem !important;
-          }
-
-          .section-padding {
-            padding-left: 1rem !important;
-            padding-right: 1rem !important;
-          }
+          .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .stat-card { padding: 1rem !important; }
+          .section-padding { padding-left: 1rem !important; padding-right: 1rem !important; }
         }
       `}</style>
 
       {/* Background effects */}
       <div className="grid-bg" />
       <div className="glow" />
+      <div className="noise-overlay" />
 
       {/* NAVBAR */}
       <nav
@@ -558,45 +758,123 @@ export default function Home() {
         </div>
       )}
 
-      <div style={{ position: "relative", zIndex: 1 }}>
+      <div style={{ position: "relative", zIndex: 2 }}>
 
         {/* HERO */}
-        <section className="hero-section" style={{ display: "flex", flexDirection: "column", padding: "7rem 2rem 2rem", maxWidth: 1200, margin: "0 auto" }}>
-          <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(3rem, 8vw, 6.5rem)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: "1.25rem" }}>
-            Shivaan<br />
-            <span style={{ color: "#1a6fff" }}>Patwa.</span>
-          </h1>
-
-          <p style={{ fontSize: "clamp(1rem, 2.5vw, 1.25rem)", color: "var(--text-sec)", maxWidth: 600, lineHeight: 1.7, marginBottom: "1.5rem", fontWeight: 300 }}>
-            A future in finance, a history in MUN, and an obsession with global change.
-          </p>
-
-          <div className="quote-block" style={{
-            background: "var(--quote-bg)",
-            border: "1px solid var(--border-3)",
-            borderRadius: "20px",
-            padding: "2rem 2.5rem",
-            textAlign: "center",
+        <section
+          className="hero-section"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            padding: "7rem 2rem 2rem",
+            maxWidth: 1200,
+            margin: "0 auto",
             position: "relative",
-            overflow: "hidden",
-            marginBottom: "1.5rem",
-            maxWidth: 680,
-          }}>
-            <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: "80%", height: "80%", background: "radial-gradient(ellipse, rgba(26,111,255,0.05) 0%, transparent 70%)", pointerEvents: "none" }} />
-            <div style={{ position: "relative" }}>
-              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 5vw, 3.5rem)", lineHeight: 0.8, color: "#1a6fff", marginBottom: "0.5rem", opacity: 0.9 }}>"</div>
-              <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontSize: "clamp(1rem, 2.5vw, 1.35rem)", fontWeight: 700, color: "var(--text)", lineHeight: 1.65, maxWidth: 580, margin: "0 auto", letterSpacing: "-0.01em" }}>
-                Wealth. Unforgettable experiences. Every country on the map. And the right people to share it with. That's all I want.
-              </p>
-              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 5vw, 3.5rem)", lineHeight: 0.8, color: "#1a6fff", opacity: 0.9, textAlign: "right", maxWidth: 580, margin: "0.5rem auto 0" }}>"</div>
-              <div style={{ width: 40, height: 2, background: "#1a6fff", margin: "1rem auto 0", borderRadius: 2 }} />
-              <div style={{ marginTop: "0.5rem", fontSize: "0.8rem", color: "var(--text-dim)", letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600 }}>Shivaan Patwa</div>
-            </div>
-          </div>
+          }}
+        >
+          {/* Particle canvas */}
+          <canvas
+            ref={canvasRef}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              borderRadius: 24,
+              zIndex: 0,
+              pointerEvents: "none",
+            }}
+          />
 
-          <p style={{ fontSize: "0.95rem", color: "var(--text-muted)", maxWidth: 560, lineHeight: 1.8 }}>
-            I don't just observe global systems — I analyze them, debate them, and look for the cracks. Whether I'm drafting a UN resolution or dissecting the risks of a cashless economy, I'm driven by a singular goal: understanding the forces that shape our world.
-          </p>
+          {/* Gradient mesh layer */}
+          <div className="hero-gradient-mesh" />
+
+          {/* Hero content */}
+          <div style={{ position: "relative", zIndex: 1 }}>
+            <h1
+              className="hero-line-1"
+              style={{
+                fontFamily: "'Playfair Display', serif",
+                fontSize: "clamp(3.2rem, 9vw, 7.5rem)",
+                fontWeight: 900,
+                lineHeight: 1.03,
+                letterSpacing: "-0.03em",
+                marginBottom: "1.25rem",
+              }}
+            >
+              Shivaan<br />
+              <span className="patwa-shimmer">Patwa.</span>
+            </h1>
+
+            <p
+              className="hero-subtitle"
+              style={{
+                fontSize: "clamp(1rem, 2.5vw, 1.25rem)",
+                color: "var(--text-sec)",
+                maxWidth: 600,
+                lineHeight: 1.7,
+                marginBottom: "1.5rem",
+                fontWeight: 300,
+              }}
+            >
+              A future in finance, a history in MUN, and an obsession with global change.
+            </p>
+
+            <div
+              className="quote-block quote-animated"
+              style={{
+                background: "var(--quote-bg)",
+                border: "1px solid var(--border-3)",
+                borderRadius: "20px",
+                padding: "2rem 2.5rem",
+                textAlign: "center",
+                position: "relative",
+                overflow: "hidden",
+                marginBottom: "1.5rem",
+                maxWidth: 680,
+              }}
+            >
+              <div style={{
+                position: "absolute",
+                top: "50%", left: "50%",
+                transform: "translate(-50%,-50%)",
+                width: "80%", height: "80%",
+                background: "radial-gradient(ellipse, rgba(26,111,255,0.05) 0%, transparent 70%)",
+                pointerEvents: "none",
+              }} />
+              <div style={{ position: "relative" }}>
+                <span className="quote-big-mark" style={{ textAlign: "left" }}>"</span>
+                <p style={{
+                  fontFamily: "'Playfair Display', serif",
+                  fontStyle: "italic",
+                  fontSize: "clamp(1rem, 2.5vw, 1.35rem)",
+                  fontWeight: 700,
+                  color: "var(--text)",
+                  lineHeight: 1.7,
+                  maxWidth: 580,
+                  margin: "0.25rem auto",
+                  letterSpacing: "-0.01em",
+                }}>
+                  Wealth. Unforgettable experiences. Every country on the map. And the right people to share it with. That's all I want.
+                </p>
+                <span className="quote-big-mark" style={{ textAlign: "right", display: "block", maxWidth: 580, margin: "0 auto" }}>"</span>
+                <div style={{ width: 40, height: 2, background: "#1a6fff", margin: "0.75rem auto 0", borderRadius: 2 }} />
+                <div style={{ marginTop: "0.5rem", fontSize: "0.8rem", color: "var(--text-dim)", letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600 }}>Shivaan Patwa</div>
+              </div>
+            </div>
+
+            <p
+              className="hero-body"
+              style={{
+                fontSize: "0.95rem",
+                color: "var(--text-muted)",
+                maxWidth: 560,
+                lineHeight: 1.8,
+              }}
+            >
+              I don&apos;t just observe global systems — I analyze them, debate them, and look for the cracks. Whether I&apos;m drafting a UN resolution or dissecting the risks of a cashless economy, I&apos;m driven by a singular goal: understanding the forces that shape our world.
+            </p>
+          </div>
         </section>
 
         {/* STATS */}
@@ -605,11 +883,16 @@ export default function Home() {
           ref={reg("stats")}
           style={{ padding: "1.25rem 2rem", maxWidth: 1200, margin: "0 auto" }}
         >
-          <div className={`stats-grid ${fade("stats")}`} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}>
+          <div
+            className={`stats-grid ${fade("stats")}`}
+            style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}
+          >
             {STATS.map((s, i) => (
-              <div key={i} className="stat-card" style={{ transitionDelay: `${i * 80}ms` }}>
-                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.75rem", fontWeight: 900, color: "#1a6fff", lineHeight: 1 }}>{s.value}</div>
-                <div style={{ fontWeight: 600, fontSize: "0.9rem", marginTop: "0.4rem", color: "var(--text)" }}>{s.label}</div>
+              <div key={i} className="stat-card" style={{ transitionDelay: `${i * 90}ms` }}>
+                <div className="stat-number">
+                  {statCounts[i]}{STAT_SUFFIXES[i]}
+                </div>
+                <div style={{ fontWeight: 600, fontSize: "0.9rem", marginTop: "0.5rem", color: "var(--text)" }}>{s.label}</div>
                 <div style={{ fontSize: "0.73rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>{s.sub}</div>
               </div>
             ))}
@@ -623,7 +906,9 @@ export default function Home() {
           style={{ padding: "1.5rem 2rem", maxWidth: 1200, margin: "0 auto" }}
         >
           <div className={fade("now")}>
-            <div className="section-tag"><span className="blue-dot" /> Live Update</div>
+            <div className="section-tag">
+              <span className="green-dot" /> Live Update
+            </div>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.5rem)", fontWeight: 700, marginBottom: "1.25rem" }}>The Now</h2>
             <div className="now-card">
               {[
