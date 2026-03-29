@@ -201,7 +201,8 @@ export default function Home() {
   const refs = useRef<Record<string, HTMLElement | null>>({});
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [statCounts, setStatCounts] = useState([0, 0, 0, 0]);
-  const statsAnimated = useRef(false);
+  const [statsVisible, setStatsVisible] = useState(false);
+  const statsRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("sp-theme") as "dark" | "light" | null;
@@ -303,25 +304,41 @@ export default function Home() {
     };
   }, []);
 
-  // Count-up animation for stats
+  // Dedicated observer for stats count-up
   useEffect(() => {
-    if (!visible["stats"] || statsAnimated.current) return;
-    statsAnimated.current = true;
+    const el = statsRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStatsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
-    const duration = 1700;
-    const start = performance.now();
-
-    const tick = (now: number) => {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const ease = 1 - Math.pow(1 - progress, 3);
-      setStatCounts(STAT_TARGETS.map(t => Math.floor(t * ease)));
-      if (progress < 1) requestAnimationFrame(tick);
-      else setStatCounts([...STAT_TARGETS]);
-    };
-
-    requestAnimationFrame(tick);
-  }, [visible]);
+  // Count-up via setInterval when stats section is visible
+  useEffect(() => {
+    if (!statsVisible) return;
+    const targets = [18, 29, 10, 1];
+    const current = [0, 0, 0, 0];
+    const interval = setInterval(() => {
+      let allDone = true;
+      current.forEach((val, i) => {
+        if (val < targets[i]) {
+          current[i] = val + 1;
+          allDone = false;
+        }
+      });
+      setStatCounts([...current]);
+      if (allDone) clearInterval(interval);
+    }, 20);
+    return () => clearInterval(interval);
+  }, [statsVisible]);
 
   const reg = (id: string) => (el: HTMLElement | null) => {
     refs.current[id] = el;
@@ -886,7 +903,7 @@ export default function Home() {
         {/* STATS */}
         <section
           id="stats"
-          ref={reg("stats")}
+          ref={(el) => { refs.current["stats"] = el; statsRef.current = el; }}
           style={{ padding: "1.25rem 2rem", maxWidth: 1200, margin: "0 auto" }}
         >
           <div
