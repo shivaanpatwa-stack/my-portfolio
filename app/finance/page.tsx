@@ -163,23 +163,23 @@ const ARTICLES = [
 
 // ─── ARTICLE IMAGES ─────────────────────────────────────────────────────────
 const ARTICLE_IMAGES: Record<number, string> = {
-  1:  "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=600&q=80",
-  2:  "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80",
-  3:  "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80",
-  4:  "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&q=80",
-  5:  "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?w=600&q=80",
-  6:  "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&q=80",
+  1:  "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=600&q=80",
+  2:  "https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=600&q=80",
+  3:  "https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?w=600&q=80",
+  4:  "https://images.unsplash.com/photo-1601597111158-2fceff292cdc?w=600&q=80",
+  5:  "https://images.unsplash.com/photo-1501167786227-4cba60f6d58f?w=600&q=80",
+  6:  "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=600&q=80",
   7:  "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80",
-  8:  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
-  9:  "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&q=80",
-  10: "https://images.unsplash.com/photo-1586486855514-8c633cc6fd38?w=600&q=80",
+  8:  "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=600&q=80",
+  9:  "https://images.unsplash.com/photo-1642790551116-18e4f6ff4e09?w=600&q=80",
+  10: "https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=600&q=80",
   11: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=600&q=80",
   12: "https://images.unsplash.com/photo-1495837174058-628aafc7d610?w=600&q=80",
   13: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80",
   14: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&q=80",
-  15: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80",
+  15: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&q=80",
   16: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
-  17: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=600&q=80",
+  17: "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?w=600&q=80",
 };
 
 const ALL_TAGS = Array.from(new Set(ARTICLES.flatMap(a => a.tags)));

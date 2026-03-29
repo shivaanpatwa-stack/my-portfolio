@@ -851,8 +851,9 @@ export default function Home() {
               ref={reg("quote")}
               className="quote-block"
               style={{
-                background: "var(--quote-bg)",
-                border: "1px solid var(--border-3)",
+                background: theme === "light" ? "transparent" : "var(--quote-bg)",
+                border: theme === "light" ? "none" : "1px solid var(--border-3)",
+                boxShadow: theme === "light" ? "none" : undefined,
                 borderRadius: "20px",
                 padding: "2rem 2.5rem",
                 textAlign: "center",
