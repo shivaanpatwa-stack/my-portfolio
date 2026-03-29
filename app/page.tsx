@@ -376,6 +376,12 @@ export default function Home() {
           --bg-card2: var(--bg-elevated2);
         }
 
+        :root.light-theme .quote-block {
+          background: transparent !important;
+          border-color: transparent !important;
+          box-shadow: none !important;
+        }
+
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: #1a6fff; border-radius: 2px; }
