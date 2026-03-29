@@ -382,6 +382,10 @@ export default function Home() {
           box-shadow: none !important;
         }
 
+        :root.light-theme .hero-gradient-mesh {
+          display: none;
+        }
+
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: #1a6fff; border-radius: 2px; }
