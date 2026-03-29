@@ -851,14 +851,14 @@ export default function Home() {
               ref={reg("quote")}
               className="quote-block"
               style={{
-                background: theme === "light" ? "transparent" : "var(--quote-bg)",
-                border: theme === "light" ? "none" : "1px solid var(--border-3)",
-                boxShadow: theme === "light" ? "none" : undefined,
+                background: "transparent",
+                border: "none",
+                boxShadow: "none",
                 borderRadius: "20px",
-                padding: "2rem 2.5rem",
+                padding: "2rem 0",
                 textAlign: "center",
                 position: "relative",
-                overflow: "hidden",
+                overflow: "visible",
                 marginBottom: "1.5rem",
                 maxWidth: 680,
                 ...fadeStyle("quote"),
