@@ -76,3 +76,8 @@ body {
   background: var(--bg);
   transition: background 0.3s;
 }
+
+/* Hide default cursor on mouse devices — custom cursor handles it */
+@media (pointer: fine) {
+  html, body, * { cursor: none !important; }
+}

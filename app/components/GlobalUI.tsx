@@ -1,26 +1,11 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function GlobalUI() {
-  const dotRef   = useRef<HTMLDivElement>(null);
-  const ringRef  = useRef<HTMLDivElement>(null);
-  const mouse    = useRef({ x: -200, y: -200 });
-  const ring     = useRef({ x: -200, y: -200 });
-  const hovering = useRef(false);
-  const rafRef   = useRef<number>(0);
+  const [scrollPct,   setScrollPct]   = useState(0);
+  const [showBackTop, setShowBackTop] = useState(false);
 
-  const [scrollPct,    setScrollPct]    = useState(0);
-  const [showBackTop,  setShowBackTop]  = useState(false);
-  const [isTouch,      setIsTouch]      = useState(false);
-
-  // Detect touch device — hide custom cursor on touch
-  useEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches) {
-      setIsTouch(true);
-    }
-  }, []);
-
-  // Scroll progress + back-to-top visibility
+  // Scroll progress + back-to-top
   useEffect(() => {
     const onScroll = () => {
       const scrolled = window.scrollY;
@@ -32,68 +17,97 @@ export default function GlobalUI() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Custom cursor — track mouse + lerp ring
+  // Custom cursor — DOM-appended, bypasses React render timing
   useEffect(() => {
-    if (isTouch) return;
+    // Only on fine-pointer (mouse) devices
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+
+    // Create dot
+    const dot = document.createElement("div");
+    dot.style.cssText = `
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: #1a6fff;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      top: -100px;
+      left: -100px;
+      will-change: top, left;
+    `;
+
+    // Create ring
+    const ring = document.createElement("div");
+    ring.style.cssText = `
+      position: fixed;
+      width: 32px;
+      height: 32px;
+      border: 2px solid rgba(26,111,255,0.75);
+      border-radius: 50%;
+      background: transparent;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      top: -100px;
+      left: -100px;
+      transition: width 0.15s ease, height 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+      will-change: top, left;
+    `;
+
+    document.body.appendChild(dot);
+    document.body.appendChild(ring);
+
+    let mouseX = -100, mouseY = -100;
+    let ringX  = -100, ringY  = -100;
+    let animId: number;
 
     const onMove = (e: MouseEvent) => {
-      mouse.current = { x: e.clientX, y: e.clientY };
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      // Dot follows instantly
+      dot.style.left = `${mouseX}px`;
+      dot.style.top  = `${mouseY}px`;
     };
 
     const onOver = (e: MouseEvent) => {
       const el = e.target as HTMLElement;
-      hovering.current = !!(el.closest("a, button, [role='button'], .exp-card, .contact-card, .stat-card, .now-card"));
+      const hovering = !!(el.closest("a, button, [role='button']"));
+      if (hovering) {
+        ring.style.width  = "48px";
+        ring.style.height = "48px";
+        ring.style.background = "rgba(26,111,255,0.12)";
+        ring.style.borderColor = "#1a6fff";
+      } else {
+        ring.style.width  = "32px";
+        ring.style.height = "32px";
+        ring.style.background = "transparent";
+        ring.style.borderColor = "rgba(26,111,255,0.75)";
+      }
     };
+
+    const animate = () => {
+      // Lerp ring toward mouse
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      ring.style.left = `${ringX}px`;
+      ring.style.top  = `${ringY}px`;
+      animId = requestAnimationFrame(animate);
+    };
+    animId = requestAnimationFrame(animate);
 
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseover", onOver);
 
-    // Inject cursor: none on body
-    document.body.style.cursor = "none";
-
-    const animate = () => {
-      const dot  = dotRef.current;
-      const rng  = ringRef.current;
-      if (!dot || !rng) { rafRef.current = requestAnimationFrame(animate); return; }
-
-      // Dot follows instantly
-      dot.style.left = `${mouse.current.x}px`;
-      dot.style.top  = `${mouse.current.y}px`;
-
-      // Ring lerps toward mouse
-      ring.current.x += (mouse.current.x - ring.current.x) * 0.12;
-      ring.current.y += (mouse.current.y - ring.current.y) * 0.12;
-      rng.style.left = `${ring.current.x}px`;
-      rng.style.top  = `${ring.current.y}px`;
-
-      // Hover state
-      if (hovering.current) {
-        rng.style.width  = "48px";
-        rng.style.height = "48px";
-        rng.style.marginLeft = "-24px";
-        rng.style.marginTop  = "-24px";
-        rng.style.background = "rgba(26,111,255,0.15)";
-        rng.style.borderColor = "#1a6fff";
-      } else {
-        rng.style.width  = "32px";
-        rng.style.height = "32px";
-        rng.style.marginLeft = "-16px";
-        rng.style.marginTop  = "-16px";
-        rng.style.background = "transparent";
-        rng.style.borderColor = "rgba(26,111,255,0.7)";
-      }
-
-      rafRef.current = requestAnimationFrame(animate);
-    };
-    rafRef.current = requestAnimationFrame(animate);
-
     return () => {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseover", onOver);
-      cancelAnimationFrame(rafRef.current);
-      document.body.style.cursor = "";
+      cancelAnimationFrame(animId);
+      dot.remove();
+      ring.remove();
     };
-  }, [isTouch]);
+  }, []);
 
   return (
     <>
@@ -116,14 +130,13 @@ export default function GlobalUI() {
         style={{
           position: "fixed",
           bottom: "2rem",
-          right: "5.5rem",   // offset so it clears any fixed widget on the right
+          right: "5.5rem",
           width: 48, height: 48,
           borderRadius: "50%",
           background: "#1a6fff",
           border: "none",
           color: "#fff",
           fontSize: "1.2rem",
-          cursor: "pointer",
           display: "flex", alignItems: "center", justifyContent: "center",
           zIndex: 99997,
           opacity: showBackTop ? 1 : 0,
@@ -135,42 +148,6 @@ export default function GlobalUI() {
       >
         ↑
       </button>
-
-      {/* Custom cursor — hidden on touch */}
-      {!isTouch && (
-        <>
-          {/* Dot */}
-          <div
-            ref={dotRef}
-            style={{
-              position: "fixed",
-              width: 8, height: 8,
-              borderRadius: "50%",
-              background: "#1a6fff",
-              marginLeft: -4, marginTop: -4,
-              pointerEvents: "none",
-              zIndex: 99999,
-              top: 0, left: 0,
-            }}
-          />
-          {/* Ring */}
-          <div
-            ref={ringRef}
-            style={{
-              position: "fixed",
-              width: 32, height: 32,
-              borderRadius: "50%",
-              border: "1.5px solid rgba(26,111,255,0.7)",
-              background: "transparent",
-              marginLeft: -16, marginTop: -16,
-              pointerEvents: "none",
-              zIndex: 99999,
-              top: 0, left: 0,
-              transition: "width 0.15s ease, height 0.15s ease, background 0.15s ease, margin 0.15s ease",
-            }}
-          />
-        </>
-      )}
     </>
   );
 }
