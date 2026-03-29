@@ -228,7 +228,7 @@ export default function Home() {
           if (e.isIntersecting) setVisible((v) => ({ ...v, [e.target.id]: true }));
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.05 }
     );
     Object.values(refs.current).forEach((el) => el && observer.observe(el));
     return () => observer.disconnect();
@@ -416,12 +416,12 @@ export default function Home() {
         .hero-gradient-mesh {
           position: absolute;
           inset: 0;
-          background: linear-gradient(-45deg, #080a0f, #0d2255, #080a0f, #102a50, #0d1a3a);
+          background: linear-gradient(-45deg, #070a12, #0a0f1e, #060810, #0a0f1e, #070a12);
           background-size: 500% 500%;
           animation: meshShift 12s ease infinite;
           border-radius: 24px;
           z-index: 0;
-          opacity: 0.9;
+          opacity: 0.12;
         }
 
         .patwa-shimmer {
@@ -824,7 +824,9 @@ export default function Home() {
             </p>
 
             <div
-              className="quote-block quote-animated"
+              id="quote"
+              ref={reg("quote")}
+              className="quote-block"
               style={{
                 background: "var(--quote-bg)",
                 border: "1px solid var(--border-3)",
@@ -835,6 +837,7 @@ export default function Home() {
                 overflow: "hidden",
                 marginBottom: "1.5rem",
                 maxWidth: 680,
+                ...fadeStyle("quote"),
               }}
             >
               <div style={{
