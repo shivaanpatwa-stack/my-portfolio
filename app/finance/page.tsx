@@ -161,6 +161,33 @@ const ARTICLES = [
   },
 ];
 
+// ─── ARTICLE IMAGES ─────────────────────────────────────────────────────────
+const ARTICLE_IMAGES: Record<number, string> = {
+  1:  "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=600&q=80",
+  2:  "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80",
+  3:  "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80",
+  4:  "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&q=80",
+  5:  "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?w=600&q=80",
+  6:  "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&q=80",
+  7:  "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80",
+  8:  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
+  9:  "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&q=80",
+  10: "https://images.unsplash.com/photo-1586486855514-8c633cc6fd38?w=600&q=80",
+  11: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=600&q=80",
+  12: "https://images.unsplash.com/photo-1495837174058-628aafc7d610?w=600&q=80",
+  13: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80",
+  14: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&q=80",
+  15: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80",
+  16: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
+  17: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=600&q=80",
+};
+
+const ALL_TAGS = Array.from(new Set(ARTICLES.flatMap(a => a.tags)));
+
+function readingTime(content: string): number {
+  return Math.max(1, Math.ceil(content.trim().split(/\s+/).length / 200));
+}
+
 // ─── SEARCH ENGINE ────────────────────────────────────────────────────────────
 const STOP_WORDS = new Set([
   "what", "is", "the", "a", "an", "how", "does", "do", "why", "when",
@@ -254,6 +281,8 @@ export default function FinanceLab() {
   const [mounted, setMounted] = useState(false);
   const [activeSection, setActiveSection] = useState<"wfj" | "ai">("wfj");
   const [selectedArticle, setSelectedArticle] = useState<typeof ARTICLES[0] | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeTag, setActiveTag] = useState<string | null>(null);
   const [requestTopic, setRequestTopic] = useState("");
   const [requestSubmitted, setRequestSubmitted] = useState(false);
   const [requestSubmitting, setRequestSubmitting] = useState(false);
@@ -374,6 +403,19 @@ export default function FinanceLab() {
     }
   };
 
+  const filteredArticles = ARTICLES.filter(a => {
+    const q = searchQuery.toLowerCase();
+    const matchSearch = !q ||
+      a.title.toLowerCase().includes(q) ||
+      a.content.toLowerCase().includes(q) ||
+      a.tldr.toLowerCase().includes(q);
+    const matchTag = !activeTag || a.tags.includes(activeTag);
+    return matchSearch && matchTag;
+  });
+  const isFiltered = !!searchQuery || !!activeTag;
+  const featured = ARTICLES[ARTICLES.length - 1];
+  const gridArticles = isFiltered ? filteredArticles : [...ARTICLES].slice(0, -1).reverse();
+
   return (
     <main style={{ background: "var(--bg)", color: "var(--text)", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif" }}>
       <style>{`
@@ -398,17 +440,101 @@ export default function FinanceLab() {
         .nav-tab:hover { color: var(--text); border-color: var(--border-2); }
         .nav-tab.active { background: var(--bg-elevated2); color: #1a6fff; border-color: #1a6fff44; }
 
-        .article-row {
-          display: flex;
-          align-items: center;
-          gap: 1.25rem;
-          padding: 1rem 1.25rem;
-          border-bottom: 1px solid var(--bg-elevated2);
+        .article-card {
+          border: 1px solid var(--border);
+          border-radius: 16px;
+          background: var(--bg-elevated);
+          box-shadow: var(--card-shadow);
+          overflow: hidden;
           cursor: pointer;
-          transition: background 0.2s;
-          border-radius: 8px;
+          transition: border-color 0.3s, transform 0.25s, box-shadow 0.3s;
+          display: flex;
+          flex-direction: column;
         }
-        .article-row:hover { background: var(--bg-elevated); }
+        .article-card:hover {
+          border-color: rgba(26,111,255,0.4);
+          transform: translateY(-5px);
+          box-shadow: 0 14px 38px rgba(26,111,255,0.15), var(--card-shadow);
+        }
+        .article-card-img {
+          width: 100%;
+          height: 170px;
+          object-fit: cover;
+          display: block;
+        }
+        .article-card-body {
+          padding: 1.1rem 1.25rem 1.25rem;
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+          gap: 0.45rem;
+        }
+        .article-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.25rem;
+          margin-bottom: 3rem;
+        }
+        .featured-card {
+          border: 1px solid rgba(26,111,255,0.28);
+          border-radius: 20px;
+          background: var(--bg-elevated);
+          overflow: hidden;
+          cursor: pointer;
+          transition: border-color 0.3s, box-shadow 0.3s;
+          margin-bottom: 2rem;
+          display: flex;
+        }
+        .featured-card:hover {
+          border-color: rgba(26,111,255,0.55);
+          box-shadow: 0 16px 48px rgba(26,111,255,0.18);
+        }
+        .search-wrap {
+          position: relative;
+          margin-bottom: 0.75rem;
+        }
+        .search-icon {
+          position: absolute;
+          left: 0.9rem;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 0.95rem;
+          pointer-events: none;
+          color: var(--text-muted);
+        }
+        .search-bar {
+          background: var(--bg-elevated);
+          border: 1px solid var(--border-2);
+          border-radius: 10px;
+          color: var(--text);
+          padding: 0.75rem 1rem 0.75rem 2.6rem;
+          font-size: 0.9rem;
+          font-family: 'DM Sans', sans-serif;
+          outline: none;
+          width: 100%;
+          transition: border-color 0.2s;
+        }
+        .search-bar:focus { border-color: #1a6fff; }
+        .filter-chips {
+          display: flex;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+          margin-bottom: 1.75rem;
+        }
+        .filter-chip {
+          padding: 0.3rem 0.85rem;
+          border-radius: 20px;
+          font-size: 0.73rem;
+          font-weight: 600;
+          border: 1px solid var(--border-2);
+          background: transparent;
+          color: var(--text-muted);
+          cursor: pointer;
+          transition: all 0.2s;
+          white-space: nowrap;
+        }
+        .filter-chip:hover { border-color: rgba(26,111,255,0.4); color: var(--text); }
+        .filter-chip.active { background: rgba(26,111,255,0.14); border-color: #1a6fff; color: #1a6fff; }
 
         .tag {
           display: inline-block;
@@ -525,6 +651,10 @@ export default function FinanceLab() {
           margin-bottom: 0.5rem;
         }
 
+        @media (max-width: 900px) {
+          .article-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+
         @media (max-width: 768px) {
           .finance-header {
             flex-direction: column;
@@ -532,54 +662,25 @@ export default function FinanceLab() {
             gap: 1rem;
             padding: 1.25rem 1rem !important;
           }
-
           .modal {
             max-width: 100% !important;
             max-height: 90vh !important;
             border-radius: 16px !important;
             padding: 1.25rem !important;
           }
-
-          .ai-chat-box {
-            height: 280px !important;
-          }
-
-          .form-row {
-            flex-direction: column;
-          }
-          .form-row .cta-btn {
-            width: 100%;
-            min-height: 44px;
-          }
-          .form-row .input-field {
-            width: 100%;
-          }
-
-          .article-row {
-            gap: 0.75rem;
-            padding: 0.875rem 0.75rem;
-          }
-
-          .nav-tab {
-            min-height: 44px;
-            display: inline-flex;
-            align-items: center;
-          }
-
-          .cta-btn {
-            min-height: 44px;
-          }
+          .ai-chat-box { height: 280px !important; }
+          .form-row { flex-direction: column; }
+          .form-row .cta-btn { width: 100%; min-height: 44px; }
+          .form-row .input-field { width: 100%; }
+          .nav-tab { min-height: 44px; display: inline-flex; align-items: center; }
+          .cta-btn { min-height: 44px; }
+          .featured-card { flex-direction: column !important; }
+          .featured-card-img { height: 200px !important; flex: none !important; }
         }
 
-        @media (max-width: 480px) {
-          .content-wrap {
-            padding: 1.25rem 0.875rem !important;
-          }
-
-          .article-row {
-            flex-direction: column;
-            align-items: flex-start;
-          }
+        @media (max-width: 560px) {
+          .article-grid { grid-template-columns: 1fr !important; }
+          .content-wrap { padding: 1.25rem 0.875rem !important; }
         }
 
         .mobile-menu {
@@ -646,32 +747,87 @@ export default function FinanceLab() {
         )}
       </div>
 
-      <div className="content-wrap" style={{ maxWidth: 900, margin: "0 auto", padding: "2rem" }}>
+      <div className="content-wrap" style={{ maxWidth: 1100, margin: "0 auto", padding: "2rem" }}>
 
         {/* ── SECTION: WFJ ── */}
         {activeSection === "wfj" && (
           <div>
             <span className="section-tag">Weekly Finance Journal</span>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.8rem", fontWeight: 700, marginBottom: "0.5rem" }}>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.8rem", fontWeight: 700, marginBottom: "0.35rem" }}>
               {ARTICLES.length} Articles Published
             </h2>
-            <p style={{ color: "var(--text-muted)", fontSize: "0.88rem", marginBottom: "2rem" }}>Click any article to read in full.</p>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.88rem", marginBottom: "1.5rem" }}>Click any article to read in full.</p>
 
-            <div style={{ marginBottom: "3rem" }}>
-              {ARTICLES.map((a) => (
-                <div key={a.id} className="article-row" onClick={() => setSelectedArticle(a)}>
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.75rem", color: "#1a6fff", minWidth: 60 }}>{a.week}</div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 600, fontSize: "0.95rem", marginBottom: "0.25rem" }}>{a.title}</div>
-                    <div style={{ fontSize: "0.78rem", color: "var(--text-muted)", marginBottom: "0.4rem" }}>{a.date}</div>
-                    <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
-                      {a.tags.map(t => <span key={t} className="tag">{t}</span>)}
-                    </div>
-                  </div>
-                  <div style={{ color: "#1a6fff", fontSize: "1.2rem" }}>→</div>
-                </div>
+            {/* Search */}
+            <div className="search-wrap">
+              <span className="search-icon">🔍</span>
+              <input
+                className="search-bar"
+                placeholder="Search articles by title or content..."
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+              />
+            </div>
+
+            {/* Tag filters */}
+            <div className="filter-chips">
+              <button className={`filter-chip ${!activeTag ? "active" : ""}`} onClick={() => setActiveTag(null)}>All</button>
+              {ALL_TAGS.map(tag => (
+                <button key={tag} className={`filter-chip ${activeTag === tag ? "active" : ""}`} onClick={() => setActiveTag(activeTag === tag ? null : tag)}>{tag}</button>
               ))}
             </div>
+
+            {/* Featured Article (latest — only when no filters active) */}
+            {!isFiltered && (
+              <div className="featured-card" onClick={() => setSelectedArticle(featured)}>
+                <div className="featured-card-img" style={{ flex: "0 0 42%", overflow: "hidden", minHeight: 240 }}>
+                  <img src={ARTICLE_IMAGES[featured.id]} alt={featured.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} loading="lazy" />
+                </div>
+                <div style={{ flex: 1, padding: "2rem 2rem 2rem 1.75rem", display: "flex", flexDirection: "column", justifyContent: "center", gap: "0.7rem" }}>
+                  <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", flexWrap: "wrap" }}>
+                    <span style={{ background: "#f59e0b", color: "#000", fontSize: "0.62rem", fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", padding: "0.22rem 0.55rem", borderRadius: "4px" }}>Latest</span>
+                    <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.72rem", color: "#1a6fff" }}>{featured.week}</span>
+                  </div>
+                  <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.15rem, 2.5vw, 1.55rem)", fontWeight: 700, lineHeight: 1.3 }}>{featured.title}</h3>
+                  <p style={{ fontSize: "0.85rem", color: "var(--text-muted)", lineHeight: 1.65 }}>{featured.tldr}</p>
+                  <div style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap" }}>
+                    {featured.tags.map(t => <span key={t} className="tag">{t}</span>)}
+                  </div>
+                  <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", fontSize: "0.77rem", color: "var(--text-dim)", marginTop: "0.2rem" }}>
+                    <span>{featured.date}</span>
+                    <span>·</span>
+                    <span>{readingTime(featured.content)} min read</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Article Grid */}
+            {gridArticles.length === 0 ? (
+              <div style={{ textAlign: "center", padding: "3rem 0", color: "var(--text-muted)" }}>
+                <div style={{ fontSize: "2rem", marginBottom: "0.75rem" }}>🔍</div>
+                <p>No articles match your search. Try different keywords or clear the filter.</p>
+              </div>
+            ) : (
+              <div className="article-grid">
+                {gridArticles.map(a => (
+                  <div key={a.id} className="article-card" onClick={() => setSelectedArticle(a)}>
+                    <img src={ARTICLE_IMAGES[a.id]} alt={a.title} className="article-card-img" loading="lazy" />
+                    <div className="article-card-body">
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.68rem", color: "#1a6fff" }}>{a.week}</span>
+                        <span style={{ fontSize: "0.68rem", color: "var(--text-dim)" }}>{readingTime(a.content)} min read</span>
+                      </div>
+                      <div style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: "0.98rem", lineHeight: 1.35, flex: 1 }}>{a.title}</div>
+                      <div style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>{a.date}</div>
+                      <div style={{ display: "flex", gap: "0.3rem", flexWrap: "wrap", marginTop: "0.2rem" }}>
+                        {a.tags.map(t => <span key={t} className="tag">{t}</span>)}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {/* Topic Request */}
             <div style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)", borderRadius: "16px", padding: "2rem" }}>
@@ -749,13 +905,22 @@ export default function FinanceLab() {
       {/* ARTICLE MODAL */}
       {mounted && selectedArticle && ReactDOM.createPortal(
         <div onClick={() => setSelectedArticle(null)} style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(16px)", zIndex: 9999, padding: "1rem" }}>
-          <div onClick={e => e.stopPropagation()} style={{ position: "relative", background: "var(--bg-elevated)", border: "1px solid var(--border-2)", borderRadius: "24px", width: "100%", maxWidth: "580px", maxHeight: "85vh", overflowY: "auto", flexShrink: 0, padding: "2.5rem" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.5rem" }}>
+          <div onClick={e => e.stopPropagation()} style={{ position: "relative", background: "var(--bg-elevated)", border: "1px solid var(--border-2)", borderRadius: "24px", width: "100%", maxWidth: "600px", maxHeight: "88vh", overflowY: "auto", flexShrink: 0 }}>
+            {/* Cover image */}
+            <div style={{ position: "relative", overflow: "hidden", borderRadius: "24px 24px 0 0", height: 200 }}>
+              <img src={ARTICLE_IMAGES[selectedArticle.id]} alt={selectedArticle.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.7) 100%)" }} />
+              <button onClick={() => setSelectedArticle(null)} style={{ position: "absolute", top: "1rem", right: "1rem", background: "rgba(0,0,0,0.5)", border: "1px solid rgba(255,255,255,0.2)", color: "#fff", cursor: "pointer", borderRadius: "8px", padding: "0.4rem 0.75rem", fontSize: "0.9rem", backdropFilter: "blur(8px)" }}>✕</button>
+            </div>
+            <div style={{ padding: "1.75rem 2rem 2.5rem" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.25rem" }}>
               <div>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.75rem", color: "#1a6fff", marginBottom: "0.5rem" }}>{selectedArticle.week} · {selectedArticle.date}</div>
+                <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", marginBottom: "0.5rem", flexWrap: "wrap" }}>
+                  <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.75rem", color: "#1a6fff" }}>{selectedArticle.week} · {selectedArticle.date}</span>
+                  <span style={{ fontSize: "0.72rem", color: "var(--text-dim)" }}>{readingTime(selectedArticle.content)} min read</span>
+                </div>
                 <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", fontWeight: 700, lineHeight: 1.3 }}>{selectedArticle.title}</h2>
               </div>
-              <button onClick={() => setSelectedArticle(null)} style={{ background: "none", border: "1px solid var(--border-2)", color: "var(--text-sec)", cursor: "pointer", borderRadius: "8px", padding: "0.4rem 0.75rem", fontSize: "0.9rem" }}>✕</button>
             </div>
 
             <div style={{ background: "var(--bg-secondary)", border: "1px solid #1a6fff22", borderRadius: "10px", padding: "1rem 1.25rem", marginBottom: "1.5rem" }}>
@@ -768,6 +933,7 @@ export default function FinanceLab() {
             </div>
 
             <div style={{ color: "var(--text-sec)", fontSize: "0.9rem", lineHeight: 1.9, whiteSpace: "pre-wrap" }}>{selectedArticle.content}</div>
+            </div>
           </div>
         </div>
       , document.body)}
