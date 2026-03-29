@@ -65,6 +65,12 @@ const EXPERIENCES = [
   },
 ];
 
+const LEARNED_SKILLS: Record<number, string[]> = {
+  1: ["Leadership", "Mentorship", "Emotional Intelligence", "Team Dynamics", "Program Management"],
+  2: ["Cross-Cultural Communication", "Peace Education", "Collaboration", "Global Awareness", "Event Planning"],
+  4: ["Sustainability", "Hands-on Building", "Nature Literacy", "Mindfulness", "Teamwork"],
+};
+
 const SKILLS = [
   { label: "Leadership", category: "Strategic", ids: [1, 2, 3] },
   { label: "Mentorship", category: "Strategic", ids: [1] },
@@ -113,6 +119,8 @@ const CATEGORY_COLOR: Record<string, string> = {
   Environment: "#2d9e6b",
 };
 
+const PARALLAX_RATES = [0.015, -0.012, 0.018, -0.01, 0.012];
+
 export default function ExperienceVault() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -121,7 +129,10 @@ export default function ExperienceVault() {
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [visible, setVisible] = useState<Record<number, boolean>>({});
   const [carouselIndexes, setCarouselIndexes] = useState<Record<number, number>>({});
+  const [scrollY, setScrollY] = useState(0);
+  const [timelineProgress, setTimelineProgress] = useState(0);
   const itemRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  const timelineRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -138,6 +149,26 @@ export default function ExperienceVault() {
   }, []);
 
   useEffect(() => {
+    let rafId: number;
+    const handleScroll = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        setScrollY(window.scrollY);
+        if (timelineRef.current) {
+          const rect = timelineRef.current.getBoundingClientRect();
+          const progress = Math.min(100, Math.max(0,
+            ((window.innerHeight - rect.top) / (rect.height + window.innerHeight * 0.4)) * 110
+          ));
+          setTimelineProgress(progress);
+        }
+      });
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => { window.removeEventListener("scroll", handleScroll); cancelAnimationFrame(rafId); };
+  }, []);
+
+  useEffect(() => {
     const saved = localStorage.getItem("sp-theme") as "dark" | "light" | null;
     if (saved) setTheme(saved);
   }, []);
@@ -150,19 +181,10 @@ export default function ExperienceVault() {
   const toggleTheme = () => setTheme(t => t === "dark" ? "light" : "dark");
 
   const filtered = EXPERIENCES.filter((e) => filter === "All" || e.category === filter);
-
   const highlightedIds = activeSkill ? SKILLS.find((s) => s.label === activeSkill)?.ids || [] : [];
 
   return (
-    <main
-      style={{
-        background: "var(--bg)",
-        color: "var(--text)",
-        minHeight: "100vh",
-        fontFamily: "'DM Sans', sans-serif",
-        overflowX: "hidden",
-      }}
-    >
+    <main style={{ background: "var(--bg)", color: "var(--text)", minHeight: "100vh", fontFamily: "'DM Sans', sans-serif", overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&family=DM+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -185,25 +207,61 @@ export default function ExperienceVault() {
         .filter-btn:hover { color: var(--text); border-color: var(--border-2); }
         .filter-btn.active { background: #1a6fff; color: #fff; border-color: #1a6fff; }
 
+        /* Timeline track (dim background) */
+        .timeline-track {
+          position: absolute;
+          left: 7px; top: 0; bottom: 0;
+          width: 2px;
+          background: var(--border-2);
+          border-radius: 1px;
+        }
+
+        /* Animated progress line */
         .timeline-line {
           position: absolute;
-          left: 5px; top: 0; bottom: 0;
+          left: 7px; top: 0;
           width: 2px;
-          background: linear-gradient(to bottom, #1a6fff44, transparent);
+          background: linear-gradient(to bottom, #1a6fff, rgba(26,111,255,0.4), transparent);
+          border-radius: 1px;
+          transition: height 0.35s ease-out;
+        }
+
+        @keyframes dotPulse {
+          0%   { box-shadow: 0 0 0 0 rgba(26,111,255,0.8), 0 0 10px rgba(26,111,255,0.6); }
+          60%  { box-shadow: 0 0 0 10px rgba(26,111,255,0), 0 0 20px rgba(26,111,255,0.2); }
+          100% { box-shadow: 0 0 0 0 rgba(26,111,255,0), 0 0 8px rgba(26,111,255,0.5); }
         }
 
         .timeline-dot {
           position: absolute;
           left: 0; top: 1.6rem;
-          width: 12px; height: 12px;
+          width: 16px; height: 16px;
           border-radius: 50%;
-          background: #1a6fff;
-          border: 2px solid var(--bg-primary);
-          box-shadow: 0 0 0 3px #1a6fff33;
+          background: radial-gradient(circle at 35% 35%, #6aaeff 0%, #1a6fff 55%, #0d4fd6 100%);
+          border: 2px solid var(--bg);
+          box-shadow: 0 0 8px rgba(26,111,255,0.55);
           z-index: 2;
-          transition: box-shadow 0.3s;
+          transition: box-shadow 0.3s, transform 0.3s;
         }
-        .timeline-dot.highlighted { box-shadow: 0 0 0 6px #1a6fff55; }
+        .timeline-dot.pulsing { animation: dotPulse 1.6s ease-out; }
+        .timeline-dot.highlighted {
+          transform: scale(1.25);
+          box-shadow: 0 0 0 5px rgba(26,111,255,0.25), 0 0 18px rgba(26,111,255,0.6);
+        }
+
+        /* Year label pinned just above each dot */
+        .year-node-label {
+          position: absolute;
+          left: 0;
+          font-family: 'DM Mono', monospace;
+          font-size: 0.58rem;
+          font-weight: 700;
+          color: rgba(26,111,255,0.7);
+          letter-spacing: 0.06em;
+          white-space: nowrap;
+          pointer-events: none;
+          line-height: 1;
+        }
 
         .exp-card {
           background: var(--bg-elevated);
@@ -212,7 +270,7 @@ export default function ExperienceVault() {
           padding: 1.5rem;
           margin-bottom: 1.5rem;
           cursor: pointer;
-          transition: all 0.25s;
+          transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
           position: relative;
           overflow: hidden;
         }
@@ -224,11 +282,24 @@ export default function ExperienceVault() {
           background: transparent;
           transition: background 0.3s;
         }
-        .exp-card:hover { border-color: #1a6fff33; transform: translateX(4px); }
+        .exp-card:hover {
+          border-color: rgba(26,111,255,0.4);
+          transform: translateX(4px) translateY(-3px);
+          box-shadow: 0 10px 36px rgba(26,111,255,0.18), 0 2px 8px rgba(0,0,0,0.18);
+        }
         .exp-card:hover::before { background: #1a6fff; }
-        .exp-card.highlighted { border-color: #1a6fff55; box-shadow: 0 0 20px #1a6fff15; }
+        .exp-card.highlighted { border-color: rgba(26,111,255,0.38); box-shadow: 0 0 24px rgba(26,111,255,0.12); }
         .exp-card.highlighted::before { background: #1a6fff; }
         .exp-card.dimmed { opacity: 0.3; }
+
+        /* Image scale on card hover */
+        .carousel-img-wrap {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          transition: transform 0.45s ease;
+        }
+        .exp-card:hover .carousel-img-wrap { transform: scale(1.04); }
 
         .skill-chip {
           display: inline-block;
@@ -240,6 +311,24 @@ export default function ExperienceVault() {
           background: var(--bg-elevated2);
           color: var(--text-muted);
           border: 1px solid var(--border-2);
+        }
+
+        .learned-pill {
+          display: inline-block;
+          padding: 0.22rem 0.7rem;
+          border-radius: 20px;
+          font-size: 0.69rem;
+          font-weight: 500;
+          letter-spacing: 0.02em;
+          color: #1a6fff;
+          border: 1px solid rgba(26,111,255,0.38);
+          background: rgba(26,111,255,0.06);
+          transition: background 0.2s, box-shadow 0.2s;
+          cursor: default;
+        }
+        .learned-pill:hover {
+          background: rgba(26,111,255,0.13);
+          box-shadow: 0 0 8px rgba(26,111,255,0.22);
         }
 
         .skill-grid-btn {
@@ -254,8 +343,8 @@ export default function ExperienceVault() {
           transition: all 0.2s;
           font-family: 'DM Sans', sans-serif;
         }
-        .skill-grid-btn:hover { border-color: #1a6fff44; color: var(--text-sec); }
-        .skill-grid-btn.active { background: var(--bg-icon); color: #1a6fff; border-color: #1a6fff66; }
+        .skill-grid-btn:hover { border-color: rgba(26,111,255,0.3); color: var(--text-sec); }
+        .skill-grid-btn.active { background: var(--bg-icon); color: #1a6fff; border-color: rgba(26,111,255,0.45); }
 
         .photo-placeholder {
           width: 100%;
@@ -275,7 +364,7 @@ export default function ExperienceVault() {
 
         .origin-card {
           background: linear-gradient(135deg, var(--bg-elevated) 0%, var(--bg-icon) 100%);
-          border: 1px solid #1a6fff33;
+          border: 1px solid rgba(26,111,255,0.2);
           border-radius: 16px;
           padding: 2rem;
           position: relative;
@@ -287,7 +376,7 @@ export default function ExperienceVault() {
           top: -1rem; right: 1.5rem;
           font-family: 'Playfair Display', serif;
           font-size: 8rem;
-          color: #1a6fff11;
+          color: rgba(26,111,255,0.07);
           line-height: 1;
         }
 
@@ -309,7 +398,7 @@ export default function ExperienceVault() {
         }
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(-6px); }
-          to { opacity: 1; transform: translateY(0); }
+          to   { opacity: 1; transform: translateY(0); }
         }
 
         .carousel-wrap { margin-top: 1rem; }
@@ -334,17 +423,12 @@ export default function ExperienceVault() {
           line-height: 1;
           display: flex; align-items: center; justify-content: center;
           transition: background 0.2s;
-          z-index: 2;
+          z-index: 3;
         }
         .carousel-arrow:hover { background: rgba(26,111,255,0.65); border-color: #1a6fff; }
         .carousel-left { left: 0.625rem; }
         .carousel-right { right: 0.625rem; }
-        .carousel-dots {
-          display: flex;
-          justify-content: center;
-          gap: 0.5rem;
-          margin-top: 0.625rem;
-        }
+        .carousel-dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: 0.625rem; }
         .carousel-dot {
           width: 6px; height: 6px;
           border-radius: 50%;
@@ -355,6 +439,7 @@ export default function ExperienceVault() {
           transition: background 0.2s;
         }
         .carousel-dot.active { background: #1a6fff; }
+
         .album-btn {
           display: inline-flex;
           align-items: center;
@@ -372,51 +457,44 @@ export default function ExperienceVault() {
           font-family: 'DM Sans', sans-serif;
           cursor: pointer;
         }
-        .album-btn:hover { border-color: #1a6fff44; color: var(--text); }
+        .album-btn:hover { border-color: rgba(26,111,255,0.3); color: var(--text); }
+
+        .header-stat {
+          display: inline-flex;
+          align-items: center;
+          padding: 0.28rem 0.75rem;
+          border-radius: 20px;
+          background: rgba(26,111,255,0.08);
+          border: 1px solid rgba(26,111,255,0.2);
+          font-size: 0.72rem;
+          font-weight: 600;
+          color: #1a6fff;
+          font-family: 'DM Mono', monospace;
+          letter-spacing: 0.04em;
+        }
+
+        @keyframes statFade {
+          from { opacity: 0; transform: translateY(6px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .header-stat:nth-child(1) { animation: statFade 0.5s 0.2s ease-out both; }
+        .header-stat:nth-child(2) { animation: statFade 0.5s 0.35s ease-out both; }
+        .header-stat:nth-child(3) { animation: statFade 0.5s 0.5s ease-out both; }
 
         @media (max-width: 768px) {
-          .exp-header {
-            padding: 1.25rem 1rem !important;
-          }
-
-          .exp-main {
-            padding: 1.5rem 1rem !important;
-          }
-
-          .exp-card {
-            padding: 1.25rem !important;
-          }
-
-          .filter-btn {
-            min-height: 44px;
-            display: inline-flex;
-            align-items: center;
-          }
-
-          .skill-grid-btn {
-            min-height: 44px;
-            display: inline-flex;
-            align-items: center;
-          }
-
-          .carousel-arrow {
-            width: 44px;
-            height: 44px;
-          }
-
-          .origin-card {
-            padding: 1.5rem !important;
-          }
+          .exp-header { padding: 1.25rem 1rem !important; }
+          .exp-main { padding: 1.5rem 1rem !important; }
+          .exp-card { padding: 1.25rem !important; }
+          .filter-btn { min-height: 44px; display: inline-flex; align-items: center; }
+          .skill-grid-btn { min-height: 44px; display: inline-flex; align-items: center; }
+          .carousel-arrow { width: 44px; height: 44px; }
+          .origin-card { padding: 1.5rem !important; }
+          .year-node-label { display: none; }
         }
 
         @media (max-width: 480px) {
-          .exp-card {
-            padding: 1rem !important;
-          }
-
-          .timeline-line {
-            display: none;
-          }
+          .exp-card { padding: 1rem !important; }
+          .timeline-track, .timeline-line { display: none; }
         }
 
         .mobile-menu {
@@ -442,160 +520,214 @@ export default function ExperienceVault() {
         </div>
       )}
 
-      {/* HEADER */}
-      <div className="exp-header" style={{ borderBottom: "1px solid var(--border)", padding: "1.5rem 2rem", display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
-        <div>
-          <a href="/" style={{ color: "var(--text-muted)", fontSize: "0.78rem", textDecoration: "none", letterSpacing: "0.08em" }}>
-            ← SP.
-          </a>
-          <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.6rem, 5vw, 2.4rem)", fontWeight: 900, marginTop: "0.2rem", letterSpacing: "-0.02em" }}>
-            The Experience <span style={{ color: "#1a6fff" }}>Vault</span>
-          </h1>
-          <p style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginTop: "0.25rem", fontStyle: "italic" }}>
-            From cultural immersion to strategic leadership. A timeline of adaptation and growth.
-          </p>
-          <div style={{ display: "flex", gap: "0.5rem", marginTop: "1.25rem", flexWrap: "wrap" }}>
-            {FILTERS.map((f) => (
-              <button key={f} className={`filter-btn ${filter === f ? "active" : ""}`} onClick={() => setFilter(f)}>
-                {f}
-              </button>
-            ))}
+      {/* CINEMATIC HEADER */}
+      <div
+        className="exp-header"
+        style={{
+          borderBottom: "1px solid var(--border)",
+          padding: "2rem 2rem 1.75rem",
+          background: "linear-gradient(135deg, rgba(26,111,255,0.07) 0%, rgba(26,111,255,0.02) 45%, transparent 70%)",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        {/* Decorative radial glow */}
+        <div style={{
+          position: "absolute", top: -100, left: -80,
+          width: 380, height: 380,
+          background: "radial-gradient(ellipse, rgba(26,111,255,0.1) 0%, transparent 68%)",
+          pointerEvents: "none",
+        }} />
+
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", position: "relative" }}>
+          <div>
+            <a href="/" style={{ color: "var(--text-muted)", fontSize: "0.78rem", textDecoration: "none", letterSpacing: "0.08em" }}>
+              ← SP.
+            </a>
+            <h1 style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: "clamp(2rem, 6vw, 3.2rem)",
+              fontWeight: 900,
+              marginTop: "0.3rem",
+              letterSpacing: "-0.03em",
+              lineHeight: 1.1,
+            }}>
+              Experience <span style={{ color: "#1a6fff" }}>Vault</span>
+            </h1>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.875rem", marginTop: "0.4rem", fontStyle: "italic", maxWidth: 460 }}>
+              From cultural immersion to strategic leadership — a timeline of adaptation and growth.
+            </p>
+
+            {/* Animated stats */}
+            <div style={{ display: "flex", gap: "0.5rem", marginTop: "1rem", flexWrap: "wrap" }}>
+              <span className="header-stat">5 Experiences</span>
+              <span className="header-stat">2 Countries</span>
+              <span className="header-stat">2023 – 2026</span>
+            </div>
+
+            {/* Filters */}
+            <div style={{ display: "flex", gap: "0.5rem", marginTop: "1rem", flexWrap: "wrap" }}>
+              {FILTERS.map((f) => (
+                <button key={f} className={`filter-btn ${filter === f ? "active" : ""}`} onClick={() => setFilter(f)}>
+                  {f}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
-        <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start", flexShrink: 0 }}>
-          <a href="/connect" style={{ display: "inline-flex", alignItems: "center", padding: "0.6rem 1.4rem", background: "#1a6fff", color: "#fff", textDecoration: "none", borderRadius: "8px", fontWeight: 600, fontSize: "0.9rem" }}>Contact</a>
-          <button onClick={toggleTheme} aria-label="Toggle theme" style={{ background: "none", border: "1px solid var(--border-2)", borderRadius: "8px", color: "var(--text-sec)", cursor: "pointer", width: "42px", height: "42px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", transition: "all 0.2s" }}>{theme === "dark" ? "☀️" : "🌙"}</button>
-          <button onClick={() => setMenuOpen(true)} style={{ background: "none", border: "1px solid var(--border-2)", borderRadius: "8px", color: "var(--text-sec)", cursor: "pointer", width: "44px", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem" }} aria-label="Open menu">☰</button>
+
+          <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start", flexShrink: 0 }}>
+            <a href="/connect" style={{ display: "inline-flex", alignItems: "center", padding: "0.6rem 1.4rem", background: "#1a6fff", color: "#fff", textDecoration: "none", borderRadius: "8px", fontWeight: 600, fontSize: "0.9rem" }}>Contact</a>
+            <button onClick={toggleTheme} aria-label="Toggle theme" style={{ background: "none", border: "1px solid var(--border-2)", borderRadius: "8px", color: "var(--text-sec)", cursor: "pointer", width: "42px", height: "42px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", transition: "all 0.2s" }}>{theme === "dark" ? "☀️" : "🌙"}</button>
+            <button onClick={() => setMenuOpen(true)} style={{ background: "none", border: "1px solid var(--border-2)", borderRadius: "8px", color: "var(--text-sec)", cursor: "pointer", width: "44px", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem" }} aria-label="Open menu">☰</button>
+          </div>
         </div>
       </div>
 
       <div className="exp-main" style={{ maxWidth: 800, margin: "0 auto", padding: "2.5rem 2rem" }}>
+
         {/* TIMELINE */}
-        <div style={{ position: "relative" }}>
-          <div className="timeline-line" />
+        <div ref={timelineRef} style={{ position: "relative" }}>
+          {/* Dim track */}
+          <div className="timeline-track" />
+          {/* Animated cobalt line */}
+          <div className="timeline-line" style={{ height: `${timelineProgress}%` }} />
+
           {filtered.map((exp, i) => {
             const isHighlighted = highlightedIds.includes(exp.id);
             const isDimmed = activeSkill !== null && !isHighlighted;
             const isExpanded = expandedId === exp.id;
+            const parallaxShift = Math.min(20, Math.max(-20, scrollY * PARALLAX_RATES[i % PARALLAX_RATES.length]));
 
             return (
+              /* Entrance wrapper — handles fade + slide-in */
               <div
                 key={exp.id}
                 data-id={exp.id}
-                ref={(el) => {
-                  itemRefs.current[exp.id] = el;
-                }}
+                ref={(el) => { itemRefs.current[exp.id] = el; }}
                 style={{
-                  position: "relative",
-                  paddingLeft: "2.5rem",
                   opacity: visible[exp.id] ? 1 : 0,
-                  transform: visible[exp.id] ? "translateX(0)" : "translateX(-20px)",
-                  transition: `all 0.6s ease-out ${i * 0.1}s`,
+                  transform: `translateX(${visible[exp.id] ? 0 : -20}px)`,
+                  transition: `opacity 0.6s ease-out ${i * 0.1}s, transform 0.6s ease-out ${i * 0.1}s`,
                 }}
               >
-                <div className={`timeline-dot ${isHighlighted ? "highlighted" : ""}`} />
+                {/* Parallax wrapper — handles scroll depth */}
                 <div
-                  className={`exp-card ${isHighlighted ? "highlighted" : ""} ${isDimmed ? "dimmed" : ""}`}
-                  onClick={() => setExpandedId(isExpanded ? null : exp.id)}
+                  style={{
+                    position: "relative",
+                    paddingLeft: "3.25rem",
+                    transform: `translateY(${visible[exp.id] ? parallaxShift : 0}px)`,
+                  }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.75rem", flexWrap: "wrap", gap: "0.5rem" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
-                      <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.75rem", color: "#1a6fff", fontWeight: 700 }}>{exp.year}</span>
-                      <span style={{ background: `${CATEGORY_COLOR[exp.category]}18`, color: CATEGORY_COLOR[exp.category], border: `1px solid ${CATEGORY_COLOR[exp.category]}33`, borderRadius: "20px", padding: "0.15rem 0.6rem", fontSize: "0.68rem", fontWeight: 700 }}>
-                        {exp.category}
-                      </span>
-                      {exp.highlight && (
-                        <span style={{ background: "#ffd70018", color: "#ffd700", border: "1px solid #ffd70033", borderRadius: "20px", padding: "0.15rem 0.6rem", fontSize: "0.68rem", fontWeight: 700 }}>
-                          ⭐ Latest
+                  {/* Year label above dot */}
+                  <div className="year-node-label" style={{ top: "0.6rem" }}>
+                    {exp.year}
+                  </div>
+
+                  {/* Glowing dot */}
+                  <div className={`timeline-dot ${isHighlighted ? "highlighted" : ""} ${visible[exp.id] ? "pulsing" : ""}`} />
+
+                  {/* Card */}
+                  <div
+                    className={`exp-card ${isHighlighted ? "highlighted" : ""} ${isDimmed ? "dimmed" : ""}`}
+                    onClick={() => setExpandedId(isExpanded ? null : exp.id)}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.75rem", flexWrap: "wrap", gap: "0.5rem" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
+                        <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.75rem", color: "#1a6fff", fontWeight: 700 }}>{exp.year}</span>
+                        <span style={{ background: `${CATEGORY_COLOR[exp.category]}18`, color: CATEGORY_COLOR[exp.category], border: `1px solid ${CATEGORY_COLOR[exp.category]}33`, borderRadius: "20px", padding: "0.15rem 0.6rem", fontSize: "0.68rem", fontWeight: 700 }}>
+                          {exp.category}
                         </span>
-                      )}
-                    </div>
-                    <span style={{ color: "var(--text-muted)", transition: "transform 0.2s", transform: isExpanded ? "rotate(90deg)" : "none", display: "inline-block" }}>
-                      →
-                    </span>
-                  </div>
-
-                  <h3 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: "1.15rem", marginBottom: "0.25rem" }}>{exp.title}</h3>
-                  <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginBottom: "0.875rem" }}>{exp.role}</div>
-                  <p style={{ fontSize: "0.875rem", color: "var(--text-sec)", lineHeight: 1.7, marginBottom: "0.875rem" }}>{exp.summary}</p>
-
-                  <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
-                    {exp.skills.map((s) => (
-                      <span key={s} className="skill-chip">
-                        {s}
-                      </span>
-                    ))}
-                  </div>
-
-                  {isExpanded && (
-                    <div className="detail-expand">
-                      <div style={{ fontSize: "0.68rem", color: "#1a6fff", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.5rem" }}>
-                        Key Insight
+                        {exp.highlight && (
+                          <span style={{ background: "rgba(255,215,0,0.08)", color: "#ffd700", border: "1px solid rgba(255,215,0,0.2)", borderRadius: "20px", padding: "0.15rem 0.6rem", fontSize: "0.68rem", fontWeight: 700 }}>
+                            ⭐ Latest
+                          </span>
+                        )}
                       </div>
-                      <p style={{ fontSize: "0.875rem", color: "var(--text-sec)", lineHeight: 1.8, marginBottom: "1rem" }}>{exp.insight}</p>
-                      {(() => {
-                        const carousel = CAROUSEL_DATA[exp.id];
-                        if (!carousel) {
+                      <span style={{ color: "var(--text-muted)", transition: "transform 0.2s", transform: isExpanded ? "rotate(90deg)" : "none", display: "inline-block" }}>
+                        →
+                      </span>
+                    </div>
+
+                    <h3 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: "1.15rem", marginBottom: "0.25rem" }}>{exp.title}</h3>
+                    <div style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginBottom: "0.875rem" }}>{exp.role}</div>
+                    <p style={{ fontSize: "0.875rem", color: "var(--text-sec)", lineHeight: 1.7, marginBottom: "0.875rem" }}>{exp.summary}</p>
+
+                    {/* Hashtag skill chips */}
+                    <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+                      {exp.skills.map((s) => (
+                        <span key={s} className="skill-chip">{s}</span>
+                      ))}
+                    </div>
+
+                    {/* What I Learned pills */}
+                    {LEARNED_SKILLS[exp.id] && (
+                      <div style={{ marginTop: "0.875rem", paddingTop: "0.875rem", borderTop: "1px solid var(--border)" }}>
+                        <div style={{ fontSize: "0.62rem", color: "var(--text-muted)", letterSpacing: "0.14em", textTransform: "uppercase", fontWeight: 700, marginBottom: "0.5rem" }}>
+                          What I Learned
+                        </div>
+                        <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+                          {LEARNED_SKILLS[exp.id].map((skill) => (
+                            <span key={skill} className="learned-pill">{skill}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Expanded section */}
+                    {isExpanded && (
+                      <div className="detail-expand">
+                        <div style={{ fontSize: "0.68rem", color: "#1a6fff", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.5rem" }}>
+                          Key Insight
+                        </div>
+                        <p style={{ fontSize: "0.875rem", color: "var(--text-sec)", lineHeight: 1.8, marginBottom: "1rem" }}>{exp.insight}</p>
+                        {(() => {
+                          const carousel = CAROUSEL_DATA[exp.id];
+                          if (!carousel) {
+                            return (
+                              <div className="photo-placeholder">
+                                <span style={{ fontSize: "1.5rem" }}>📷</span>
+                                <span>Photo placeholder — AirDrop to Mac, drop in /public folder</span>
+                                <span style={{ fontSize: "0.68rem", color: "var(--text-muted)" }}>Recommended: 1200×675px</span>
+                              </div>
+                            );
+                          }
+                          const idx = carouselIndexes[exp.id] ?? 0;
+                          const setIdx = (n: number) => setCarouselIndexes(prev => ({ ...prev, [exp.id]: n }));
                           return (
-                            <div className="photo-placeholder">
-                              <span style={{ fontSize: "1.5rem" }}>📷</span>
-                              <span>Photo placeholder — AirDrop to Mac, drop in /public folder</span>
-                              <span style={{ fontSize: "0.68rem", color: "var(--text-muted)" }}>Recommended: 1200×675px</span>
+                            <div className="carousel-wrap" onClick={(e) => e.stopPropagation()}>
+                              <div className="carousel-inner">
+                                <div className="carousel-img-wrap">
+                                  <Image
+                                    src={carousel.photos[idx]}
+                                    alt={`${exp.title} photo ${idx + 1}`}
+                                    fill
+                                    style={{
+                                      objectFit: (exp.id === 1 && idx === 2) || exp.id === 4 ? "contain" : "cover",
+                                      objectPosition: exp.id === 4 ? "center top" : "center",
+                                      background: (exp.id === 1 && idx === 2) || exp.id === 4 ? "var(--bg-elevated2)" : "transparent",
+                                    }}
+                                    sizes="(max-width: 768px) 100vw, 700px"
+                                  />
+                                </div>
+                                <button className="carousel-arrow carousel-left" onClick={() => setIdx((idx - 1 + carousel.photos.length) % carousel.photos.length)} aria-label="Previous photo">‹</button>
+                                <button className="carousel-arrow carousel-right" onClick={() => setIdx((idx + 1) % carousel.photos.length)} aria-label="Next photo">›</button>
+                              </div>
+                              <div className="carousel-dots">
+                                {carousel.photos.map((_, n) => (
+                                  <button key={n} className={`carousel-dot ${n === idx ? "active" : ""}`} onClick={() => setIdx(n)} aria-label={`Photo ${n + 1}`} />
+                                ))}
+                              </div>
+                              {carousel.albumUrl && (
+                                <a href={carousel.albumUrl} target="_blank" rel="noopener noreferrer" className="album-btn">
+                                  📁 View Full Album →
+                                </a>
+                              )}
                             </div>
                           );
-                        }
-                        const idx = carouselIndexes[exp.id] ?? 0;
-                        const setIdx = (i: number) => setCarouselIndexes(prev => ({ ...prev, [exp.id]: i }));
-                        return (
-                          <div className="carousel-wrap" onClick={(e) => e.stopPropagation()}>
-                            <div className="carousel-inner">
-                              <Image
-                                src={carousel.photos[idx]}
-                                alt={`${exp.title} photo ${idx + 1}`}
-                                fill
-                                style={{
-                                  objectFit: (exp.id === 1 && idx === 2) || exp.id === 4 ? "contain" : "cover",
-                                  objectPosition: exp.id === 4 ? "center top" : "center",
-                                  background: (exp.id === 1 && idx === 2) || exp.id === 4 ? "var(--bg-elevated2)" : "transparent",
-                                }}
-                                sizes="(max-width: 768px) 100vw, 700px"
-                              />
-                              <button
-                                className="carousel-arrow carousel-left"
-                                onClick={() => setIdx((idx - 1 + carousel.photos.length) % carousel.photos.length)}
-                                aria-label="Previous photo"
-                              >‹</button>
-                              <button
-                                className="carousel-arrow carousel-right"
-                                onClick={() => setIdx((idx + 1) % carousel.photos.length)}
-                                aria-label="Next photo"
-                              >›</button>
-                            </div>
-                            <div className="carousel-dots">
-                              {carousel.photos.map((_, i) => (
-                                <button
-                                  key={i}
-                                  className={`carousel-dot ${i === idx ? "active" : ""}`}
-                                  onClick={() => setIdx(i)}
-                                  aria-label={`Photo ${i + 1}`}
-                                />
-                              ))}
-                            </div>
-                            {carousel.albumUrl && (
-                              <a
-                                href={carousel.albumUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="album-btn"
-                              >
-                                📁 View Full Album →
-                              </a>
-                            )}
-                          </div>
-                        );
-                      })()}
-                    </div>
-                  )}
+                        })()}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             );
@@ -603,7 +735,7 @@ export default function ExperienceVault() {
         </div>
 
         {/* ORIGIN STORY */}
-        <div style={{ marginBottom: "3rem", paddingLeft: "2.5rem" }}>
+        <div style={{ marginBottom: "3rem", paddingLeft: "3.25rem" }}>
           <div className="origin-card">
             <span className="section-tag">Origin Story</span>
             <p style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem", fontWeight: 700, lineHeight: 1.6, color: "var(--text)", position: "relative", zIndex: 1 }}>
@@ -616,14 +748,11 @@ export default function ExperienceVault() {
         {/* SKILL STACK */}
         <div>
           <span className="section-tag">Skill Stack</span>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.4rem" }}>What I've Built</h2>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.4rem" }}>What I&apos;ve Built</h2>
           <p style={{ color: "var(--text-muted)", fontSize: "0.82rem", marginBottom: "1.5rem" }}>
             Click a skill to highlight related experiences.
             {activeSkill && (
-              <span
-                style={{ color: "#1a6fff", marginLeft: "0.5rem", cursor: "pointer" }}
-                onClick={() => setActiveSkill(null)}
-              >
+              <span style={{ color: "#1a6fff", marginLeft: "0.5rem", cursor: "pointer" }} onClick={() => setActiveSkill(null)}>
                 Clear ✕
               </span>
             )}
@@ -649,4 +778,3 @@ export default function ExperienceVault() {
     </main>
   );
 }
-
