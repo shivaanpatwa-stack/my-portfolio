@@ -163,23 +163,23 @@ const ARTICLES = [
 
 // ─── ARTICLE IMAGES ─────────────────────────────────────────────────────────
 const ARTICLE_IMAGES: Record<number, string> = {
-  1:  "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=600&q=80",
-  2:  "https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=600&q=80",
-  3:  "https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?w=600&q=80",
-  4:  "https://images.unsplash.com/photo-1601597111158-2fceff292cdc?w=600&q=80",
+  1:  "https://images.unsplash.com/photo-1624555130581-1d9cca783bc0?w=600&q=80",
+  2:  "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80",
+  3:  "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?w=600&q=80",
+  4:  "https://images.unsplash.com/photo-1619514987007-d50f7e7b1b1a?w=600&q=80",
   5:  "https://images.unsplash.com/photo-1501167786227-4cba60f6d58f?w=600&q=80",
-  6:  "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=600&q=80",
-  7:  "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80",
-  8:  "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=600&q=80",
-  9:  "https://images.unsplash.com/photo-1642790551116-18e4f6ff4e09?w=600&q=80",
-  10: "https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=600&q=80",
-  11: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=600&q=80",
-  12: "https://images.unsplash.com/photo-1495837174058-628aafc7d610?w=600&q=80",
-  13: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80",
-  14: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&q=80",
-  15: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&q=80",
-  16: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
-  17: "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?w=600&q=80",
+  6:  "https://images.unsplash.com/photo-1714223084-8fcacc2dfd4d?w=600&q=80",
+  7:  "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80",
+  8:  "https://images.unsplash.com/photo-1586282391129-76a6df230234?w=600&q=80",
+  9:  "https://images.unsplash.com/photo-1579621970795-87facc2f976d?w=600&q=80",
+  10: "https://images.unsplash.com/photo-1607944024060-0450380ddd33?w=600&q=80",
+  11: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&q=80",
+  12: "https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=600&q=80",
+  13: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=600&q=80",
+  14: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
+  15: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80",
+  16: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80",
+  17: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=600&q=80",
 };
 
 const ALL_TAGS = Array.from(new Set(ARTICLES.flatMap(a => a.tags)));
@@ -793,10 +793,8 @@ export default function FinanceLab() {
                   <div style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap" }}>
                     {featured.tags.map(t => <span key={t} className="tag">{t}</span>)}
                   </div>
-                  <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", fontSize: "0.77rem", color: "var(--text-dim)", marginTop: "0.2rem" }}>
+                  <div style={{ fontSize: "0.77rem", color: "var(--text-dim)", marginTop: "0.2rem" }}>
                     <span>{featured.date}</span>
-                    <span>·</span>
-                    <span>{readingTime(featured.content)} min read</span>
                   </div>
                 </div>
               </div>
@@ -814,9 +812,8 @@ export default function FinanceLab() {
                   <div key={a.id} className="article-card" onClick={() => setSelectedArticle(a)}>
                     <img src={ARTICLE_IMAGES[a.id]} alt={a.title} className="article-card-img" loading="lazy" />
                     <div className="article-card-body">
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div>
                         <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.68rem", color: "#1a6fff" }}>{a.week}</span>
-                        <span style={{ fontSize: "0.68rem", color: "var(--text-dim)" }}>{readingTime(a.content)} min read</span>
                       </div>
                       <div style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: "0.98rem", lineHeight: 1.35, flex: 1 }}>{a.title}</div>
                       <div style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>{a.date}</div>

@@ -45,10 +45,10 @@
   --text-dim: #9ca3af;
   --border: #e5e7eb;
   --border-2: #d1d5db;
-  --border-3: #d1d5db;
+  --border-3: transparent;
   --border-card: #e2e8f0;
   --nav-bg: rgba(248,249,255,0.96);
-  --quote-bg: linear-gradient(135deg, #ffffff 0%, #eef2ff 100%);
+  --quote-bg: transparent;
   --grid-line: rgba(26,111,255,0.05);
   --card-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
   /* Semantic aliases */
