@@ -78,6 +78,7 @@ export default function MUNArena() {
   const [requestSubmitting, setRequestSubmitting] = useState(false);
   const [requestError, setRequestError] = useState<string | null>(null);
   const [gavelActive, setGavelActive] = useState(false);
+  const [hintsPhase, setHintsPhase] = useState<"off" | "visible" | "fading">("off");
   const gavelTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const gPressTimes = useRef<number[]>([]);
 
@@ -118,6 +119,19 @@ export default function MUNArena() {
   }, [theme]);
 
   const toggleTheme = () => setTheme(t => t === "dark" ? "light" : "dark");
+
+  // One-time hints
+  useEffect(() => {
+    if (localStorage.getItem("sp-mun-hints-shown")) return;
+    const t1 = setTimeout(() => setHintsPhase("visible"), 2000);
+    const t2 = setTimeout(() => setHintsPhase("fading"), 8000);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, []);
+
+  const dismissHints = () => {
+    setHintsPhase("fading");
+    localStorage.setItem("sp-mun-hints-shown", "1");
+  };
 
   const analyseClause = () => {
     const text = clauseText.trim();
@@ -324,6 +338,46 @@ export default function MUNArena() {
           text-shadow: 0 8px 22px rgba(0, 0, 0, 0.55);
         }
 
+        @keyframes hintFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-4px); }
+        }
+        .hint-card {
+          display: inline-flex;
+          align-items: flex-start;
+          gap: 0.6rem;
+          background: rgba(10,15,30,0.92);
+          border-left: 3px solid #1a6fff;
+          border-radius: 8px;
+          padding: 0.6rem 0.75rem;
+          font-size: 0.78rem;
+          color: #c8d8ea;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+          backdrop-filter: blur(8px);
+          animation: hintFloat 2s ease-in-out infinite;
+          transition: opacity 0.5s ease;
+          max-width: 380px;
+          line-height: 1.5;
+        }
+        :root.light-theme .hint-card {
+          background: rgba(255,255,255,0.95);
+          color: #1a2235;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+        }
+        .hint-dismiss {
+          background: none;
+          border: none;
+          color: #556677;
+          cursor: pointer;
+          font-size: 0.85rem;
+          padding: 0;
+          flex-shrink: 0;
+          line-height: 1;
+          margin-top: 1px;
+          transition: color 0.2s;
+        }
+        .hint-dismiss:hover { color: #e0e7f0; }
+
         @keyframes overlayFadeIn {
           from { opacity: 0; }
           to { opacity: 1; }
@@ -515,7 +569,17 @@ export default function MUNArena() {
           <div>
             <span className="section-tag">Conference Archive</span>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.6rem", fontWeight: 700, marginBottom: "0.4rem" }}>The Track Record</h2>
-            <p style={{ color: "var(--text-muted)", fontSize: "0.83rem", marginBottom: "1.5rem" }}>Click any row to expand the briefing note.</p>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.83rem", marginBottom: "1rem" }}>Click any row to expand the briefing note.</p>
+
+            {/* Archive hint */}
+            {hintsPhase !== "off" && (
+              <div style={{ marginBottom: "1.25rem", opacity: hintsPhase === "visible" ? 1 : 0, transition: "opacity 0.5s ease" }}>
+                <div className="hint-card">
+                  <span>📋 Click any conference row to read the full briefing note</span>
+                  <button className="hint-dismiss" onClick={dismissHints} aria-label="Dismiss hint">✕</button>
+                </div>
+              </div>
+            )}
 
             {/* Table header */}
             <div className="conf-header" style={{ display: "grid", gridTemplateColumns: "60px 1fr 1fr 1fr 140px", gap: "0.75rem", padding: "0.5rem 1.25rem", marginBottom: "0.25rem" }}>
@@ -610,7 +674,17 @@ export default function MUNArena() {
           <div>
             <span className="section-tag">Strategy Toolkit</span>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.6rem", fontWeight: 700, marginBottom: "0.4rem" }}>The MUN Cheat Sheet</h2>
-            <p style={{ color: "var(--text-muted)", fontSize: "0.83rem", marginBottom: "1.5rem" }}>Distilled from 18 conferences. Click each section to expand.</p>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.83rem", marginBottom: "1rem" }}>Distilled from 18 conferences. Click each section to expand.</p>
+
+            {/* Toolkit hint */}
+            {hintsPhase !== "off" && (
+              <div style={{ marginBottom: "1.25rem", opacity: hintsPhase === "visible" ? 1 : 0, transition: "opacity 0.5s ease" }}>
+                <div className="hint-card">
+                  <span>🤖 The MUN Prep AI can help you research any committee topic</span>
+                  <button className="hint-dismiss" onClick={dismissHints} aria-label="Dismiss hint">✕</button>
+                </div>
+              </div>
+            )}
 
             <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
               {TOOLKIT.map((t, i) => (

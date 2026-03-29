@@ -293,10 +293,24 @@ export default function FinanceLab() {
   const [aiInput, setAiInput] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
   const [tickerData, setTickerData] = useState<{ id: string; label: string; price: number; changePercent: number }[]>([]);
+  const [hintsPhase, setHintsPhase] = useState<"off" | "visible" | "fading">("off");
 
   const aiChatRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { setMounted(true); }, []);
+
+  // One-time hints
+  useEffect(() => {
+    if (localStorage.getItem("sp-finance-hints-shown")) return;
+    const t1 = setTimeout(() => setHintsPhase("visible"), 2000);
+    const t2 = setTimeout(() => setHintsPhase("fading"), 8000);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, []);
+
+  const dismissHints = () => {
+    setHintsPhase("fading");
+    localStorage.setItem("sp-finance-hints-shown", "1");
+  };
 
   useEffect(() => {
     if (selectedArticle) {
@@ -587,6 +601,47 @@ export default function FinanceLab() {
           white-space: pre-wrap;
         }
 
+        @keyframes hintFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-4px); }
+        }
+        .hint-card {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.6rem;
+          background: rgba(10,15,30,0.92);
+          border-left: 3px solid #1a6fff;
+          border-radius: 8px;
+          padding: 0.6rem 0.75rem;
+          font-size: 0.78rem;
+          color: #c8d8ea;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+          backdrop-filter: blur(8px);
+          animation: hintFloat 2s ease-in-out infinite;
+          transition: opacity 0.5s ease;
+          max-width: 360px;
+          line-height: 1.5;
+          pointer-events: auto;
+        }
+        :root.light-theme .hint-card {
+          background: rgba(255,255,255,0.95);
+          color: #1a2235;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+        }
+        .hint-dismiss {
+          background: none;
+          border: none;
+          color: #556677;
+          cursor: pointer;
+          font-size: 0.85rem;
+          padding: 0;
+          flex-shrink: 0;
+          line-height: 1;
+          margin-top: 1px;
+          transition: color 0.2s;
+        }
+        .hint-dismiss:hover { color: #e0e7f0; }
+
         @keyframes ticker-scroll {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
@@ -747,6 +802,16 @@ export default function FinanceLab() {
         )}
       </div>
 
+      {/* Ticker hint */}
+      {hintsPhase !== "off" && (
+        <div style={{ display: "flex", justifyContent: "flex-end", padding: "0.5rem 1.5rem 0", opacity: hintsPhase === "visible" ? 1 : 0, transition: "opacity 0.5s ease" }}>
+          <div className="hint-card">
+            <span>📊 These are live market prices — updated in real time</span>
+            <button className="hint-dismiss" onClick={dismissHints} aria-label="Dismiss hint">✕</button>
+          </div>
+        </div>
+      )}
+
       <div className="content-wrap" style={{ maxWidth: 1100, margin: "0 auto", padding: "2rem" }}>
 
         {/* ── SECTION: WFJ ── */}
@@ -873,6 +938,16 @@ export default function FinanceLab() {
               ))}
               {aiLoading && <div className="ai-bubble-ai" style={{ color: "#1a6fff" }}>Thinking...</div>}
             </div>
+
+            {/* AI hint */}
+            {hintsPhase !== "off" && (
+              <div style={{ marginBottom: "0.75rem", opacity: hintsPhase === "visible" ? 1 : 0, transition: "opacity 0.5s ease" }}>
+                <div className="hint-card">
+                  <span>💬 Try asking the Sensei a question — it knows everything in the WFJ</span>
+                  <button className="hint-dismiss" onClick={dismissHints} aria-label="Dismiss hint">✕</button>
+                </div>
+              </div>
+            )}
 
             <div className="form-row" style={{ display: "flex", gap: "0.75rem" }}>
               <input
