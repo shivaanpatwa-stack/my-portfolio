@@ -163,22 +163,22 @@ const ARTICLES = [
 
 // ─── ARTICLE IMAGES ─────────────────────────────────────────────────────────
 const ARTICLE_IMAGES: Record<number, string> = {
-  1:  "https://images.unsplash.com/photo-1566396223585-a8dc979f3cc8?w=600&q=80",
+  1:  "/wfj-history-of-money.jpg",
   2:  "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80",
-  3:  "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=600&q=80",
-  4:  "https://images.unsplash.com/photo-1632907033568-ca7d9099b88a?w=600&q=80",
+  3:  "/wfj-compounding.jpg",
+  4:  "/wfj-inflation.jpg",
   5:  "https://images.unsplash.com/photo-1501167786227-4cba60f6d58f?w=600&q=80",
-  6:  "https://images.unsplash.com/photo-1609429019995-8c40f49535a5?w=600&q=80",
-  7:  "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80",
-  8:  "https://images.unsplash.com/photo-1491336477066-31156b5e4f35?w=600&q=80",
+  6:  "/wfj-banking-continued.jpg",
+  7:  "/wfj-insurance.jpg",
+  8:  "/wfj-taxes.jpg",
   9:  "https://images.unsplash.com/photo-1601597111158-2fceff292cdc?w=600&q=80",
   10: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
-  11: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&q=80",
-  12: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80",
-  13: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=600&q=80",
-  14: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
+  11: "/wfj-risk-vs-reward.jpg",
+  12: "/wfj-indian-stock-market.jpg",
+  13: "/wfj-macroeconomics.jpg",
+  14: "/wfj-behavioural-finance.jpg",
   15: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=600&q=80",
-  16: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80",
+  16: "/wfj-balance-sheet.jpg",
   17: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=600&q=80",
 };
 
