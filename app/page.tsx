@@ -221,7 +221,7 @@ export default function Home() {
     if (!ctx) return;
 
     let animId: number;
-    const particles: { x: number; y: number; vx: number; vy: number; r: number }[] = [];
+    const particles: { x: number; y: number; vx: number; vy: number; r: number; twinkleOffset: number; twinkleSpeed: number }[] = [];
 
     const resize = () => {
       canvas.width = canvas.offsetWidth;
@@ -230,29 +230,33 @@ export default function Home() {
     resize();
     window.addEventListener("resize", resize);
 
-    const COUNT = typeof window !== "undefined" && window.innerWidth < 768 ? 40 : 80;
+    const COUNT = typeof window !== "undefined" && window.innerWidth < 768 ? 25 : 50;
     for (let i = 0; i < COUNT; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.22,
-        vy: (Math.random() - 0.5) * 0.22,
-        r: Math.random() * 1.5 + 2,
+        vx: (Math.random() - 0.5) * 0.088,
+        vy: (Math.random() - 0.5) * 0.088,
+        r: Math.random() * 0.5 + 0.75,
+        twinkleOffset: Math.random() * Math.PI * 2,
+        twinkleSpeed: 0.005 + Math.random() * 0.01,
       });
     }
 
+    let frame = 0;
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      frame++;
 
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 130) {
+          if (dist < 160) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(26,111,255,${0.15 * (1 - dist / 130)})`;
-            ctx.lineWidth = 0.8;
+            ctx.strokeStyle = `rgba(255,255,255,${0.08 * (1 - dist / 160)})`;
+            ctx.lineWidth = 0.5;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
             ctx.stroke();
@@ -261,9 +265,10 @@ export default function Home() {
       }
 
       for (const p of particles) {
+        const twinkle = 0.2 + 0.3 * (0.5 + 0.5 * Math.sin(frame * p.twinkleSpeed + p.twinkleOffset));
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(26,111,255,0.65)";
+        ctx.fillStyle = `rgba(255,255,255,${twinkle})`;
         ctx.fill();
         p.x += p.vx;
         p.y += p.vy;
