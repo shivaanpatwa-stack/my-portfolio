@@ -149,7 +149,7 @@ function generateResume() {
 
   for (const conf of munConferences) {
     checkPage(8);
-    bullet(`${conf.name}: ${conf.role} — ${conf.award}`);
+    bullet(`${conf.name}: ${conf.role}, ${conf.award}`);
   }
   y += 2;
 
