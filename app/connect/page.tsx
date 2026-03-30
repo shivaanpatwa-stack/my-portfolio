@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 const NAV_LINKS = [
   { label: "Finance Lab", href: "/finance" },
@@ -32,7 +32,6 @@ export default function ConnectPage() {
   const [copied, setCopied] = useState<string | null>(null);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [mounted, setMounted] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("sp-theme") as "dark" | "light" | null;
@@ -55,78 +54,6 @@ export default function ConnectPage() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Particle canvas
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let animId: number;
-    const particles: { x: number; y: number; vx: number; vy: number; r: number; twinkleOffset: number; twinkleSpeed: number }[] = [];
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener("resize", resize);
-
-    const COUNT = window.innerWidth < 768 ? 20 : 50;
-    for (let i = 0; i < COUNT; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.072,
-        vy: (Math.random() - 0.5) * 0.072,
-        r: Math.random() * 0.5 + 0.75,
-        twinkleOffset: Math.random() * Math.PI * 2,
-        twinkleSpeed: 0.005 + Math.random() * 0.01,
-      });
-    }
-
-    let frame = 0;
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      frame++;
-
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 160) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(255,255,255,${0.08 * (1 - dist / 160)})`;
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      for (const p of particles) {
-        const twinkle = 0.2 + 0.3 * (0.5 + 0.5 * Math.sin(frame * p.twinkleSpeed + p.twinkleOffset));
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${twinkle})`;
-        ctx.fill();
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > canvas.width)  p.vx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-      }
-
-      animId = requestAnimationFrame(draw);
-    };
-
-    draw();
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener("resize", resize);
-    };
-  }, []);
 
   const handleContact = (c: typeof CONTACTS[0]) => {
     c.action();
@@ -248,18 +175,6 @@ export default function ConnectPage() {
         }
       `}</style>
 
-      {/* Particle canvas */}
-      <canvas
-        ref={canvasRef}
-        style={{
-          position: "fixed",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          pointerEvents: "none",
-          zIndex: 0,
-        }}
-      />
 
       <div className="grid-bg" />
       <div className="glow" />
