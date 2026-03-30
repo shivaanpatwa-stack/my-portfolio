@@ -97,29 +97,29 @@ function generateResume() {
   // PROFILE
   sectionHeading("PROFILE");
   bodyText(
-    "A 14-year-old finance enthusiast, Model UN delegate, and global citizen with a passion for understanding markets, international relations, and global affairs. Self-driven, intellectually curious, and always looking for the next challenge."
+    "I'm a 14-year-old from Mumbai with a genuine interest in how the world works, financially and politically. I spend my time reading about markets, debating in Model UN committees, and travelling wherever I can. I started investing at 10, write a weekly finance journal, and actively follow the NASDAQ, NSE, and global macro trends. I don't have all the answers yet, but I'm always looking for them."
   );
   y += 2;
 
   // EDUCATION
   checkPage(14);
   sectionHeading("EDUCATION");
-  bodyText("Oberoi International School, Goregaon — Grade 9 (Current)");
+  bodyText("Oberoi International School, Goregaon. Grade 9 (Current).");
   y += 2;
 
   // EXPERIENCE & LEADERSHIP
   checkPage(14);
   sectionHeading("EXPERIENCE & LEADERSHIP");
   bullet(
-    "Odyssey: The Mentor (Jan 2026) — Returned as a mentor and program leader, responsible for guiding the next cohort through the same leadership program that shaped my own development. Shifted from participant to leader, developing skills in reading a room, adapting on the fly, and making others feel seen."
+    "Odyssey: The Mentor (Jan 2026): Returned as a mentor and program leader, guiding the next cohort through the same leadership program that shaped my own development. Shifted from participant to leader, learning to read a room, adapt on the fly, and make others feel seen."
   );
   checkPage(10);
   bullet(
-    "CISV Step Up: Panheli (Jun–Jul 2025) — Participated in a 23-day international peace education camp with delegations from 10 countries including Italy, Spain, Mongolia, Vietnam, Sweden, Latvia and Mexico. Collaborated on Project Milaap, planning and executing activities rooted in cross-cultural exchange and global issues."
+    "CISV Step Up: Panheli (Jun-Jul 2025): 23-day international peace education camp with delegations from 10 countries including Italy, Spain, Mongolia, Vietnam, Sweden, Latvia and Mexico. Collaborated on Project Milaap, planning activities rooted in cross-cultural exchange."
   );
   checkPage(10);
   bullet(
-    "Rewilding: Marayoor (2024) — Participated in a nature immersion program, building a gate entirely from natural materials including clay and mud, and developing a deeper understanding of natural ecosystems."
+    "Rewilding: Marayoor (2024): Nature immersion program where I built a gate from natural materials including clay and mud, and developed a deeper understanding of natural ecosystems."
   );
   y += 2;
 
@@ -127,35 +127,29 @@ function generateResume() {
   checkPage(14);
   sectionHeading("MODEL UNITED NATIONS");
   bodyText(
-    "Active MUN delegate and chair with experience across multiple international and national conferences. Developed strong skills in public speaking, resolution drafting, negotiation, diplomacy, and crisis management."
+    "Active MUN delegate with experience across national and international conferences. Conferences listed below are those where awards were received."
   );
   y += 1;
 
   const munConferences = [
-    { name: "OISMUN (Grade 6)", role: "Delegate — UNHRC — Iraq", award: "Outstanding Delegate" },
-    { name: "OISMUN (Grade 7)", role: "Delegate — WHO — Colombia", award: "Verbal Mention" },
-    { name: "OISMUN (Grade 8)", role: "Delegate — UNHRC — Canada", award: "Verbal Mention" },
-    { name: "Mumbai MUN (Grade 8)", role: "Delegate — UNDP — Germany", award: "Verbal Mention" },
-    { name: "DYPMUN (Grade 8)", role: "Delegate — Lok Sabha — PM Modi", award: "Best Delegate" },
-    { name: "OISMUN (Grade 8)", role: "Delegate — Indian Cabinet — M. Kharge", award: "Honorable Mention" },
-    { name: "EMUN (Grade 8)", role: "Delegate — DISEC — China", award: "Honorable Mention" },
-    { name: "JBCNMUN (Grade 8)", role: "Delegate — DISEC — USA", award: "Best Delegate" },
-    { name: "Brussels MUN (Grade 8)", role: "Delegate — EUCOM — Malta", award: "Honorable Mention" },
-    { name: "HMUN India (Grade 9)", role: "Delegate — UNGA Legal — Lebanon", award: "DQ" },
-    { name: "JBCN Oshiwara (Grade 9)", role: "Delegate — UNSC — Iran", award: "Verbal Mention" },
-    { name: "ABWAMUN (Grade 9)", role: "Delegate — UNHRC — France", award: "None" },
-    { name: "Mumbai MUN Open (Grade 9)", role: "Delegate — UNODC — United Kingdom", award: "Verbal Mention" },
-    { name: "OISMUN (Grade 9)", role: "Delegate — Lok Sabha — Rajnath Singh", award: "Outstanding Delegate" },
-    { name: "SpringMUN (Grade 9)", role: "Delegate — UNHRC — The Taliban", award: "Outstanding Delegate" },
-    { name: "WLCMUN", role: "Co-Director — UNODC", award: "Upcoming" },
-    { name: "EMUN", role: "Co-Director — DISEC", award: "Upcoming" },
-    { name: "OIS MSMUN", role: "Assistant Director — ECOSOC", award: "Upcoming" },
+    { name: "OISMUN (2023)", role: "Delegate, UNHRC, Iraq", award: "Outstanding Delegate" },
+    { name: "OISMUN (2024)", role: "Delegate, WHO, Colombia", award: "Verbal Mention" },
+    { name: "OISMUN (2024)", role: "Delegate, UNHRC, Canada", award: "Verbal Mention" },
+    { name: "Mumbai MUN (2024)", role: "Delegate, UNDP, Germany", award: "Verbal Mention" },
+    { name: "DYPMUN (2024)", role: "Delegate, Lok Sabha, PM Modi", award: "Best Delegate" },
+    { name: "OISMUN (2024)", role: "Delegate, Indian Cabinet, M. Kharge", award: "Honorable Mention" },
+    { name: "EMUN (2024)", role: "Delegate, DISEC, China", award: "Honorable Mention" },
+    { name: "JBCNMUN (2024)", role: "Delegate, DISEC, USA", award: "Best Delegate" },
+    { name: "Brussels MUN (2025)", role: "Delegate, EUCOM, Malta", award: "Honorable Mention" },
+    { name: "JBCN Oshiwara (2025)", role: "Delegate, UNSC, Iran", award: "Verbal Mention" },
+    { name: "Mumbai MUN Open (2025)", role: "Delegate, UNODC, UK", award: "Verbal Mention" },
+    { name: "OISMUN (2025)", role: "Delegate, Lok Sabha, Rajnath Singh", award: "Outstanding Delegate" },
+    { name: "SpringMUN (2026)", role: "Delegate, UNHRC, The Taliban", award: "Outstanding Delegate" },
   ];
 
   for (const conf of munConferences) {
     checkPage(8);
-    const awardStr = conf.award && conf.award !== "None" ? ` — ${conf.award}` : "";
-    bullet(`${conf.name} — ${conf.role}${awardStr}`);
+    bullet(`${conf.name}: ${conf.role} — ${conf.award}`);
   }
   y += 2;
 
@@ -163,15 +157,7 @@ function generateResume() {
   checkPage(14);
   sectionHeading("ENTREPRENEURSHIP");
   bullet(
-    "The Stone Trading Project (2023) — Independently sourced and curated semi-precious stones, built a client base among friends and family, and managed the full sales cycle. Reinvested 100% of profits into the stock market and used the returns to self-fund a major purchase — demonstrating an end-to-end understanding of earn, invest, and compound from an early age."
-  );
-  y += 2;
-
-  // FINANCE & INVESTING
-  checkPage(14);
-  sectionHeading("FINANCE & INVESTING");
-  bodyText(
-    "Developed an interest in investing at age 10. Built a deep understanding of markets, equity investing, macroeconomic trends, and global financial systems. Actively tracks NASDAQ, NSE, and Shanghai Stock Exchange. Author of the Weekly Finance Journal (WFJ) — a self-initiated series covering global finance topics, written and published consistently."
+    "The Stone Trading Project (2023): Independently sourced and curated semi-precious stones, built a client base among friends and family, and managed the full sales cycle. Reinvested 100% of profits into the stock market and used the returns to self-fund a major purchase."
   );
   y += 2;
 
@@ -180,14 +166,6 @@ function generateResume() {
   sectionHeading("GLOBAL EXPOSURE");
   bodyText(
     "29 countries across 4 continents. Lived experiences across Europe, Asia, Africa, and the Americas."
-  );
-  y += 2;
-
-  // SKILLS
-  checkPage(14);
-  sectionHeading("SKILLS");
-  bodyText(
-    "Public Speaking  ·  Research & Analysis  ·  Resolution Drafting  ·  Negotiation  ·  Cross-Cultural Communication  ·  Leadership  ·  Entrepreneurial Thinking  ·  Financial Literacy  ·  Writing"
   );
 
   doc.save("Shivaan_Patwa_Resume.pdf");
@@ -847,7 +825,7 @@ export default function Home() {
                 fontWeight: 300,
               }}
             >
-              A future in finance, a history in MUN, and an obsession with global change.
+              A future in finance, active in MUN, and an obsession with global change.
             </p>
 
             <div
@@ -889,7 +867,7 @@ export default function Home() {
                   margin: "0.25rem auto",
                   letterSpacing: "-0.01em",
                 }}>
-                  Wealth. Unforgettable experiences. Every country on the map. And the right people to share it with. That's all I want.
+                  Experiences worth remembering. Every country on the map. And the right people to share it with. That&apos;s all I want.
                 </p>
                 <span className="quote-big-mark" style={{ textAlign: "right", display: "block", maxWidth: 580, margin: "0 auto" }}>"</span>
                 <div style={{ width: 40, height: 2, background: "#1a6fff", margin: "0.75rem auto 0", borderRadius: 2 }} />
@@ -906,7 +884,7 @@ export default function Home() {
                 lineHeight: 1.8,
               }}
             >
-              I don&apos;t just observe global systems — I analyze them, debate them, and look for the cracks. Whether I&apos;m drafting a UN resolution or dissecting the risks of a cashless economy, I&apos;m driven by a singular goal: understanding the forces that shape our world.
+              I don&apos;t just observe global systems. I analyze them, debate them, and look for the cracks. Whether I&apos;m drafting a UN resolution or dissecting a macroeconomic trend, I want to understand the forces that shape the world.
             </p>
           </div>
         </section>

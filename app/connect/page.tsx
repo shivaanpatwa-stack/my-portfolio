@@ -18,13 +18,6 @@ const CONTACTS = [
     cta: "Send a message",
   },
   {
-    platform: "Instagram",
-    icon: "📸",
-    handle: "@sh1vaan_",
-    action: () => window.open("https://www.instagram.com/sh1vaan_", "_blank"),
-    cta: "Open Instagram",
-  },
-  {
     platform: "Snapchat",
     icon: "👻",
     handle: "@patwaaaa13",
@@ -332,7 +325,7 @@ export default function ConnectPage() {
         {/* CONTACT CARDS */}
         <div
           className="cards-grid"
-          style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.25rem", marginBottom: "3.5rem" }}
+          style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1.25rem", marginBottom: "3.5rem" }}
         >
           {CONTACTS.map((c, i) => (
             <div key={c.platform} style={fadeIn(280 + i * 100)}>
