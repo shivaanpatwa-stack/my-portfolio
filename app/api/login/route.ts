@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     httpOnly: true,
     secure: true,
     sameSite: "strict",
-    // No maxAge or expires = session cookie that persists (browser keeps it until cleared)
+    maxAge: 60 * 60 * 24 * 365, // 1 year — persists across browser restarts on all devices
     path: "/",
   });
 
