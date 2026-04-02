@@ -1,24 +1,17 @@
-import { NextRequest, NextResponse } from "next/server";
-
-const COOKIE_NAME = "site-auth";
-const CORRECT_PASSWORD = "mumbai@56y";
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
-  const { password } = body;
-
-  if (password !== CORRECT_PASSWORD) {
-    return NextResponse.json({ error: "Incorrect password" }, { status: 401 });
+  const { password } = await request.json()
+  if (password === 'mumbai@56y') {
+    const response = NextResponse.json({ success: true })
+    response.cookies.set('site-auth', 'mumbai@56y', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 365 * 10,
+    })
+    return response
   }
-
-  const response = NextResponse.json({ success: true }, { status: 200 });
-  response.cookies.set(COOKIE_NAME, CORRECT_PASSWORD, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "strict",
-    path: "/",
-    maxAge: 60 * 60 * 24 * 365 * 10, // 10 years
-  });
-
-  return response;
+  return NextResponse.json({ success: false }, { status: 401 })
 }

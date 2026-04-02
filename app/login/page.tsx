@@ -1,13 +1,11 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -57,7 +55,6 @@ export default function LoginPage() {
           alignItems: "center",
           gap: "2rem",
         }}>
-          {/* Logo */}
           <div style={{
             fontFamily: "'Cormorant Garamond', Georgia, serif",
             fontSize: "3rem",
@@ -69,7 +66,6 @@ export default function LoginPage() {
             SP
           </div>
 
-          {/* Subtitle */}
           <p style={{
             fontFamily: "'DM Sans', sans-serif",
             fontSize: "0.9rem",
@@ -80,7 +76,6 @@ export default function LoginPage() {
             This site is private. Enter the password to continue.
           </p>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} style={{
             width: "100%",
             display: "flex",

@@ -1,32 +1,25 @@
-import { NextRequest, NextResponse } from "next/server";
-
-const COOKIE_NAME = "site-auth";
-const COOKIE_VALUE = "mumbai@56y";
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const cookie = request.cookies.get('site-auth')
+  const isLoggedIn = cookie?.value === 'mumbai@56y'
+  const isLoginPage = request.nextUrl.pathname === '/login'
+  const isApi = request.nextUrl.pathname.startsWith('/api')
+  const isStatic = request.nextUrl.pathname.startsWith('/_next')
+  const isFavicon = request.nextUrl.pathname === '/favicon.ico'
 
-  // Exclude login page, Next.js internals, API routes, and favicon
-  if (
-    pathname.startsWith("/login") ||
-    pathname.startsWith("/_next") ||
-    pathname.startsWith("/api") ||
-    pathname === "/favicon.ico"
-  ) {
-    return NextResponse.next();
+  if (isLoginPage || isApi || isStatic || isFavicon) {
+    return NextResponse.next()
   }
 
-  const cookie = request.cookies.get(COOKIE_NAME);
-  if (cookie?.value === COOKIE_VALUE) {
-    return NextResponse.next();
+  if (!isLoggedIn) {
+    return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  const loginUrl = new URL("/login", request.url);
-  return NextResponse.redirect(loginUrl);
+  return NextResponse.next()
 }
 
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|_next/webpack-hmr|favicon\\.ico).*)",
-  ],
-};
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+}
