@@ -4,6 +4,18 @@ import Image from "next/image";
 
 const EXPERIENCES = [
   {
+    id: 6,
+    year: "Feb 2026",
+    title: "Khel Katha Mela 2026",
+    role: "Event Coordinator & Stall Volunteer",
+    category: "Leadership",
+    summary: "Helped organise and run a community mela with Khel Katha (Each One, Teach One), coordinating event setup and manning a games stall. Guided children — many from underprivileged backgrounds — through activities and interactive engagement sessions, ensuring smooth participation and a welcoming atmosphere throughout. The mela used play-based learning to create an inclusive, high-energy space for kids from the wider community.",
+    insight: "Manning a stall at a mela sounds simple on paper — but it teaches you to read people quickly and build trust with strangers in seconds. Every child who walked up had a different level of confidence, and my job wasn't just to explain the game — it was to make them feel capable before they even started. The whole experience reminded me that inclusion isn't a goal you announce; it's something you create through small, deliberate actions in every single interaction.",
+    skills: ["#CommunityService", "#EventCoordination", "#Inclusion"],
+    photo: "/KhelKatha-mela-photo-1.jpg",
+    highlight: false,
+  },
+  {
     id: 1,
     year: "Jan 2026",
     title: "Odyssey: The Mentor",
@@ -14,6 +26,30 @@ const EXPERIENCES = [
     skills: ["#Leadership", "#Mentorship", "#TeamDynamics"],
     photo: null,
     highlight: true,
+  },
+  {
+    id: 7,
+    year: "Nov 2025",
+    title: "Khel Katha Sports Day",
+    role: "Event Volunteer",
+    category: "Leadership",
+    summary: "Volunteered with Khel Katha at a full-day Sports Day for students from three municipal schools in Ghatkopar, Vile Parle, and Goregaon. Handled event infrastructure setup, managed and tracked races, maintained scores, identified winners, and helped distribute awards and snacks to all the children at the close of the day.",
+    insight: "A full day on the ground — setting up, calling races, keeping track of scores — doesn't feel like leadership in the conventional sense, but it is. What I realised is that good event management is invisible to the people it serves: when things run smoothly, the kids just have fun. You're building the conditions for their experience, not your own. That quiet form of effort — unseen, unannounced — is one of the most meaningful kinds.",
+    skills: ["#CommunityService", "#EventManagement", "#Teamwork"],
+    photo: "/KhelKatha-sportsday-photo-1.jpg",
+    highlight: false,
+  },
+  {
+    id: 8,
+    year: "Sep–Oct 2025",
+    title: "Khel Katha: Bag Collection Fundraiser",
+    role: "Initiative Lead",
+    category: "Leadership",
+    summary: "Led an independent fundraising initiative to source 360 school bags for students at a municipal school in Palghar. Identified a vendor, negotiated the price down to ₹200 per bag, then raised the full ₹72,000 needed by going door to door in the neighbourhood and reaching out to friends and family. Also ran a donation drive collecting old school bags in good condition.",
+    insight: "This was the closest thing I've done to running a real-world operation from scratch. Finding the vendor, negotiating the price, then actually convincing people to donate — each step required a completely different skill. The hardest part wasn't the negotiating; it was the persistence. Knocking on doors with no guarantee of a yes is uncomfortable, but it works. 360 bags made it to Palghar.",
+    skills: ["#Fundraising", "#Negotiation", "#Initiative"],
+    photo: "/KhelKatha-bagfundraiser-photo-1.jpg",
+    highlight: false,
   },
   {
     id: 2,
@@ -28,6 +64,18 @@ const EXPERIENCES = [
     highlight: false,
   },
   {
+    id: 9,
+    year: "Feb 2025",
+    title: "Khel Katha: 1st Mela",
+    role: "Stall Manager & Fundraiser",
+    category: "Leadership",
+    summary: "Volunteered at Khel Katha's first community Mela, managing game stalls — including ring toss — for municipal school children to ensure a fun and engaging experience. Also contributed to pre-event fundraising by selling Mela tickets to friends and family to grow the crowd and raise more money for the cause.",
+    insight: "The combination of running a stall and selling tickets beforehand taught me something real about what it takes to make an event work — someone has to hustle before the day, and someone has to show up fully on the day itself. I did both, and I could see directly how the effort translated into a better experience for the kids walking in.",
+    skills: ["#Fundraising", "#CommunityService", "#EventManagement"],
+    photo: "/KhelKatha-mela1-photo-1.jpg",
+    highlight: false,
+  },
+  {
     id: 3,
     year: "2024–2025",
     title: "Odyssey: The Full Course",
@@ -37,6 +85,18 @@ const EXPERIENCES = [
     insight: "This was the foundation. Everything I learned about reading people, speaking with intention, and functioning in a team was built here. It's the reason I was invited back as a mentor.",
     skills: ["#CriticalThinking", "#Collaboration", "#PublicSpeaking"],
     photo: null,
+    highlight: false,
+  },
+  {
+    id: 10,
+    year: "2024–2025",
+    title: "Khel Katha: Sports ED",
+    role: "Football Coach Volunteer — Grade 8",
+    category: "Leadership",
+    summary: "Spent multiple Saturdays throughout Grade 8 teaching football to children from a local municipal school as part of Khel Katha's Sports Education programme. Each session lasted about an hour and focused not just on the sport but on building teamwork, discipline, and confidence through structured play.",
+    insight: "Teaching a sport is a different challenge from playing one. You realise quickly that your job isn't to be the best player in the yard — it's to read what each kid needs, keep them engaged, and make them feel like they're actually improving. Watching their enthusiasm grow week after week was the clearest sign that the effort was landing.",
+    skills: ["#Coaching", "#CommunityService", "#SportEducation"],
+    photo: "/KhelKatha-sportsed-photo-1.jpg",
     highlight: false,
   },
   {
@@ -69,6 +129,11 @@ const LEARNED_SKILLS: Record<number, string[]> = {
   1: ["Leadership", "Mentorship", "Emotional Intelligence", "Team Dynamics", "Program Management"],
   2: ["Cross-Cultural Communication", "Peace Education", "Collaboration", "Global Awareness", "Event Planning"],
   4: ["Sustainability", "Hands-on Building", "Nature Literacy", "Mindfulness", "Teamwork"],
+  6: ["Community Engagement", "Event Coordination", "Inclusion", "Stall Management", "Interpersonal Communication"],
+  7: ["Event Management", "Race Coordination", "Teamwork", "Community Service", "Organisation"],
+  8: ["Fundraising", "Negotiation", "Initiative", "Door-to-Door Outreach", "Vendor Management"],
+  9: ["Stall Management", "Fundraising", "Community Engagement", "Event Logistics", "Interpersonal Communication"],
+  10: ["Sports Coaching", "Lesson Planning", "Patience", "Community Service", "Youth Development"],
 };
 
 const SKILLS = [
@@ -83,6 +148,8 @@ const SKILLS = [
   { label: "Collaboration", category: "Interpersonal", ids: [3] },
   { label: "Public Speaking", category: "Interpersonal", ids: [3] },
   { label: "Adaptability", category: "Interpersonal", ids: [4, 1] },
+  { label: "Community Service", category: "Interpersonal", ids: [6, 7] },
+  { label: "Event Management", category: "Strategic", ids: [6, 7, 2] },
 ];
 
 const FILTERS = ["All", "Professional", "Leadership", "Environment"];
@@ -107,10 +174,43 @@ const REWILDING_PHOTOS = [
   "/Rewilding-photo-3.JPG",
 ];
 
+const KHEL_KATHA_MELA_PHOTOS = [
+  "/KhelKatha-mela-photo-1.jpg",
+  "/KhelKatha-mela-photo-2.jpg",
+  "/KhelKatha-mela-photo-3.jpg",
+];
+
+const KHEL_KATHA_SPORTSDAY_PHOTOS = [
+  "/KhelKatha-sportsday-photo-1.jpg",
+  "/KhelKatha-sportsday-photo-2.jpg",
+  "/KhelKatha-sportsday-photo-3.jpg",
+  "/KhelKatha-sportsday-photo-4.jpg",
+];
+
+const KHEL_KATHA_BAGFUNDRAISER_PHOTOS = [
+  "/KhelKatha-bagfundraiser-photo-1.jpg",
+  "/KhelKatha-bagfundraiser-photo-2.jpg",
+];
+
+const KHEL_KATHA_MELA1_PHOTOS = [
+  "/KhelKatha-mela1-photo-1.jpg",
+  "/KhelKatha-mela1-photo-2.jpg",
+];
+
+const KHEL_KATHA_SPORTSED_PHOTOS = [
+  "/KhelKatha-sportsed-photo-1.jpg",
+  "/KhelKatha-sportsed-photo-2.jpg",
+];
+
 const CAROUSEL_DATA: Record<number, { photos: string[]; albumUrl?: string }> = {
   1: { photos: ODYSSEY_MENTOR_PHOTOS, albumUrl: ODYSSEY_ALBUM_URL },
   2: { photos: CISV_PHOTOS },
   4: { photos: REWILDING_PHOTOS },
+  6: { photos: KHEL_KATHA_MELA_PHOTOS },
+  7: { photos: KHEL_KATHA_SPORTSDAY_PHOTOS },
+  8: { photos: KHEL_KATHA_BAGFUNDRAISER_PHOTOS },
+  9: { photos: KHEL_KATHA_MELA1_PHOTOS },
+  10: { photos: KHEL_KATHA_SPORTSED_PHOTOS },
 };
 
 const CATEGORY_COLOR: Record<string, string> = {

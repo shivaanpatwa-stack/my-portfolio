@@ -123,6 +123,30 @@ function generateResume() {
   );
   y += 2;
 
+  // COMMUNITY SERVICE
+  checkPage(14);
+  sectionHeading("COMMUNITY SERVICE");
+  bullet(
+    "Khel Katha Mela 2026 (Feb 2026): Helped organise Khel Katha's second community Mela — coordinated event setup, manned a games stall, and guided underprivileged children through interactive activities. Also hosted the event on stage."
+  );
+  checkPage(10);
+  bullet(
+    "Khel Katha Sports Day (Nov 2025): Volunteered at a full-day Sports Day for students from three municipal schools in Ghatkopar, Vile Parle, and Goregaon. Managed event setup, tracked races, maintained scores, and distributed awards and snacks."
+  );
+  checkPage(10);
+  bullet(
+    "Khel Katha: Bag Collection Fundraiser (Sep–Oct 2025): Led an initiative to source 360 school bags for a municipal school in Palghar. Negotiated vendor price to ₹200/bag and independently raised ₹72,000 through door-to-door outreach and a community donation drive."
+  );
+  checkPage(10);
+  bullet(
+    "Khel Katha: 1st Mela (Feb 2025): Managed game stalls including ring toss for municipal school children. Contributed to pre-event fundraising by selling Mela tickets to friends and family."
+  );
+  checkPage(10);
+  bullet(
+    "Khel Katha: Sports ED (2024–2025): Spent multiple Saturdays throughout Grade 8 teaching football to children from a local municipal school. Sessions focused on teamwork, discipline, and building confidence through structured play."
+  );
+  y += 2;
+
   // MODEL UNITED NATIONS
   checkPage(14);
   sectionHeading("MODEL UNITED NATIONS");
