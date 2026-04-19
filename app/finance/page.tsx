@@ -857,16 +857,16 @@ export default function FinanceLab() {
             {/* Investor Stats */}
             <div className="investor-stats" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0.85rem", marginBottom: "2rem" }}>
               {[
-                { label: "Investing Since", value: "Jul 2021", sub: "age 13", icon: "📅" },
+                { label: "Investing Since", value: "Jul 2021", sub: "started at age 10", icon: "📅" },
                 { label: "Total Invested", value: "₹15L", sub: "over the years", icon: "💰" },
                 { label: "Total Profit", value: "₹11.71L", sub: "realised + unrealised", icon: "📈" },
                 { label: "Best Performer", value: "Arvind Ltd", sub: "personal portfolio", icon: "🏆" },
               ].map(stat => (
-                <div key={stat.label} style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)", borderRadius: "14px", padding: "1.1rem 1.25rem", display: "flex", flexDirection: "column", gap: "0.35rem" }}>
-                  <span style={{ fontSize: "1.35rem", lineHeight: 1 }}>{stat.icon}</span>
-                  <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.25rem", fontWeight: 700, color: "#1a6fff", letterSpacing: "-0.01em", lineHeight: 1.1 }}>{stat.value}</span>
-                  <span style={{ fontSize: "0.7rem", fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em" }}>{stat.label}</span>
-                  <span style={{ fontSize: "0.72rem", color: "var(--text-muted)", opacity: 0.7 }}>{stat.sub}</span>
+                <div key={stat.label} style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)", borderRadius: "14px", padding: "1.25rem 1.4rem", display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+                  <span style={{ fontSize: "1.5rem", lineHeight: 1 }}>{stat.icon}</span>
+                  <span style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem", fontWeight: 700, color: "#1a6fff", letterSpacing: "-0.01em", lineHeight: 1.1 }}>{stat.value}</span>
+                  <span style={{ fontSize: "0.78rem", fontWeight: 600, color: "var(--text)", textTransform: "uppercase", letterSpacing: "0.07em" }}>{stat.label}</span>
+                  <span style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>{stat.sub}</span>
                 </div>
               ))}
             </div>
