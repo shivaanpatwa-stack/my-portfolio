@@ -259,8 +259,8 @@ const ARTICLE_IMAGES: Record<number, string> = {
   19: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80",
   20: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&q=80",
   21: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&q=80",
-  22: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Warren_Buffett_KU_Visit.jpg/600px-Warren_Buffett_KU_Visit.jpg",
-  23: "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=600&q=80",
+  22: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&q=80",
+  23: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=80",
   24: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=600&q=80",
   25: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
 };
