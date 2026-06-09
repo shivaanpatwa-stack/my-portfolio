@@ -267,6 +267,17 @@ const ARTICLE_IMAGES: Record<number, string> = {
 
 const ALL_TAGS = Array.from(new Set(ARTICLES.flatMap(a => a.tags)));
 
+// ─── JOHN LOCKE INSTITUTE ESSAY ───────────────────────────────────────────────
+const JLI_ESSAY = {
+  id: 9999,
+  title: "Should We Fear a Cashless Society?",
+  date: "Feb 2026",
+  week: "JLI Essay",
+  tags: ["Essay", "Cashless Society", "Economics"],
+  tldr: "A cashless society is marketed as a natural evolution. It is not. It is the permanent loss of human agency — a system where your life is on loan, and the state can hit delete at any time.",
+  content: `Introduction\nIf you hand a street vendor a Rs. 100 note for a vada pav, a chai, and a packet of biscuits, the transaction made is private and absolute. No third-party supervision is required to validate the purchase. It is the last act of pure, unmediated economic autonomy in the world today. However, as we rush toward a completely cashless society, this sense of freedom will be threatened by a system where every rupee spent is a 'request' for permission to do almost anything. Every transaction, every purchase, every financial decision becomes visible and controllable by a central authority. To completely eliminate the use of cash is like building our own prison where the state and private banks analyse and, if they want, simply eradicate a citizen's ability to save, spend, or even subsist. By abandoning cash, we are trading out the last ounce of independence for a digital cage. It is not an upgrade. It is a system where your life is on loan, where the state can hit the delete button at any time.\n\n1. National Security\nIn a physical economy, value is decentralised — it exists with billions of people, spread across registers and safes. In cashless societies, the entire country's value is centred on a singular, fragile digital grid. This hands control to any non-state actor that can breach digital security. The perfect example is LockBit — a ransomware syndicate that took down the entire US trading arm of the Industrial and Commercial Bank of China in November 2023, forcing global markets to switch to manual transactions overnight. We are no longer discussing petty theft; we are dealing with the weaponisation of an entire nation's wealth.\n\nIn the current world situation of hybrid warfare, the finance sector has become the main target rather than physical territory. According to the IMF, the global financial sector has been targeted by more than 25,000 cyberattacks over the last two decades, resulting in estimated operational losses exceeding $12 billion (IMF, 2025). In April 2024, the NPCI's UPI network suffered an attack that froze millions of transactions across India in a matter of hours. Economic models by FreedomPay and Dynatrace suggest a major payment system outage in a developed economy could cost more than $45 billion annually in lost retail and hospitality sales alone. But the true cost is human. A nationwide hack lasting 48 hours could spiral into total humanitarian collapse — affecting grocery stores, gas stations, and medical services. Without the offline backup of physical currency, a technical glitch becomes a death sentence. If an entity controls the ledger, they control the population. They do not need a military — they simply freeze the wallets of every single citizen. Efficiency is a worthless virtue when it comes at the expense of security.\n\n2. Economic Exclusion\nA cashless society is sold as a frictionless utopia, but for a massive portion of the population, that friction is their lifeline. According to the World Bank's Global Findex Database (2025), approximately 1.4 billion adults remain unbanked and rely completely on hand-to-hand exchange of physical currency to live their daily lives. In a fully digital economy, the street vendor or the paid labourer who has operated their whole life using cash suddenly finds their way of life illegal. Without a smartphone, a stable data plan, or bank approval, they are evicted from the marketplace.\n\nIn Mumbai alone, Dharavi — one of Asia's largest informal economies — runs on an estimated $1 billion economy that is purely cash-based. Every transaction happens without a QR code, a bank account, or even a phone. For the elderly, the transition is especially cruel. A world without physical currency replaces simple payment with biometric scans, password resets, and two-factor authentication. When someone's grandmother cannot buy groceries because a banking app has a glitch, the efficiency of a 'perfect' system becomes state-sponsored negligence. Reports from the Financial Health Network (2025) indicate that lower-income households can lose up to 10% of their annual income to fees required to access digital platforms. By killing cash, every exchange — no matter how small — feeds a corporate gatekeeper that the poor never agreed to pay. There is also evidence that digital spending disconnects people from the reality of using money: when transactions are frictionless, people consistently spend more, systematically harming those who have less.\n\n3. Rebuttal — The 'Ending Crime' Argument\nThe most common case for a cashless society is the promise of ending crime. If every rupee is traceable, the bad guys have nowhere to hide. It sounds like a fair trade. It is not. It relies on the idea that your privacy should be deleted just to make the government's job less complicated. Data from the Tax Justice Network (2025) reveals that the big crimes are not happening through physical cash — they are happening through offshore accounts that governments cannot track. Banning cash to stop crime is like banning curtains to stop people from hiding. It only hurts the innocent, while the real criminals find other ways. Professional criminals are the first to adapt: if you take away cash, they move to crypto, gold, or barter. Europol (2025) reports that even in countries with limited cash, cybercrime and digital fraud have skyrocketed. As India's last massive cash ban demonstrated, the move did not stop corruption — it ruined the lives of poor people while the rich converted cash to gold, real estate, or sent it abroad (RBI, 2017). We should fear a cashless society because it uses safety as propaganda to put a digital leash on every citizen.\n\n4. Conclusion\nA cashless society is marketed as a natural evolution. It is not. It is the permanent loss of human agency. While a digital wallet is useful, the cost of that convenience is the destruction of financial privacy. By digitalising every exchange, we transform money from a private instrument to one that can be taken away whenever the state decides. We move from owning our wealth to subscribing to it — subject to the constant approval of banks, algorithms, and government authorities.\n\nIssues of surveillance, fragility, and exclusion are not distant possibilities; they are inevitable results of a system that removes the analog exit option from the economy. When we kill cash, we destroy the only medium of exchange that is free of any central authority's permission to function.\n\nA cashless world completely changes the power dynamics of every nation. In a true democracy, the government should be transparent while the actions of citizens remain private. A cashless society does the opposite: it demands total transparency from citizens while the government operates in complete privacy. The friction of cash is not a flaw to be fixed — it is a safeguard of our liberty. To protect the future, we must ensure that our ability to survive never requires permission.\n\nBibliography\n• IMF. Global Financial Stability Report, April 2024.\n• World Bank. Global Findex Database 2025.\n• Tax Justice Network. The State of Tax Justice 2025.\n• Europol. IOCTA 2025.\n• Financial Health Network. Hidden Costs of Digital Banking, 2025.\n• RBI. Macroeconomic Impact of Demonetisation, 2017.\n• FreedomPay & Dynatrace. Payment System Outage Costs, 2026.\n• DSCI. Cybersecurity Threat Landscape Report 2024–25.`,
+};
+
 function readingTime(content: string): number {
   return Math.max(1, Math.ceil(content.trim().split(/\s+/).length / 200));
 }
@@ -922,6 +933,39 @@ export default function FinanceLab() {
                   <span style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>{stat.sub}</span>
                 </div>
               ))}
+            </div>
+
+            {/* JLI Essay Card */}
+            <div
+              onClick={() => setSelectedArticle(JLI_ESSAY as any)}
+              style={{
+                border: "1px solid rgba(245,158,11,0.4)",
+                borderRadius: "16px",
+                background: "linear-gradient(135deg, rgba(245,158,11,0.06) 0%, var(--bg-elevated) 100%)",
+                cursor: "pointer",
+                marginBottom: "2rem",
+                overflow: "hidden",
+                display: "flex",
+                alignItems: "stretch",
+                transition: "border-color 0.25s, box-shadow 0.25s",
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(245,158,11,0.75)"; (e.currentTarget as HTMLDivElement).style.boxShadow = "0 4px 24px rgba(245,158,11,0.12)"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(245,158,11,0.4)"; (e.currentTarget as HTMLDivElement).style.boxShadow = "none"; }}
+            >
+              <div style={{ width: 5, background: "linear-gradient(to bottom, #f59e0b, #d97706)", flexShrink: 0 }} />
+              <div style={{ padding: "1.4rem 1.6rem", display: "flex", flexDirection: "column", gap: "0.5rem", flex: 1 }}>
+                <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", flexWrap: "wrap" }}>
+                  <span style={{ background: "#f59e0b", color: "#000", fontSize: "0.6rem", fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", padding: "0.22rem 0.6rem", borderRadius: "4px" }}>John Locke Institute</span>
+                  <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.72rem", color: "#f59e0b" }}>Essay · Feb 2026</span>
+                </div>
+                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.15rem", fontWeight: 700, lineHeight: 1.3, margin: 0 }}>Should We Fear a Cashless Society?</h3>
+                <p style={{ fontSize: "0.83rem", color: "var(--text-muted)", lineHeight: 1.6, margin: 0 }}>A cashless society is marketed as a natural evolution. It is not. It is the permanent loss of human agency — a system where your life is on loan, and the state can hit delete at any time.</p>
+                <div style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap", marginTop: "0.1rem" }}>
+                  {["Essay", "Cashless Society", "Economics"].map(t => (
+                    <span key={t} style={{ fontSize: "0.7rem", background: "rgba(245,158,11,0.12)", color: "#f59e0b", border: "1px solid rgba(245,158,11,0.25)", borderRadius: "20px", padding: "0.18rem 0.6rem" }}>{t}</span>
+                  ))}
+                </div>
+              </div>
             </div>
 
             {/* Search */}
